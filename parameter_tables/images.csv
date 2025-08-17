@@ -1,0 +1,3 @@
+﻿image,cohort,segment_with,ligand,ligand_density,trackmate_max_link_distance,T Cy5 protein_name,T Cy5 trackmate_threshold,T Cy5 trackmate_frame_gap,T GFP protein_name,T GFP trackmate_threshold,T GFP trackmate_frame_gap,T RFP Cy3 protein_name,T RFP Cy3 trackmate_threshold,T RFP Cy3 trackmate_frame_gap
+20190503  gfp 2 percent 100ms.nd2,Calibrations,GFP,,,2.5,,,,GFP,1.5,5,,,
+20190503  201900503 cl028 MyD88gfp  il1 JF646 1 1000 4.4nM.n003.nd2,MyD88,MyD88,4.4 nM IL-1,,5,IL-1,1.5,5,MyD88,1.5,5,IRAK4,1.5,5

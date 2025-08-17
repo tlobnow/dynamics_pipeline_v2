@@ -1,0 +1,7 @@
+﻿contains,path
+input,/Users/u_deliz/Desktop/NewPipeline/Input
+processing,/Users/u_deliz/Desktop/NewPipeline/Processing
+output,/Users/u_deliz/Desktop/NewPipeline/Output
+dark_frames,/Users/u_deliz/Desktop/NewPipeline/Input/dark_frames
+flat_fields,/Users/u_deliz/Desktop/NewPipeline/Input/flat_fields
+ImageJ,/Applications/Fiji.app/Contents/MacOS/ImageJ-macosx

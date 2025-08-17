@@ -1,0 +1,4 @@
+﻿parameter,value,comments
+tiff_compression_level,5,out of 10
+cell_diameter,25,"px, odd number"
+puncta_diameter,5,"px, odd number"

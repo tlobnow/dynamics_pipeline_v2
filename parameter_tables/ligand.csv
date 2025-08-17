@@ -1,0 +1,2 @@
+﻿image,ligand,dilution,protein_name,puncta_diameter,trackmate_threshold,trackmate_frame_gap,trackmate_max_link_distance
+"20190501 cl027 1 to 1000 il1beta JF646 4,4nm002.nd2",4.4 nM IL-1,1000,IL-1,10,5,3,10

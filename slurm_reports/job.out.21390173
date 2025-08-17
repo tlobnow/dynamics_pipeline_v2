@@ -1,0 +1,2456 @@
+modules loaded
+conda activated
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_1/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_1/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 13:57:07
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 1275 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 480 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 42 ms.
+
+  - Edge speed in 39 ms.
+
+  - Edge target in 61 ms.
+
+  - Edge location in 58 ms.
+
+Computation done in 201 ms.
+
+Computing track features:
+
+  - Branching analyzer in 41 ms.
+
+  - Track duration in 32 ms.
+
+  - Track index in 0 ms.
+
+  - Track location in 42 ms.
+
+  - Track speed in 46 ms.
+
+  - Track quality in 40 ms.
+
+  - Track motility analysis in 31 ms.
+
+Computation done in 244 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 1275 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_1/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_2/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_2/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 13:57:28
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 9868 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 360 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 67 ms.
+
+  - Edge speed in 53 ms.
+
+  - Edge target in 84 ms.
+
+  - Edge location in 48 ms.
+
+Computation done in 255 ms.
+
+Computing track features:
+
+  - Branching analyzer in 29 ms.
+
+  - Track duration in 25 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 36 ms.
+
+  - Track speed in 22 ms.
+
+  - Track quality in 35 ms.
+
+  - Track motility analysis in 26 ms.
+
+Computation done in 194 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 9868 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_2/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_3/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_3/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 13:57:50
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 11038 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 769 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 139 ms.
+
+  - Edge speed in 87 ms.
+
+  - Edge target in 65 ms.
+
+  - Edge location in 90 ms.
+
+Computation done in 382 ms.
+
+Computing track features:
+
+  - Branching analyzer in 58 ms.
+
+  - Track duration in 63 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 53 ms.
+
+  - Track speed in 48 ms.
+
+  - Track quality in 54 ms.
+
+  - Track motility analysis in 76 ms.
+
+Computation done in 378 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 11038 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_3/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_4/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_4/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 13:58:14
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 20837 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 1023 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 162 ms.
+
+  - Edge speed in 115 ms.
+
+  - Edge target in 108 ms.
+
+  - Edge location in 129 ms.
+
+Computation done in 515 ms.
+
+Computing track features:
+
+  - Branching analyzer in 90 ms.
+
+  - Track duration in 71 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 69 ms.
+
+  - Track speed in 68 ms.
+
+  - Track quality in 88 ms.
+
+  - Track motility analysis in 77 ms.
+
+Computation done in 499 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 20837 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_4/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_5/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_5/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 13:58:40
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 7797 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 644 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 90 ms.
+
+  - Edge speed in 72 ms.
+
+  - Edge target in 88 ms.
+
+  - Edge location in 79 ms.
+
+Computation done in 330 ms.
+
+Computing track features:
+
+  - Branching analyzer in 62 ms.
+
+  - Track duration in 53 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 56 ms.
+
+  - Track speed in 48 ms.
+
+  - Track quality in 67 ms.
+
+  - Track motility analysis in 69 ms.
+
+Computation done in 390 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 7797 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_5/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_6/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_6/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 13:59:05
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 78104 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 1932 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 391 ms.
+
+  - Edge speed in 271 ms.
+
+  - Edge target in 216 ms.
+
+  - Edge location in 317 ms.
+
+Computation done in 1196 ms.
+
+Computing track features:
+
+  - Branching analyzer in 227 ms.
+
+  - Track duration in 124 ms.
+
+  - Track index in 9 ms.
+
+  - Track location in 104 ms.
+
+  - Track speed in 139 ms.
+
+  - Track quality in 152 ms.
+
+  - Track motility analysis in 171 ms.
+
+Computation done in 1421 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 78104 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_6/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_7/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_7/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 13:59:37
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 1598 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 468 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 45 ms.
+
+  - Edge speed in 43 ms.
+
+  - Edge target in 61 ms.
+
+  - Edge location in 60 ms.
+
+Computation done in 209 ms.
+
+Computing track features:
+
+  - Branching analyzer in 54 ms.
+
+  - Track duration in 37 ms.
+
+  - Track index in 0 ms.
+
+  - Track location in 54 ms.
+
+  - Track speed in 49 ms.
+
+  - Track quality in 59 ms.
+
+  - Track motility analysis in 63 ms.
+
+Computation done in 330 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 1598 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_7/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_8/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_8/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 13:59:58
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 21135 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 636 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 70 ms.
+
+  - Edge speed in 79 ms.
+
+  - Edge target in 68 ms.
+
+  - Edge location in 84 ms.
+
+Computation done in 303 ms.
+
+Computing track features:
+
+  - Branching analyzer in 126 ms.
+
+  - Track duration in 24 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 43 ms.
+
+  - Track speed in 58 ms.
+
+  - Track quality in 67 ms.
+
+  - Track motility analysis in 62 ms.
+
+Computation done in 412 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 21135 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_8/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_9/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_9/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:00:22
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 14080 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 993 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 116 ms.
+
+  - Edge speed in 88 ms.
+
+  - Edge target in 98 ms.
+
+  - Edge location in 95 ms.
+
+Computation done in 398 ms.
+
+Computing track features:
+
+  - Branching analyzer in 75 ms.
+
+  - Track duration in 61 ms.
+
+  - Track index in 0 ms.
+
+  - Track location in 61 ms.
+
+  - Track speed in 63 ms.
+
+  - Track quality in 60 ms.
+
+  - Track motility analysis in 73 ms.
+
+Computation done in 416 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 14080 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_9/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_10/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_10/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:00:47
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 1140 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 408 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 42 ms.
+
+  - Edge speed in 42 ms.
+
+  - Edge target in 72 ms.
+
+  - Edge location in 67 ms.
+
+Computation done in 224 ms.
+
+Computing track features:
+
+  - Branching analyzer in 37 ms.
+
+  - Track duration in 20 ms.
+
+  - Track index in 0 ms.
+
+  - Track location in 22 ms.
+
+  - Track speed in 30 ms.
+
+  - Track quality in 43 ms.
+
+  - Track motility analysis in 35 ms.
+
+Computation done in 195 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 1140 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_10/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_11/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_11/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:01:10
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 1966 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 507 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 58 ms.
+
+  - Edge speed in 50 ms.
+
+  - Edge target in 46 ms.
+
+  - Edge location in 55 ms.
+
+Computation done in 209 ms.
+
+Computing track features:
+
+  - Branching analyzer in 62 ms.
+
+  - Track duration in 38 ms.
+
+  - Track index in 0 ms.
+
+  - Track location in 60 ms.
+
+  - Track speed in 42 ms.
+
+  - Track quality in 49 ms.
+
+  - Track motility analysis in 50 ms.
+
+Computation done in 320 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 1966 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_11/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_12/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_12/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:01:33
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 27427 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 1757 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 174 ms.
+
+  - Edge speed in 149 ms.
+
+  - Edge target in 124 ms.
+
+  - Edge location in 161 ms.
+
+Computation done in 610 ms.
+
+Computing track features:
+
+  - Branching analyzer in 101 ms.
+
+  - Track duration in 72 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 73 ms.
+
+  - Track speed in 73 ms.
+
+  - Track quality in 78 ms.
+
+  - Track motility analysis in 80 ms.
+
+Computation done in 520 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 27427 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_12/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_13/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_13/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:02:01
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 50222 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 1262 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 210 ms.
+
+  - Edge speed in 159 ms.
+
+  - Edge target in 123 ms.
+
+  - Edge location in 188 ms.
+
+Computation done in 680 ms.
+
+Computing track features:
+
+  - Branching analyzer in 160 ms.
+
+  - Track duration in 77 ms.
+
+  - Track index in 3 ms.
+
+  - Track location in 66 ms.
+
+  - Track speed in 85 ms.
+
+  - Track quality in 119 ms.
+
+  - Track motility analysis in 126 ms.
+
+Computation done in 699 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 50222 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_13/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_14/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_14/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:02:29
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 13543 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 520 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 78 ms.
+
+  - Edge speed in 81 ms.
+
+  - Edge target in 68 ms.
+
+  - Edge location in 100 ms.
+
+Computation done in 327 ms.
+
+Computing track features:
+
+  - Branching analyzer in 75 ms.
+
+  - Track duration in 56 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 63 ms.
+
+  - Track speed in 55 ms.
+
+  - Track quality in 77 ms.
+
+  - Track motility analysis in 62 ms.
+
+Computation done in 423 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 13543 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_14/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_15/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_15/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:02:58
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 101730 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 1485 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 341 ms.
+
+  - Edge speed in 496 ms.
+
+  - Edge target in 350 ms.
+
+  - Edge location in 342 ms.
+
+Computation done in 1532 ms.
+
+Computing track features:
+
+  - Branching analyzer in 160 ms.
+
+  - Track duration in 103 ms.
+
+  - Track index in 5 ms.
+
+  - Track location in 91 ms.
+
+  - Track speed in 108 ms.
+
+  - Track quality in 92 ms.
+
+  - Track motility analysis in 141 ms.
+
+Computation done in 766 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 101730 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_15/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_16/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_16/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:03:30
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 13337 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 1070 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 99 ms.
+
+  - Edge speed in 84 ms.
+
+  - Edge target in 80 ms.
+
+  - Edge location in 88 ms.
+
+Computation done in 353 ms.
+
+Computing track features:
+
+  - Branching analyzer in 77 ms.
+
+  - Track duration in 66 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 65 ms.
+
+  - Track speed in 59 ms.
+
+  - Track quality in 59 ms.
+
+  - Track motility analysis in 85 ms.
+
+Computation done in 449 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 13337 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_16/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_17/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_17/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:03:54
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 9715 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 359 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 81 ms.
+
+  - Edge speed in 76 ms.
+
+  - Edge target in 46 ms.
+
+  - Edge location in 51 ms.
+
+Computation done in 256 ms.
+
+Computing track features:
+
+  - Branching analyzer in 71 ms.
+
+  - Track duration in 25 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 32 ms.
+
+  - Track speed in 25 ms.
+
+  - Track quality in 30 ms.
+
+  - Track motility analysis in 29 ms.
+
+Computation done in 242 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 9715 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_17/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_18/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_18/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:04:17
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 12997 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 919 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 104 ms.
+
+  - Edge speed in 76 ms.
+
+  - Edge target in 64 ms.
+
+  - Edge location in 66 ms.
+
+Computation done in 310 ms.
+
+Computing track features:
+
+  - Branching analyzer in 75 ms.
+
+  - Track duration in 71 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 55 ms.
+
+  - Track speed in 65 ms.
+
+  - Track quality in 100 ms.
+
+  - Track motility analysis in 56 ms.
+
+Computation done in 457 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 12997 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_18/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_19/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_19/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:04:42
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 1490 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 445 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 50 ms.
+
+  - Edge speed in 46 ms.
+
+  - Edge target in 52 ms.
+
+  - Edge location in 43 ms.
+
+Computation done in 193 ms.
+
+Computing track features:
+
+  - Branching analyzer in 61 ms.
+
+  - Track duration in 36 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 49 ms.
+
+  - Track speed in 45 ms.
+
+  - Track quality in 52 ms.
+
+  - Track motility analysis in 60 ms.
+
+Computation done in 317 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 1490 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_19/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_20/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_20/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:05:04
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 1324 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 481 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 53 ms.
+
+  - Edge speed in 43 ms.
+
+  - Edge target in 60 ms.
+
+  - Edge location in 50 ms.
+
+Computation done in 207 ms.
+
+Computing track features:
+
+  - Branching analyzer in 52 ms.
+
+  - Track duration in 33 ms.
+
+  - Track index in 0 ms.
+
+  - Track location in 42 ms.
+
+  - Track speed in 43 ms.
+
+  - Track quality in 65 ms.
+
+  - Track motility analysis in 47 ms.
+
+Computation done in 299 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 1324 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_20/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_21/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_21/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:05:26
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 3701 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 437 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 52 ms.
+
+  - Edge speed in 55 ms.
+
+  - Edge target in 54 ms.
+
+  - Edge location in 43 ms.
+
+Computation done in 206 ms.
+
+Computing track features:
+
+  - Branching analyzer in 28 ms.
+
+  - Track duration in 26 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 37 ms.
+
+  - Track speed in 26 ms.
+
+  - Track quality in 47 ms.
+
+  - Track motility analysis in 30 ms.
+
+Computation done in 215 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 3701 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_21/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_22/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_22/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:05:49
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 14056 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 912 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 137 ms.
+
+  - Edge speed in 83 ms.
+
+  - Edge target in 93 ms.
+
+  - Edge location in 97 ms.
+
+Computation done in 412 ms.
+
+Computing track features:
+
+  - Branching analyzer in 77 ms.
+
+  - Track duration in 65 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 63 ms.
+
+  - Track speed in 57 ms.
+
+  - Track quality in 114 ms.
+
+  - Track motility analysis in 68 ms.
+
+Computation done in 474 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 14056 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_22/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_23/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_23/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:06:15
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 8815 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 591 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 99 ms.
+
+  - Edge speed in 71 ms.
+
+  - Edge target in 69 ms.
+
+  - Edge location in 84 ms.
+
+Computation done in 325 ms.
+
+Computing track features:
+
+  - Branching analyzer in 50 ms.
+
+  - Track duration in 93 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 44 ms.
+
+  - Track speed in 52 ms.
+
+  - Track quality in 56 ms.
+
+  - Track motility analysis in 63 ms.
+
+Computation done in 385 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 8815 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_23/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_24/Combined_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_24/Combined
+trackmate_threshold: 2.0
+trackmate_frame_gap: 2
+trackmate_max_link_distance: 5.0
+trackmate_gap_link_distance: 5.0
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:06:39
+
+Starting detection process using 144 threads.
+
+Detection processes 144 frames simultaneously and allocates 1 thread per frame.
+
+Found 13694 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 144 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 1074 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 121 ms.
+
+  - Edge speed in 87 ms.
+
+  - Edge target in 88 ms.
+
+  - Edge location in 95 ms.
+
+Computation done in 392 ms.
+
+Computing track features:
+
+  - Branching analyzer in 83 ms.
+
+  - Track duration in 68 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 61 ms.
+
+  - Track speed in 52 ms.
+
+  - Track quality in 77 ms.
+
+  - Track motility analysis in 66 ms.
+
+Computation done in 437 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 13694 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Cell_24/Combined.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/Calibrations/20250522 GFP calibration_10pct_60ms 001/Cell_1/GFP_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/Calibrations/20250522 GFP calibration_10pct_60ms 001/Cell_1/GFP
+trackmate_threshold: 2.0
+trackmate_frame_gap: 5
+trackmate_max_link_distance: 2.5
+trackmate_gap_link_distance: 2.5
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:07:05
+
+Starting detection process using 144 threads.
+
+Detection processes 97 frames simultaneously and allocates 1 thread per frame.
+
+Found 209834 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 97 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 2467 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 1142 ms.
+
+  - Edge speed in 750 ms.
+
+  - Edge target in 475 ms.
+
+  - Edge location in 759 ms.
+
+Computation done in 3126 ms.
+
+Computing track features:
+
+  - Branching analyzer in 460 ms.
+
+  - Track duration in 203 ms.
+
+  - Track index in 7 ms.
+
+  - Track location in 218 ms.
+
+  - Track speed in 253 ms.
+
+  - Track quality in 195 ms.
+
+  - Track motility analysis in 306 ms.
+
+Computation done in 2432 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 209834 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/Calibrations/20250522 GFP calibration_10pct_60ms 001/Cell_1/GFP.xml
+
+protein_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/Cell_1/mScarlet_tracking_ref.tif
+image_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/Cell_1/mScarlet
+trackmate_threshold: 2.5
+trackmate_frame_gap: 5
+trackmate_max_link_distance: 2.5
+trackmate_gap_link_distance: 2.5
+puncta_diameter: 5
+TrackMate v7.9.2 started on:
+Sun, 17 Aug 2025 14:07:49
+
+Starting detection process using 144 threads.
+
+Detection processes 97 frames simultaneously and allocates 1 thread per frame.
+
+Found 4963 spots.
+
+Starting initial filtering process.
+
+Computing spot features over 97 frames simultaneously and allocating 1 thread per frame.
+
+Computation done in 525 ms.
+
+Starting spot filtering process.
+
+Starting tracking process.
+
+Computing edge features:
+
+  - Directional change in 79 ms.
+
+  - Edge speed in 69 ms.
+
+  - Edge target in 62 ms.
+
+  - Edge location in 64 ms.
+
+Computation done in 274 ms.
+
+Computing track features:
+
+  - Branching analyzer in 53 ms.
+
+  - Track duration in 38 ms.
+
+  - Track index in 1 ms.
+
+  - Track location in 50 ms.
+
+  - Track speed in 46 ms.
+
+  - Track quality in 73 ms.
+
+  - Track motility analysis in 53 ms.
+
+Computation done in 331 ms.
+
+Starting track filtering process.
+
+  Added log.
+
+  Added spot, edge and track feature declarations.
+
+  Added 4963 spots.
+
+  Added tracks.
+
+  Added filtered tracks.
+
+  Added image information.
+
+  Added crop settings.
+
+  Added detector settings.
+
+  Added initial spot filter.
+
+  Added spot feature filters.
+
+  Added tracker settings.
+
+  Added track feature filters.
+
+  Added spot, edge and track analyzers.
+
+  Writing to file.
+
+Data saved to: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/Cell_1/mScarlet.xml
+
+Python start
+Import complete
+Arguments accepted
+Successfully imported directories list
+Successfully pulled parameters
+Starting Conversion of nd2 to tiff
+channels_table:   T Cy5 Finn  ...       date
+0       IL-1  ... 2025-05-22
+1       IL-1  ... 2025-05-22
+2       IL-1  ... 2025-05-22
+
+[3 rows x 6 columns]
+File was converted: /raven/u/flobnow/TEST_BATCH/Input/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001.nd2
+File was converted: /raven/u/flobnow/TEST_BATCH/Input/20250522 GFP calibration_10pct_60ms 001.nd2
+File was converted: /raven/u/flobnow/TEST_BATCH/Input/20250522 mscarlet calibration_2pct_300ms 001.nd2
+['20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001', '20250522 GFP calibration_10pct_60ms 001', '20250522 mscarlet calibration_2pct_300ms 001']
+Checking: /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 4 rows from /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Loaded 1 rows from /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Checking: /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/channels_metadata.csv
+Loaded 1 rows from /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/channels_metadata.csv
+['/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/CHARMS_darkframe_removed.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/TRAF6_darkframe_removed.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/IL-1_darkframe_removed.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Brightfield_darkframe_removed.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/GFP_darkframe_removed.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/mScarlet_darkframe_removed.tif']
+Successfully removed dark-frames
+Checking: /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 4 rows from /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Loaded 1 rows from /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Checking: /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/channels_metadata.csv
+Loaded 1 rows from /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/channels_metadata.csv
+n_protein_images: range(0, 6)
+background_remove_image_list:   protein_name  ...                                                                        dark_frame
+0       CHARMS  ...   /raven/u/flobnow/TEST_BATCH/dark_frames/20220530 Darkfield 60 ms binned 001.tif
+1        TRAF6  ...  /raven/u/flobnow/TEST_BATCH/dark_frames/20220530 Darkfield 300 ms binned 003.tif
+2         IL-1  ...  /raven/u/flobnow/TEST_BATCH/dark_frames/20220530 Darkfield 200 ms binned 005.tif
+3  Brightfield  ...   /raven/u/flobnow/TEST_BATCH/dark_frames/20220530 Darkfield 60 ms binned 001.tif
+4          GFP  ...   /raven/u/flobnow/TEST_BATCH/dark_frames/20220530 Darkfield 60 ms binned 001.tif
+5     mScarlet  ...  /raven/u/flobnow/TEST_BATCH/dark_frames/20220530 Darkfield 300 ms binned 003.tif
+
+[6 rows x 12 columns]
+median_remove_image_list: ['/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/CHARMS_darkframe_removed.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/TRAF6_darkframe_removed.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/GFP_darkframe_removed.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/mScarlet_darkframe_removed.tif']
+['/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/CHARMS_intensity_ref.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/CHARMS_puncta_median_removed.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/TRAF6_intensity_ref.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/TRAF6_puncta_median_removed.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/GFP_intensity_ref.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/GFP_puncta_median_removed.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/mScarlet_intensity_ref.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/mScarlet_puncta_median_removed.tif']
+Successfully calculated _puncta_median_removed images
+['/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/CHARMS_tracking_ref.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/TRAF6_tracking_ref.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/GFP_tracking_ref.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/mScarlet_tracking_ref.tif']
+Successfully calculated _tracking_ref images
+Checking: /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 4 rows from /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Loaded 1 rows from /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Checking: /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/channels_metadata.csv
+Loaded 1 rows from /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/channels_metadata.csv
+['/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Combined_tracking_ref.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 GFP calibration_10pct_60ms 001/Combined_tracking_ref.tif', '/raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF/Calibrations/20250522 mscarlet calibration_2pct_300ms 001/Combined_tracking_ref.tif']
+Successfully calculated Combined_tracking_ref images
+Copied from source_folder /raven/u/flobnow/TEST_BATCH/Processing/01_Convert_to_TIFF
+ to destination_folder /raven/u/flobnow/TEST_BATCH/Processing/02_Remove_Backgrounds
+['/raven/u/flobnow/TEST_BATCH/Processing/02_Remove_Backgrounds/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Segmentation.tif']
+['CHARMS', 'TRAF6', 'Combined']
+['GFP', 'Combined']
+['mScarlet', 'Combined']
+[None, None, None, None, None, None, None, None, None, None, None]
+Successfully segmented images
+Copied from source_folder /raven/u/flobnow/TEST_BATCH/Processing/02_Remove_Backgrounds
+ to destination_folder /raven/u/flobnow/TEST_BATCH/Processing/03_Segment
+images_list:
+                                                image  ...                                                     relative_path
+0  20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001  ...  BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001
+1            20250522 GFP calibration_10pct_60ms 001  ...              Calibrations/20250522 GFP calibration_10pct_60ms 001
+2       20250522 mscarlet calibration_2pct_300ms 001  ...         Calibrations/20250522 mscarlet calibration_2pct_300ms 001
+
+[3 rows x 14 columns]
+exclusion_channels:
+ ['Brightfield', 'IL-1']
+segmentation_path:
+ /raven/u/flobnow/TEST_BATCH/Processing/03_Segment
+input_path:
+ /raven/u/flobnow/TEST_BATCH/Input
+cell_diameter:
+ 25
+puncta_diameter:
+ 5
+all_channels_metadata:
+    protein_name         channel  ... cell_diameter segment_with
+0        CHARMS      T GFP Finn  ...            25       CHARMS
+1        CHARMS      T GFP Finn  ...            25       CHARMS
+2        CHARMS      T GFP Finn  ...            25       CHARMS
+3        CHARMS      T GFP Finn  ...            25       CHARMS
+4        CHARMS      T GFP Finn  ...            25       CHARMS
+5        CHARMS      T GFP Finn  ...            25       CHARMS
+6        CHARMS      T GFP Finn  ...            25       CHARMS
+7        CHARMS      T GFP Finn  ...            25       CHARMS
+8        CHARMS      T GFP Finn  ...            25       CHARMS
+9        CHARMS      T GFP Finn  ...            25       CHARMS
+10       CHARMS      T GFP Finn  ...            25       CHARMS
+11       CHARMS      T GFP Finn  ...            25       CHARMS
+12       CHARMS      T GFP Finn  ...            25       CHARMS
+13       CHARMS      T GFP Finn  ...            25       CHARMS
+14       CHARMS      T GFP Finn  ...            25       CHARMS
+15       CHARMS      T GFP Finn  ...            25       CHARMS
+16       CHARMS      T GFP Finn  ...            25       CHARMS
+17       CHARMS      T GFP Finn  ...            25       CHARMS
+18       CHARMS      T GFP Finn  ...            25       CHARMS
+19       CHARMS      T GFP Finn  ...            25       CHARMS
+20       CHARMS      T GFP Finn  ...            25       CHARMS
+21       CHARMS      T GFP Finn  ...            25       CHARMS
+22       CHARMS      T GFP Finn  ...            25       CHARMS
+23       CHARMS      T GFP Finn  ...            25       CHARMS
+24        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+25        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+26        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+27        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+28        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+29        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+30        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+31        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+32        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+33        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+34        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+35        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+36        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+37        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+38        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+39        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+40        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+41        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+42        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+43        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+44        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+45        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+46        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+47        TRAF6  T RFP Cy3 Finn  ...            25       CHARMS
+48          GFP      T GFP Finn  ...            25          GFP
+49     mScarlet  T RFP Cy3 Finn  ...            25     mScarlet
+
+[50 rows x 29 columns]
+segmentation_path: /raven/u/flobnow/TEST_BATCH/Processing/03_Segment
+file_ending: _tracking_ref.tif
+Successfully tracked puncta
+Copied from source_folder /raven/u/flobnow/TEST_BATCH/Processing/03_Segment
+ to destination_folder /raven/u/flobnow/TEST_BATCH/Processing/04_Track
+                                  
+================================= 
+Global information about the job: 
+================================= 
+  
+Job owner: flobnow(42847)
+Job name:  dynamics_pipeline
+Node list: ravc3047
+Job start: Sun Aug 17 13:40:44 CEST 2025
+Job end:   Sun Aug 17 14:08:29 CEST 2025
+Work dir:  /u/flobnow/dynamics_pipeline_v2/./
+Command:   /raven/u/flobnow/dynamics_pipeline_v2/submit_node.sh
+  
+  
+  
+==========================================================================================
+Information on jobsteps (Note: MaxRSS/AveRSS is the maximum/average over all 
+tasks of the per-task memory high-water marks; cf. "man sacct"): 
+==========================================================================================
+  
+JobID            JobName NNodes NTasks  NCPUS       MaxRSS       AveRSS    Elapsed ExitCode
+------------- ---------- ------ ------ ------ ------------ ------------ ---------- --------
+21390173      dynamics_p      1           144                             00:27:45      0:0
+  
+Maximum memory per node: 15.319240 GB (defined as MaxRSS*Ntasks/NNodes)
+CPU utilization: 0.4 %
+  

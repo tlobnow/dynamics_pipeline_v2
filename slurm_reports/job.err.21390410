@@ -1,0 +1,25 @@
+running
+  '/mpcdf/soft/SLE_15/packages/x86_64/R/4.0.2/lib64/R/bin/R --no-echo --no-restore --vanilla --file=r_scripts/extract_intensity.R --args /raven/u/flobnow/TEST_BATCH/Input/parameter_tables'
+
+running
+  '/mpcdf/soft/SLE_15/packages/x86_64/R/4.0.2/lib64/R/bin/R --no-echo --no-restore --vanilla --file=r_scripts/colocalization.R --args /raven/u/flobnow/TEST_BATCH/Input/parameter_tables'
+
+running
+  '/mpcdf/soft/SLE_15/packages/x86_64/R/4.0.2/lib64/R/bin/R --no-echo --no-restore --vanilla --file=r_scripts/compile_tables.R --args /raven/u/flobnow/TEST_BATCH/Input/parameter_tables'
+
+Warning messages:
+1: In file.remove(DestinationPath, showWarnings = F) :
+  cannot remove file '/raven/u/flobnow/TEST_BATCH/Processing/06_Colocalization/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Parameters.csv.gz', reason 'No such file or directory'
+2: In file.remove(DestinationPath, showWarnings = F) :
+  cannot remove file 'FALSE', reason 'No such file or directory'
+3: In file.remove(DestinationPath, showWarnings = F) :
+  cannot remove file '/raven/u/flobnow/TEST_BATCH/Processing/06_Colocalization/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Analysis.csv.gz', reason 'No such file or directory'
+4: In file.remove(DestinationPath, showWarnings = F) :
+  cannot remove file 'FALSE', reason 'No such file or directory'
+5: In file.remove(DestinationPath, showWarnings = F) :
+  cannot remove file '/raven/u/flobnow/TEST_BATCH/Processing/06_Colocalization/BDLD_87-CHARMS/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001/Essential.csv.gz', reason 'No such file or directory'
+6: In file.remove(DestinationPath, showWarnings = F) :
+  cannot remove file 'FALSE', reason 'No such file or directory'
+Warning message:
+In dir.create(file.path(output_path, Cohort)) :
+  '/raven/u/flobnow/TEST_BATCH/Output/Calibrations' already exists

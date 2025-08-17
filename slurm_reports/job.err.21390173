@@ -1,0 +1,145 @@
+2025-08-17 13:41:10,569	INFO worker.py:1752 -- Started a local Ray instance.
+[36m(nd2_to_tiff pid=52165)[0m /u/flobnow/miniconda3/envs/dynamics_pipeline/lib/python3.8/site-packages/pims/frame.py:31: ResourceWarning: unclosed file <_io.BufferedReader name='/raven/u/flobnow/TEST_BATCH/Input/20250522 3nM_cl615_BDLD_87_CHARMS_TRAF6_MyD88 001.nd2'>
+[36m(nd2_to_tiff pid=52165)[0m   arr_metadata = dict()
+[36m(nd2_to_tiff pid=52165)[0m ResourceWarning: Enable tracemalloc to get the object allocation traceback
+2025-08-17 13:42:19,237	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:42:43,652	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:44:17,037	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:45:40,187	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:47:14,146	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:48:36,442	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:49:52,544	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:51:03,857	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:52:19,655	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:53:31,631	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:54:14,834	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:54:50,119	INFO worker.py:1752 -- Started a local Ray instance.
+2025-08-17 13:55:03,782	INFO worker.py:1752 -- Started a local Ray instance.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: Using incremental CMS is deprecated and will likely be removed in a future release
+Could not read the last used settings file at /u/flobnow/.trackmate/lastusedsettings.xml.
+Using built-in defaults.
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:260: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   height = int(height)
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:264: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   width = int(width)
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:260: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   height = int(height)
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:264: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   width = int(width)
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:260: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   height = int(height)
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:264: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   width = int(width)
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:260: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   height = int(height)
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:264: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   width = int(width)
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:260: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   height = int(height)
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:264: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   width = int(width)
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:260: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   height = int(height)
+[36m(make_area_list pid=100275)[0m /raven/u/flobnow/dynamics_pipeline_v2/segmentation/operations.py:264: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+[36m(make_area_list pid=100275)[0m   width = int(width)
