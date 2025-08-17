@@ -3,16 +3,16 @@
 Follow this guide, step by step
 
 ## Requirements
-* Linux cluster (Raven, Cobra)
+* Linux cluster (Raven)
 * R 4.0.2
 
 ## Process
 
-Paste the following in the terminal (**change `username` with your user name**):
+Paste the following in the terminal (**change `<username>` with your user name**):
 
 Connect to the cluster computer:
     
-    ssh username@raven.mpcdf.mpg.de
+    ssh <username>@raven.mpcdf.mpg.de
 
 ### R packages installation
 
@@ -62,115 +62,21 @@ After, paste the following:
 
 Lastly, paste the following:
 
-    pacman::p_load(dplyr, stringr, parallel, tidyr, data.table, ff, dtplyr, compiler, changepoint, R.utils, lemon, ggquiver, ggplot2, ggdark, scales, ggforce, viridis, RcppRoll, metR)
+    pacman::p_load(dplyr, stringr, parallel, tidyr, data.table, ff, dtplyr, compiler, changepoint, R.utils, lemon, ggquiver, ggplot2, ggdark, scales, ggforce, viridis, RcppRoll)
 
 Exit R by typing `q()` and then `N` to not save
 
-### Python packages installation
+### ImageJ installation
 
-Create Python Packages list. Open the terminal text editor, then type `nano` and paste:
+Download the latest imagej version for analysis
 
-    aiohttp
-    aiohttp-cors
-    aioredis
-    appdirs
-    async-timeout
-    attrs
-    blessings
-    boto3
-    botocore
-    cachetools
-    certifi
-    chardet
-    click
-    colorama
-    colorful
-    cycler
-    decorator
-    distlib
-    et-xmlfile
-    filelock
-    future
-    google-api-core
-    google-auth
-    googleapis-common-protos
-    gpustat
-    grpcio
-    hiredis
-    idna
-    imageio
-    imglyb
-    jgo
-    jmespath
-    JPype1
-    jsonschema
-    kiwisolver
-    matplotlib
-    msgpack
-    multidict
-    nd2reader
-    networkx
-    numpy
-    nvidia-ml-py3
-    opencensus
-    opencensus-context
-    opencv-python
-    openpyxl
-    packaging
-    pandas
-    Pillow
-    PIMS
-    pims-nd2
-    pipenv
-    prometheus-client
-    protobuf
-    psutil
-    py-spy
-    pyasn1
-    pyasn1-modules
-    pyparsing
-    pyrsistent
-    python-dateutil
-    pytz
-    PyWavelets
-    PyYAML
-    ray
-    requests
-    rsa
-    s3transfer
-    scikit-image
-    scipy
-    scyjava
-    six
-    slicerator
-    tifffile
-    typing-extensions
-    urllib3
-    virtualenv
-    virtualenv-clone
-    xarray
-    xlrd
-    xmltodict
-    yarl
-
-Close nano:
-* Press [CTRL] + [X] to close
-* Press [Y] to save
-* Save as `python_requirements.txt`
-
-> **Optional**: You may use screen to let process run on the background
->    * Type `screen`
->    * Wait 5s to load
->    * Press [CTRL] + [A] and let go
->    * Press [D]
->    * To resume, type `screen -r`
->> _If there's more than one screen, type `screen -r` . to get the index of screens and then replace 00000 with the index (`screen -r 00000`)_
-
-    # Install ImageJ
     wget https://downloads.imagej.net/fiji/latest/fiji-linux64.zip
     unzip fiji-linux64.zip
     
-    # Install conda
+### Conda installation
+
+Download the latest conda version
+
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     chmod +x Miniconda3-latest-Linux-x86_64.sh
     ./Miniconda3-latest-Linux-x86_64.sh
@@ -194,18 +100,34 @@ Then paste,
     conda install -c conda-forge libxml2
     pip install glib
 
-    # Install Python packages
-    python -m pip install --user -r python_requirements.txt
+
+### Obtain the python environment
+
+We have a static environment that you can access in two ways:
+1. Download the environment file from data-tay `/Volumes/TAYLOR-LAB/Finn_v2/env_dynamics_pipeline.tar.gz` and transfer it to the cluster (you could use Filezilla, scp or rsync).
+2. I can give your `<username>` access to the file, so you can copy it directly on the cluster.
+
+Store and unzip the file in your `~/miniconda/envs`
+
+    tar -xvzf FOLDER.tar.gz
+
+You should be able to activate the static environment with:
+
+    conda activate dynamics_pipeline
+
+Add missing pip packages
+
+    pip install numpy tifffile pims>=0.3.0 pims_nd2 nd2reader opencv-python matplotlib
 
 ### Git installation
 
 Paste the following and rename the last element to yours:
 
-    git config --global user.name "username"
-    git config --global user.email email@mpcdf.mpg.de
-    ssh-keygen -t rsa -b 4096 -C "name@raven.mpcdf.mpg.de"
+    git config --global user.name "<username>"
+    git config --global user.email <email>@mpcdf.mpg.de
+    ssh-keygen -t rsa -b 4096 -C "<username>@raven.mpcdf.mpg.de"
     
-Press [Enter] to skip some steps and get the ssh key. Then, copy the entire block of string from start to finish, including the _ssh-rsa_ and the ending name . Use `cat /u/username/.ssh/id_rsa.pub` and change **user_path** accordingly
+Press [Enter] to skip some steps and get the ssh key. Then, copy the entire block of string from start to finish, including the _ssh-rsa_ and the ending name . Use `cat /u/<username>/.ssh/id_rsa.pub` and change **user_path** accordingly
 
 Sign-in to GitHub, https://github.com/login
 
@@ -214,18 +136,12 @@ Paste the key into GitHub, https://github.com/settings/keys
 * New SSH key
 * Type in the cluster name as **Title** and paste the key under **Key**
 
-Create a directory to save the pipeline scripts
+### Clone the dynamics_pipeline repo
 
-    mkdir dynamics_pipeline
-    cd dynamics_pipeline
+    git clone https://github.com/tlobnow/dynamics_pipeline_v2.git
 
-Paste the following in the terminal to clone the pipeline:
-
-    git init
-    git remote add origin git@github.com:MJ-Taylor-Lab/DynamicsPipeline.git
-    git remote set-url origin git@github.com:MJ-Taylor-Lab/DynamicsPipeline.git
-    git fetch --all
-    git pull origin master
+If you are not successful (couldn't set up Github connection etc.) you can upload the zipped repository from data-tay `/Volumes/TAYLOR-LAB/Finn_v2/dynamics_pipeline_v2.zip`
+Unzip it using `unzip dynamics_pipeline_v2.zip`
 
 ---
 
@@ -283,69 +199,10 @@ Channels to exclude from the pipeline analysis.
 | 20211218 GFP calibration_10pct_60ms   005.nd2 | Calibrations | GFP |  |  | 2.5 | 1.5 | 5 | IL-1 | GFP | mScarlet | Brightfield |
 | 20211218 mScarlet calibration_10pct_60ms   001.nd2 | Calibrations | mScarlet |  |  | 2.5 | 1.5 | 5 | IL-1 | GFP | mScarlet | Brightfield |
 
-## Run
+## Start the pipeline using SLURM
 
-Connect to the cluster computer:
-    
-    ssh username@raven.mpcdf.mpg.de
-> If you need the latest scripts, paste in the Terminal:
->
->       cd dynamics_pipeline
->       git pull origin master
->
-
-### SLURM Instructions
-
-Pull the scripts before using `git pull origin master` and modify the parameters of `submit_node.sh` accordingly
-
-Create SLURM instructions file. Open the terminal text editor, then type `nano` and paste:
-
-    #!/bin/bash -l
-    
-    #SBATCH -o ./job.out.%j
-    #SBATCH -e ./job.err.%j
-    #SBATCH -D ./
-    #SBATCH -J 20211218
-    #SBATCH --mail-type=ALL
-    #SBATCH --mail-user=email@mpcdf.mpg.de
-    #SBATCH --nodes=1
-    #SBATCH --ntasks-per-node=1
-    #SBATCH --cpus-per-task=72
-    #SBATCH --time=24:00:00
-    
-    # Load all needed packages
-    module purge
-    module load jdk/8.265 gcc/10 impi/2021.2 fftw-mpi R/4.0.2
-    echo 'modules loaded'
-    conda activate dynamics_pipeline
-    echo 'conda activated'
-    
-    # Specify parameters
-    ## Path of parameters table
-    ## Change username to your cluster user name
-    path=$'/raven/u/username/new_pipeline/pending_processing/batch_date/Input/parameter_tables'
-    
-    ## Scripts folder
-    ## Change username to your cluster user name
-    cd /raven/u/username/dynamics_pipeline
-    
-    ## Cores for parallel processing in R
-    export OMP_NUM_THREDS=144
-    
-    # Run scripts
-    ## Python scripts
-    python mission_control.py $path 12
-    
-    ## Run R Scripts
-    Rscript --vanilla --verbose r_scripts/extract_intensity.R $path
-    Rscript --vanilla --verbose r_scripts/colocalization.R $path
-    Rscript --vanilla --verbose r_scripts/compile_tables.R $path
-    #Rscript --vanilla --verbose r_scripts/compress_everything.R $path
-    
-    sleep 10
-
-Press [CTRL] + [X] to close, then [Y] to save and type `submit_node.sh` to save it under that name
-
+You need to be connected to the cluster computer (Raven etc.)
+Modify the parameters of `submit_node.sh` accordingly
 Paste `sbatch submit_node.sh` to submit to SLURM
 
 ## Output
