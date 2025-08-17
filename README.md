@@ -8,11 +8,13 @@ Follow this guide, step by step
 
 ## Process
 
-Paste the following in the terminal (**change `<username>` with your user name**):
+Paste the following in the terminal (**change `<USERNAME>` with your user name**):
 
 Connect to the cluster computer:
     
-    ssh <username>@raven.mpcdf.mpg.de
+    ssh <USERNAME>@raven.mpcdf.mpg.de
+
+On the cluster computer, your <USERNAME> will be available as `$USER`
 
 ### R packages installation
 
@@ -24,7 +26,6 @@ Load interpreters
 
 Install libtiff 
 
-    # Install libtiff
     mkdir libtiff
     cd libtiff
     wget https://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz
@@ -32,15 +33,12 @@ Install libtiff
     mkdir install
     cd tiff-4.3.0
     mkdir compile
-    cd compile
-    # Change username here
-    ../configure --prefix=/u/username/libtiff/install
+    cd compile    
+    ../configure --prefix=/u/$USER/libtiff/install
     make
     make install
-    # Change username here
-    export PKG_CONFIG_PATH=/u/username/libtiff/install/lib/pkgconfig/
+    export PKG_CONFIG_PATH=/u/$USER/libtiff/install/lib/pkgconfig/
     
-
 Change directory to home. Type `~` and press [Enter]
 
 Load R. Enter `R` on the terminal and press [Enter]
@@ -64,7 +62,7 @@ Lastly, paste the following:
 
     pacman::p_load(dplyr, stringr, parallel, tidyr, data.table, ff, dtplyr, compiler, changepoint, R.utils, lemon, ggquiver, ggplot2, ggdark, scales, ggforce, viridis, RcppRoll)
 
-Exit R by typing `q()` and then `N` to not save
+Exit R by typing `q()` and then `n` to not save
 
 ### ImageJ installation
 
@@ -105,7 +103,7 @@ Then paste,
 
 We have a static environment that you can access in two ways:
 1. Download the environment file from data-tay `/Volumes/TAYLOR-LAB/Finn_v2/env_dynamics_pipeline.tar.gz` and transfer it to the cluster (you could use Filezilla, scp or rsync).
-2. I can give your `<username>` access to the file, so you can copy it directly on the cluster.
+2. I can give you access to the file, so you can copy it directly on the cluster.
 
 Store and unzip the file in your `~/miniconda/envs`
 
@@ -123,11 +121,11 @@ Add missing pip packages
 
 Paste the following and rename the last element to yours:
 
-    git config --global user.name "<username>"
+    git config --global user.name "<USERNAME>"
     git config --global user.email <email>@mpcdf.mpg.de
-    ssh-keygen -t rsa -b 4096 -C "<username>@raven.mpcdf.mpg.de"
+    ssh-keygen -t rsa -b 4096 -C "<USERNAME>@raven.mpcdf.mpg.de"
     
-Press [Enter] to skip some steps and get the ssh key. Then, copy the entire block of string from start to finish, including the _ssh-rsa_ and the ending name . Use `cat /u/<username>/.ssh/id_rsa.pub` and change **user_path** accordingly
+Press [Enter] to skip some steps and get the ssh key. Then, copy the entire block of string from start to finish, including the _ssh-rsa_ and the ending name . Use `cat /u/$USER/.ssh/id_rsa.pub` and change **user_path** accordingly
 
 Sign-in to GitHub, https://github.com/login
 
