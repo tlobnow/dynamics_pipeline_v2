@@ -19,7 +19,7 @@ conda activate dynamics_pipeline
 echo 'conda activated'
 
 ## Specify path to  parameter tables
-path=$'/raven/u/flobnow/TEST_BATCH/Input/parameter_tables'
+path=$'/raven/u/flobnow/pipeline/pending_processing/TEST_BATCH/Input/parameter_tables'
 
 ## Scripts folder
 cd /raven/u/flobnow/dynamics_pipeline_v2
