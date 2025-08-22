@@ -22,7 +22,7 @@ Load interpreters
 
     cd ~
     module purge
-    module load jdk/8.265 gcc/10 impi/2021.2 fftw-mpi R/4.0.2
+    module load jdk/8.265 gcc/10 impi/2021.2 fftw-mpi R/4.2
 
 Install libtiff 
 
@@ -68,14 +68,24 @@ Exit R by typing `q()` and then `n` to not save
 
 Download the latest imagej version for analysis
 
-    wget https://downloads.imagej.net/fiji/latest/fiji-linux64.zip
-    unzip fiji-linux64.zip
+    cd
+    wget https://downloads.imagej.net/fiji/latest/fiji-latest-linux64-jdk.zip
+    unzip fiji-*.zip
     
+### Clone the dynamics_pipeline_v2 repo from Github
+
+    cd
+    git clone https://github.com/tlobnow/dynamics_pipeline_v2.git
+
+If you are not successful (couldn't set up Github connection etc.) you can upload the zipped repository from data-tay `/Volumes/TAYLOR-LAB/Finn_v2/dynamics_pipeline_v2.zip` and Unzip it using `unzip dynamics_pipeline_v2.zip`
+
 ### Conda installation
 
 Download the latest conda version
 
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    cd 
+    mv ~/dynamics_pipeline_v2/Miniconda3-latest-Linux-x86_64.sh ~
+
     chmod +x Miniconda3-latest-Linux-x86_64.sh
     ./Miniconda3-latest-Linux-x86_64.sh
     export PATH=~/miniconda/bin:$PATH
@@ -83,20 +93,65 @@ Download the latest conda version
     export PATH="/miniconda3/bin":$PATH
 
     # Follow Terminal instructions to install conda
-    
-    # Create conda environment
-    conda create -n dynamics_pipeline python=3.8 anaconda
 
-Then paste,
 
-    # Create conda environment
-    conda activate dynamics_pipeline
-    
-    # Install conda packages
-    conda install -c conda-forge setuptools
-    conda install -c conda-forge javabridge
-    conda install -c conda-forge libxml2
-    pip install glib
+### How to transfer files to and from the cluster
+
+I prepared a couple of helpful, but large files for learning how to handle the pipeline. They are currently stored on our server `data-tay` and you can access this from your local computer while connected to the MPG network (by LAN or VPN). You got information on how to connect in your first email from IT.
+
+#### Setting up a tunnel for file transfer and persistent log in
+
+You can create or modify an existing SSH configuration file to give remotes nicknames, change log-in options, persist your log-in, etc. For MPCDF clusters, users must “jump” through a gateway remote, gate*.mpcdf.mpg.de; this can be configured directly in the SSH configuration file.
+Add the following snippet to your `~/.ssh/config` files locally and on the cluster as well. This creates the infrastucture necessary for tunnels and transfers.
+
+    ## This is a ssh config file to connect to the MPCDF cluster and establish a connection
+    ## which persists for 8h without the need of re-entering the OTP every time (i.e. for data
+    ## transfer or connection to MPCDF).
+
+    #########
+    ## Usage:
+    ## Copy this file to `~/.ssh/config` and exchange the `User` names with your login user name
+    ## After that you can connect to cobra or raven by typing `ssh cobra` and `ssh raven` respectively.
+
+    Host gatezero
+       Hostname gate1.mpcdf.mpg.de
+       User flobnow
+       Compression yes
+       ServerAliveInterval 120
+       ControlMaster auto
+       ControlPersist 8h
+       ControlPath ~/.ssh/master-%C
+       GSSAPIAuthentication no
+
+    Host raven
+       Hostname raven.mpcdf.mpg.de
+       User flobnow
+       Compression yes
+       ControlMaster auto
+       ControlPersist 8h
+       ControlPath ~/.ssh/master-%C
+       GSSAPIAuthentication no
+       ProxyJump gatezero
+
+#### Using the tunnel
+
+After adding this information to your `~/.ssh/config` files, you can now log in to raven using only `ssh raven`, type in your password and OTP once and stay logged in for 8 hours.
+
+#### Sending files via SCP (Secure Copy)
+
+The easiest tool for transferring files between your local machine and remotes is SCP. It works like cp, except it works over the network to copy files using the SSH protocol. After configuring SSH connections per Modifying the SSH configuration file, from your local machine, you can copy a file to and from a remote using:
+
+    scp <SOURCE PATH> <REMOTE>:<SOURCE PATH>
+    scp <REMOTE>:<SOURCE PATH> <SOURCE PATH>
+
+#### Sending files or folders via rsync
+
+Use rsync if you have complex hierarchies of files and directories to transfer (or synchronize). rsync checks timestamps and sizes to avoid re-transferring files, thus improving performance. For instance, from your local machine, you can transfer the entire dir/ folder tree to and from a remote using:
+
+    rsync −a /path/to/dir/ <REMOTE>:dir/
+    rsync −a <REMOTE>:dir/ /path/to/dir/
+
+The slash (/) at the end of the directory name instructs rsync to synchronize the entire directories.
 
 
 ### Obtain the python environment
@@ -105,9 +160,10 @@ We have a static environment that you can access in two ways:
 1. Download the environment file from data-tay `/Volumes/TAYLOR-LAB/Finn_v2/env_dynamics_pipeline.tar.gz` and transfer it to the cluster (you could use Filezilla, scp or rsync).
 2. I can give you access to the file, so you can copy it directly on the cluster.
 
-Store and unzip the file in your `~/miniconda/envs`
+Store the file in your `~/miniconda/envs`
 
-    tar -xvzf FOLDER.tar.gz
+    cd ~/miniconda/envs
+    tar -xvzf env_dynamics_pipeline.tar.gz
 
 You should be able to activate the static environment with:
 
@@ -117,35 +173,31 @@ Add missing pip packages
 
     pip install numpy tifffile pims>=0.3.0 pims_nd2 nd2reader opencv-python matplotlib
 
-### Git installation
-
-Paste the following and rename the last element to yours:
-
-    git config --global user.name "<USERNAME>"
-    git config --global user.email <email>@mpcdf.mpg.de
-    ssh-keygen -t rsa -b 4096 -C "<USERNAME>@raven.mpcdf.mpg.de"
-    
-Press [Enter] to skip some steps and get the ssh key. Then, copy the entire block of string from start to finish, including the _ssh-rsa_ and the ending name . Use `cat /u/$USER/.ssh/id_rsa.pub` and change **user_path** accordingly
-
-Sign-in to GitHub, https://github.com/login
-
-Paste the key into GitHub, https://github.com/settings/keys
-
-* New SSH key
-* Type in the cluster name as **Title** and paste the key under **Key**
-
-### Clone the dynamics_pipeline repo
-
-    git clone https://github.com/tlobnow/dynamics_pipeline_v2.git
-
-If you are not successful (couldn't set up Github connection etc.) you can upload the zipped repository from data-tay `/Volumes/TAYLOR-LAB/Finn_v2/dynamics_pipeline_v2.zip`
-Unzip it using `unzip dynamics_pipeline_v2.zip`
 
 ---
 
 # Image Analysis Pipeline
+
+## Create Folder Structure
+We will create a folder that contains our imaging data. In subfolders, you can organize individual runs.
+
+    mkdir -p ~/pipeline/{raw,pending_processing,finished}
+
+The following documentation will explain how you prepare your input for processing.
+Store your raw nd2 files in a subfolder (you might want to organize by creation date or by cell lines, etc.) in `pipeline/raw`
+
+    cd ~/pipeline/raw
+    mkdir your_folder
+
+Copy this folder to the `pipeline/pending_processing` using `cp -r your_folder ../pending_processing/your_folder` 
+
+    cd ../pending_processing
+
+If you want to take a look at a prepared folder, you can download my TEST_BATCH from data-tay (`/Volumes/TAYLOR-LAB/Finn_v2/dynamics_pipeline_v2.zip`)
+
+
 ## Input
-The input data goes into ~/new_pipeline/pending_processing/batch_date/Input/parameter_tables. There are five files, including:
+Your input data goes into ~/pipeline/pending_processing/batch_date/Input/parameter_tables. There are five files, including:
 * constants.csv
 * dark_frames.csv
 * directories.csv
