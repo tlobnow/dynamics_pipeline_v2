@@ -153,19 +153,41 @@ Use rsync if you have complex hierarchies of files and directories to transfer (
 
 The slash (/) at the end of the directory name instructs rsync to synchronize the entire directories.
 
+ ### Conda installation
+
+Since the download link doesn't work on the cluster, download the conda installation file locally (we need the file for Linux-x86_64) by running:
+If you don't have wget installed, you can use `curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh` instead.
+    cd
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+Transfer this script onto the cluster and into your main directory (replace <USER> with your own user name) via SCP or rsync, e.g.
+
+    rsync -a ~/Miniconda3-latest-Linux-x86_64.sh raven:/u/<USER>/
+
+Now the file should be available on the cluster and you can follow the remaining installation as follows:
+
+    cd 
+    chmod +x Miniconda3-latest-Linux-x86_64.sh
+    ./Miniconda3-latest-Linux-x86_64.sh
+    export PATH=~/miniconda/bin:$PATH
+    source ~/miniconda3/bin/activate
+    export PATH="/miniconda3/bin":$PATH
+
+    # Follow Terminal instructions to install conda
 
 ### Obtain the python environment
 
-We have a static environment that you can access in two ways:
-1. Download the environment file from data-tay `/Volumes/TAYLOR-LAB/Finn_v2/env_dynamics_pipeline.tar.gz` and transfer it to the cluster (you could use Filezilla, scp or rsync).
-2. I can give you access to the file, so you can copy it directly on the cluster.
+I prepared a static environment that is stored on data-tay in `/Volumes/TAYLOR-LAB/Finn_v2/env_dynamics_pipeline.tar.gz`
+Transfer this file to the cluster in a similar manner and store it in your `~/miniconda/envs` (perhaps your miniconda folder is called `miniconda3`, so you can either adjust the code below or the folder name)
 
-Store the file in your `~/miniconda/envs`
+    rsync -a /Volumes/TAYLOR-LAB/Finn_v2/env_dynamics_pipeline.tar.gz raven:/u/<USER>/miniconda/envs
+
+On the cluster:
 
     cd ~/miniconda/envs
     tar -xvzf env_dynamics_pipeline.tar.gz
 
-You should be able to activate the static environment with:
+You should be able to activate this  environment with:
 
     conda activate dynamics_pipeline
 
@@ -173,31 +195,24 @@ Add missing pip packages
 
     pip install numpy tifffile pims>=0.3.0 pims_nd2 nd2reader opencv-python matplotlib
 
-
 ---
 
 # Image Analysis Pipeline
 
 ## Create Folder Structure
-We will create a folder that contains our imaging data. In subfolders, you can organize individual runs.
+We will create a folder that contains our imaging data. In subfolders, you can organize all your raw files (`.nd2`) by batch_date, just the creation date, by cell lines, or whatever is logical for you.
 
-    mkdir -p ~/pipeline/{raw,pending_processing,finished}
+    mkdir -p ~/pipeline/{raw,pending_processing/TEST_BATCH/{Input/parameter_tables,Processing,Output},finished}
 
-The following documentation will explain how you prepare your input for processing.
-Store your raw nd2 files in a subfolder (you might want to organize by creation date or by cell lines, etc.) in `pipeline/raw`
+The following documentation will explain how you prepare your input for processing and I recommend to run my example set called `TEST_BATCH` that is stored on data-tay (`/Volumes/TAYLOR-LAB/Finn_v2/dynamics_pipeline_v2.zip`). Transfer it to `~/pipeline/pending_processing`.
 
-    cd ~/pipeline/raw
-    mkdir your_folder
+In the same folder on data-tay, I have supplied a tarball (`dark_frames.tar.zip`) that contains files we need for analysis. Transfer this file to the cluster and move the unpacked folder to `~/pipeline`.
 
-Copy this folder to the `pipeline/pending_processing` using `cp -r your_folder ../pending_processing/your_folder` 
+## Input: The parameter_tables
 
-    cd ../pending_processing
+I will use TEST_BATCH for the walk through.
 
-If you want to take a look at a prepared folder, you can download my TEST_BATCH from data-tay (`/Volumes/TAYLOR-LAB/Finn_v2/dynamics_pipeline_v2.zip`)
-
-
-## Input
-Your input data goes into ~/pipeline/pending_processing/batch_date/Input/parameter_tables. There are five files, including:
+Your input data goes into `~/pipeline/pending_processing/TEST_BATCH/Input/parameter_tables`. You need to prepare the following five files:
 * constants.csv
 * dark_frames.csv
 * directories.csv
