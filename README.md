@@ -275,10 +275,10 @@ In future runs, you will need to adjust the paths to match the analysis batch na
 
 | contains | path |
 | --- | --- |
-| input | ~/pipeline/pending_processing/TEST_BATCH/Input |
-| processing | ~/pipeline/pending_processing/TEST_BATCH/Processing |
-| output | ~/pipeline/pending_processing/TEST_BATCH/Output |
-| dark_frames | ~/pipeline/dark_frames |
+| input | /u/<USER>/pipeline/pending_processing/TEST_BATCH/Input |
+| processing | /u/<USER>/pipeline/pending_processing/TEST_BATCH/Processing |
+| output | /u/<USER>/pipeline/pending_processing/TEST_BATCH/Output |
+| dark_frames | /u/<USER>/pipeline/dark_frames |
 | ImageJ | ~/Fiji.app/ImageJ-linux64 |
 
 ### dark_frames.csv (leave as is for TEST_BATCH, but check for your own analysis!)
