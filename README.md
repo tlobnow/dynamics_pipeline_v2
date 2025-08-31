@@ -279,7 +279,7 @@ Adjust the paths to match the analysis batch names and replace <USER> with your 
 | processing | /u/<USER>/pipeline/pending_processing/TEST_BATCH/Processing |
 | output | /u/<USER>/pipeline/pending_processing/TEST_BATCH/Output |
 | dark_frames | /u/<USER>/pipeline/dark_frames |
-| ImageJ | ~/Fiji.app/ImageJ-linux64 |
+| ImageJ | /u/<USER>/Fiji.app/ImageJ-linux64 |
 
 ### dark_frames.csv (leave as is for TEST_BATCH, but check for your own analysis!)
 
