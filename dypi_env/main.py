@@ -1,5 +1,5 @@
 def main():
-    print("Hello from my-pipe!")
+    print("Hello from dypi-env!")
 
 
 if __name__ == "__main__":

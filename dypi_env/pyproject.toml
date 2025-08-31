@@ -1,5 +1,5 @@
 [project]
-name = "my-pipe"
+name = "dypi_env"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -26,6 +26,7 @@ dependencies = [
     "et-xmlfile>=2.0.0",
     "filelock>=3.19.1",
     "future>=1.0.0",
+    "glib>=1.0.0",
     "google-api-core>=1.16.0",
     "google-auth>=1.6.3",
     "googleapis-common-protos>=1.70.0",
@@ -33,6 +34,7 @@ dependencies = [
     "grpcio>=1.74.0",
     "hiredis>=3.2.1",
     "idna>=3.10",
+    "imagecodecs>=2025.8.2",
     "imageio>=2.37.0",
     "imglyb>=2.1.0",
     "jgo>=1.0.6",

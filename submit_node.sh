@@ -15,11 +15,15 @@
 module purge
 module load jdk/8.265 gcc/10 impi/2021.2 fftw-mpi R/4.0.2
 echo 'modules loaded'
-conda activate dynamics_pipeline
-echo 'conda activated'
+
+## Ensure that the environment is available
+source /u/flobnow/dynamics_pipeline_v2/dypi_env/.venv/bin/activate
+echo 'environment activated'
+#conda activate dynamics_pipeline
+#echo 'conda activated'
 
 ## Specify path to  parameter tables
-path=$'/raven/u/flobnow/new_pipeline/pending_processing/TEST_BATCH_MIN/Input/parameter_tables'
+path=$'/raven/u/flobnow/pipeline/pending_processing/TEST_BATCH/Input/parameter_tables'
 
 ## Scripts folder
 cd /raven/u/flobnow/dynamics_pipeline_v2
