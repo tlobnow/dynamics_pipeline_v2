@@ -162,7 +162,7 @@ Prepare the environment:
 cd ~/dynamics_pipeline_v2/dypi_env
 uv sync
 # and add the environment bin to your path and to your bashrc
-echo 'export PATH="/u/$USER/dynamics_pipeline_v2/dypi_env/.venv/bin/bin:$PATH"' >> ~/.bashrc
+echo 'export PATH="/u/$USER/dynamics_pipeline_v2/dypi_env/.venv/bin/:$PATH"' >> ~/.bashrc
 ```
 
 ---
