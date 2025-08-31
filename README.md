@@ -249,6 +249,7 @@ We will create a folder that contains our imaging data. In subfolders, you can o
 
 ```bash
 mkdir -p ~/pipeline/{raw,pending_processing,finished}
+mv ~/darkframes ~/pipeline/
 ```
 
 The following documentation will explain how you prepare your input for processing and I recommend to run my example set called `TEST_BATCH` that is stored on data-tay (`/Volumes/TAYLOR-LAB/Finn_v2/dynamics_pipeline_v2.zip`). Transfer it to `~/pipeline/pending_processing`.
