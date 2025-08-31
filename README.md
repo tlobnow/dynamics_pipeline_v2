@@ -126,6 +126,7 @@ On the cluster, you should see the files we uploaded when typing `ls`.
 unzip dynamics_pipeline_v2.zip
 unzip fiji-linux64.zip
 tar -xvzf dark_frames.tar.gz
+tar -xvzf TEST_BATCH.tar.gz
 ```
 
 ### 4.2 Install libtiff
@@ -245,28 +246,52 @@ eval "$(oh-my-posh init bash --config /u/$USER/.cache/oh-my-posh/themes/${THEME}
 
 ## Create Folder Structure
 
-We will create a folder that contains our imaging data. In subfolders, you can organize all your raw files (`.nd2`) by batch_date, just the creation date, by cell lines, or whatever is logical for you.
+First, set up the pipeline directory with subfolders for your imaging data:
 
 ```bash
 mkdir -p ~/pipeline/{raw,pending_processing,finished}
+```
+
+Then, move the provided test data (TEST_BATCH) and dark frames into place:
+
+```bash
+mv ~/TEST_BATCH ~/pipeline/pending_processing/
 mv ~/darkframes ~/pipeline/
 ```
 
-The following documentation will explain how you prepare your input for processing and I recommend to run my example set called `TEST_BATCH` that is stored on data-tay (`/Volumes/TAYLOR-LAB/Finn_v2/dynamics_pipeline_v2.zip`). Transfer it to `~/pipeline/pending_processing`.
-
-In the same folder on data-tay, I have supplied a tarball (`dark_frames.tar.zip`) that contains files we need for analysis. Transfer this file to the cluster and move the unpacked folder to `~/pipeline`.
-
 ## Input: The parameter_tables
 
-I will use TEST_BATCH for the walk through.
+Place your input files in the parameter_tables folder inside your Input directory. For the test batch, these are already prepared, but you need to adjust fields like your username. The folder should contain the following files:
 
-Your input data goes into `~/pipeline/pending_processing/TEST_BATCH/Input/parameter_tables`. You need to prepare the following five files:
+- constants.csv – fixed analysis parameters
+- dark_frames.csv – camera noise reference images
+- directories.csv – paths for input, output, and processing
+- exclusion_channels.csv – channels to ignore
+- images.csv – metadata for each image
 
-- constants.csv
-- dark_frames.csv
-- directories.csv
-- exclusion_channels.csv
-- images.csv
+### directories.csv (leave as is for TEST_BATCH, but check and adjust for your own analysis!)
+
+In future runs, you will need to adjust the paths to match the analysis batch names.
+
+| contains | path |
+| --- | --- |
+| input | ~/pipeline/pending_processing/TEST_BATCH/Input |
+| processing | ~/pipeline/pending_processing/TEST_BATCH/Processing |
+| output | ~/pipeline/pending_processing/TEST_BATCH/Output |
+| dark_frames | ~/pipeline/dark_frames |
+| ImageJ | ~/Fiji.app/ImageJ-linux64 |
+
+### dark_frames.csv (leave as is for TEST_BATCH, but check for your own analysis!)
+
+The dark frame is the camera noise ([https://en.wikipedia.org/wiki/Dark-frame_subtraction](https://en.wikipedia.org/wiki/Dark-frame_subtraction)). This typically is 1000 frames averaged, though 50 frames could do, so long as the standard deviation does not change with more images added. It should be at the same exposure as the images using >
+
+The table contains the image names of the dark frame average and their exposures **with units**. You might need other darkframes, depending on your imaging settings. You can easily create your own or obtain darkframe images from other users.
+
+| image | exposure |
+| --- | --- |
+| 20201026 Darkfield 200ms binned.tif | 200 ms |
+| 20201026 Darkfield 50ms binned.tif | 50 ms |
+| 20201026 Darkfield 100ms binned.tif | 100 ms |
 
 ### constants.csv
 
@@ -278,30 +303,7 @@ Numbers which will be constant throughout the analysis
 | cell_diameter | 25 | px, odd number |
 | puncta_diameter | 5 | px, odd number |
 
-### dark_frames.csv
-
-The dark frame is the camera noise ([https://en.wikipedia.org/wiki/Dark-frame_subtraction](https://en.wikipedia.org/wiki/Dark-frame_subtraction)). This typically is 1000 frames averaged, though 50 frames could do, so long as the standard deviation does not change with more images added. It should be at the same exposure as the images using the same camera as the microscopy images. Thus, one image could be used for multiple channels.
-
-The table contains the image names of the dark frame average and their exposures **with units**.
-
-| image | exposure |
-| --- | --- |
-| 20201026 Darkfield 200ms binned.tif | 200 ms |
-| 20201026 Darkfield 50ms binned.tif | 50 ms |
-| 20201026 Darkfield 100ms binned.tif | 100 ms |
-
-### directories.csv
-
-| contains | path |
-| --- | --- |
-| input | ~/Input |
-| processing | ~/Processing |
-| output | ~/Output |
-| dark_frames | ~/dark_frames |
-| flat_fields | ~/flat_fields |
-| ImageJ | ~/Fiji.app/ImageJ-linux64 |
-
-### exclusion_channels.csv
+### exclusion_channels.csv (leave as is)
 
 Channels to exclude from the pipeline analysis.
 
@@ -321,7 +323,7 @@ WideField
 
 ---
 
-### images.csv
+### example images.csv (old, does not reflect TEST_BATCH)
 
 | image | cohort | segment_with | ligand | ligand_density | trackmate_max_link_distance | trackmate_threshold | trackmate_frame_gap | T Cy5 protein_name | T GFP protein_name | T RFP protein_name | WideField protein_name |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
