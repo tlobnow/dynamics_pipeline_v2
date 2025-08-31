@@ -1,8 +1,5 @@
 # README_dynamics_pipeline_v2
 
-Archive: No
-Area/Resource: Useful Stuff for Coding (https://www.notion.so/Useful-Stuff-for-Coding-731a9ca9c5164049b27a2bd96a41fc11?pvs=21)
-
 # Installation
 
 Follow this guide, step by step
