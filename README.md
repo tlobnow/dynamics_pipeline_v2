@@ -271,7 +271,7 @@ Place your input files in the parameter_tables folder inside your Input director
 
 ### directories.csv (leave as is for TEST_BATCH, but check and adjust for your own analysis!)
 
-In future runs, you will need to adjust the paths to match the analysis batch names.
+Adjust the paths to match the analysis batch names and replace <USER> with your own user name. Relative paths don't work here (like ~).
 
 | contains | path |
 | --- | --- |
