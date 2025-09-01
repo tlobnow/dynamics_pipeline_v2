@@ -75,7 +75,7 @@ Match canonical host raven*,viper*
 #    IdentityFile ~/.ssh/id_<USER>
 ```
 
-<aside>
+
 ⚠️
 
 After adding this on the cluster, it’s important to create the same file locally (new terminal window, not connected to the cluster) and paste the same info, otherwise the tunnel won’t work.
@@ -176,13 +176,29 @@ export PATH=~/miniconda3/bin:$PATH
 source ~/miniconda3/bin/activate
 ```
 
-Install a required package (only available on conda unfortunately):
+Create a conda environment to to avoid conflicts with system R/Python.
 
 ```bash
-conda install -c conda-forge libxml2
+# Create conda environment
+conda create -n dynamics_pipeline python=3.8 anaconda
+
+# follow instructions and type [y]
 ```
 
-<aside>
+Activate the environment
+
+```bash
+conda activate dynamics_pipeline
+```
+
+Install required packages:
+
+```bash
+conda install -c conda-forge javabridge
+conda install -c conda-forge libxml2=2.13.7
+```
+
+
 ⚠️
 
 If you plan to use conda for more packages and other workflows (most likely), consider creating a separate environment to avoid conflicts with system R/Python!
@@ -193,7 +209,7 @@ If you plan to use conda for more packages and other workflows (most likely), co
 
 ## [Optional] Customization
 
-<aside>
+
 ℹ️
 
 You can skip this section entirely if you prefer the default terminal appearance.
