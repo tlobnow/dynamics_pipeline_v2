@@ -13,6 +13,7 @@ if [ ! -d "$LIBTIFF_DIR/install" ]; then
 	mkdir -p "$LIBTIFF_DIR"
 	cd "$LIBTIFF_DIR" || exit
 	wget -q https://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz
+	wget -q https://cran.r-project.org/src/contrib/Archive/XML/XML_3.99-0.14.tar.gz
 	tar -xzf tiff-4.3.0.tar.gz
 	cd tiff-4.3.0 || exit
 	mkdir -p compile
