@@ -11,16 +11,9 @@
 #SBATCH --cpus-per-task=72
 #SBATCH --time=3:00:00
 
-# Load all needed packages
-module purge
-module load jdk/8.265 gcc/10 impi/2021.2 fftw-mpi R/4.0.2
-echo 'modules loaded'
-
-## Ensure that the environment is available
-source /u/flobnow/dynamics_pipeline_v2/dypi_env/.venv/bin/activate
-echo 'environment activated'
-#conda activate dynamics_pipeline
-#echo 'conda activated'
+# Set to TRUE if you want to run main pipeline (mission_control.py) or the R scripts (default = both set to TRUE)
+run_main_pipe=TRUE
+run_r_scripts=TRUE
 
 ## Specify path to  parameter tables
 path=$'/raven/u/flobnow/pipeline/pending_processing/TEST_BATCH/Input/parameter_tables'
@@ -28,18 +21,49 @@ path=$'/raven/u/flobnow/pipeline/pending_processing/TEST_BATCH/Input/parameter_t
 ## Scripts folder
 cd /raven/u/flobnow/dynamics_pipeline_v2
 
-## Cores for parallel processing in R
-export NUMEXPR_MAX_THREADS=144
-export OMP_NUM_THREADS=144
+## Run scripts
+if [ "$run_main_pipe" = TRUE ]; then
 
-# Run scripts
-## Python scripts
-python mission_control.py $path 12
+    # Load all needed packages
+    module purge
+    module load jdk/8.265 gcc/10 impi/2021.2 fftw-mpi
+    module load R/4.0.2
+    echo 'modules loaded'
 
-# Run R Scripts
-Rscript --vanilla --verbose r_scripts/extract_intensity.R $path
-Rscript --vanilla --verbose r_scripts/colocalization.R $path
-Rscript --vanilla --verbose r_scripts/compile_tables.R $path
-## Rscript --vanilla --verbose r_scripts/compress_everything.R $path
+    # Activate conda environment
+    echo 'run_main_pipe = TRUE'
+    conda activate dynamics_pipeline
+    echo 'environment dynamics_pipeline activated'
+
+    # Run main pipeline
+    python mission_control.py $path 12 ; echo 'end of mission_control.py'
+    conda deactivate
+else
+    echo 'run_main_pipe = FALSE, skipping mission_control.py'
+fi
+
+# Activate r_scripts environment if run_r_scripts = TRUE
+if [ "$run_r_scripts" = TRUE ]; then
+    ## Cores for parallel processing in R
+    export NUMEXPR_MAX_THREADS=144
+    export OMP_NUM_THREADS=144
+
+    echo 'run_r_scripts = TRUE'
+    source /u/flobnow/dynamics_pipeline_v2/dypi_env/.venv/bin/activate
+    echo 'uv environment activated'
+    conda deactivate
+    conda activate rdpipe
+    echo 'rdpipe env activated'
+
+    # Run R Scripts
+    Rscript --vanilla --verbose r_scripts/extract_intensity.R $path ; echo 'end of extract_intensity.R'
+    Rscript --vanilla --verbose r_scripts/colocalization.R $path    ; echo 'end of colocalization.R'
+    Rscript --vanilla --verbose r_scripts/compile_tables.R $path    ; echo 'end of compile_tables.R'
+    ## Rscript --vanilla --verbose r_scripts/compress_everything.R $path
+else
+    echo 'run_r_scripts = FALSE, skipping r_scripts'
+fi
+
+echo 'end of submit_node.sh script'
 
 sleep 3

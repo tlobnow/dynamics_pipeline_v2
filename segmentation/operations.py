@@ -257,11 +257,14 @@ def make_area_list(substack_segmentation_image, puncta_diameter):
             # Get height
             height = metadata['parameter'] == 'height'
             height = metadata[height]['value']
-            height = int(height)
+            # height = int(height)
+            height = int(height.iloc[0]) if isinstance(height, pd.Series) else int(height)
             # Get width
             width = metadata['parameter'] == 'width'
             width = metadata[width]['value']
-            width = int(width)
+            # width = int(width)
+            width = int(width.iloc[0]) if isinstance(width, pd.Series) else int(width)
+            # Get area
             area = str(height * width)
             # Save table
             with open(save_path, 'w') as f:

@@ -15,51 +15,45 @@ def processing_paths(directories_table):
         input_path = input_path.to_string(index=False).strip()
         # Create if it doesn't exist
         if not os.path.exists(input_path):
-            os.makedirs(input_path)
+            os.makedirs(input_path, exist_ok=True)
 
         # Processing path
         processing_path = directory_list.loc[directory_list['contains'] == 'processing']['path']
         processing_path = processing_path.to_string(index=False).strip()
         # Create if it doesn't exist
-        if not os.path.exists(processing_path):
-            os.makedirs(processing_path)
-
+        os.makedirs(processing_path, exist_ok=True)
+        
         # Ligand path
         ligand_path = os.path.join(processing_path, "00_Ligand")
         # Create if it doesn't exist
-        if not os.path.exists(ligand_path):
-            os.makedirs(ligand_path)
+        os.makedirs(ligand_path, exist_ok=True)
 
         # From proprietary file to TIFF output path
         to_tiff_path = os.path.join(processing_path, "01_Convert_to_TIFF")
         # Create if it doesn't exist
-        if not os.path.exists(to_tiff_path):
-            os.makedirs(to_tiff_path)
+        os.makedirs(to_tiff_path, exist_ok=True)
+            
 
         # Background remove output path
         background_remove_path = os.path.join(processing_path, "02_Remove_Backgrounds")
         # Create if it doesn't exist
-        if not os.path.exists(background_remove_path):
-            os.makedirs(background_remove_path)
-
+        os.makedirs(background_remove_path, exist_ok=True)
+            
         # Segmentation output path
         segmentation_path = os.path.join(processing_path, "03_Segment")
         # Create if it doesn't exist
-        if not os.path.exists(segmentation_path):
-            os.makedirs(segmentation_path)
+        os.makedirs(segmentation_path, exist_ok=True)
 
         # Tracking output path
         tracking_path = os.path.join(processing_path, "04_Track")
         # Create if it doesn't exist
-        if not os.path.exists(tracking_path):
-            os.makedirs(tracking_path)
+        os.makedirs(tracking_path, exist_ok=True)
 
         # Final output path
         output_path = directory_list.loc[directory_list['contains'] == 'output']['path']
         output_path = output_path.to_string(index=False).strip()
         # Create if it doesn't exist
-        if not os.path.exists(output_path):
-            os.makedirs(output_path)
+        os.makedirs(output_path, exist_ok=True)
 
         # Dark frames path
         dark_frames_path = directory_list.loc[directory_list['contains'] == 'dark_frames']['path']

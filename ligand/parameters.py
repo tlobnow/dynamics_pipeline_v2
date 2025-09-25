@@ -17,18 +17,18 @@ def get_ligand_images(parameter_tables):
     processing_path = processing_path.to_string(index=False).strip()
     # Create if it doesn't exist
     if not os.path.exists(processing_path):
-        os.makedirs(processing_path)
+        os.makedirs(processing_path, exist_ok=True)
     ligand_processing_path = os.path.join(processing_path, '00_Ligand')
     # Create if it doesn't exist
     if not os.path.exists(ligand_processing_path):
-        os.makedirs(ligand_processing_path)
+        os.makedirs(ligand_processing_path, exist_ok=True)
 
     # Output path
     output_path = directory_list.loc[directory_list['contains'] == 'output']['path']
     output_path = output_path.to_string(index=False).strip()
     # Create if it doesn't exist
     if not os.path.exists(output_path):
-        os.makedirs(output_path)
+        os.makedirs(output_path, exist_ok=True)
 
     # Get ligand table
     ligand_list = os.path.join(parameter_tables, 'ligand.csv')

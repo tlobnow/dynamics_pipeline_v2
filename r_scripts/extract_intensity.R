@@ -8,8 +8,17 @@ unlink(".RData")
 ##############
 
 # parameters_path = "/raven/u/deliz/new_pipeline/20220425/Input/parameter_tables"
+# parameters_path = "/Users/u_lobnow/Desktop/TEST_BATCH_SUCCESS/Input/parameter_tables"
+# parameters_path = "/Users/u_lobnow/Desktop/TEST_BATCH/Input/parameter_tables"
+# parameters_path = "/Users/u_lobnow/Desktop/20250522_batch/Input/parameter_tables"
+# parameters_path = "/raven/u/flobnow/pipeline/pending_processing/TEST_BATCH/Input/parameter_tables"
+
 new_image_ending = "_intensity_ref.tif"
 results_table_name = "_intensity.csv.gz"
+
+##############
+# Run Script #
+##############
 
 # Blow circle k times. For a GFP calibration,
 ## k=11 was picked because a.u. is 0.387% different to k=51
@@ -17,20 +26,19 @@ results_table_name = "_intensity.csv.gz"
 ## Ideally odd number
 k <- 11
 
+# Libraries----
+if (!requireNamespace("pacman", quietly = TRUE)) {stop("Package 'pacman' is not installed. Please install it before running.")}
+pacman::p_load(dplyr, stringr, parallel, tidyr, data.table, ff, dtplyr, compiler, ijtiff)
+print("All libraries loaded")
+
+# Parallel + JIT setup
+ncores <- parallel::detectCores(logical = FALSE)                                # Set the number of threads to use
+setDTthreads(ncores)
+enableJIT(3) # aggressive JIT                                                   # Enable Just-In-Time compilation. This means that the code will be compiled before execution, which can speed up the code. The number 3 is the level of optimization.
+
 ##############
 # Run Script #
 ##############
-
-# Libraries----
-# Ease library loading
-if("pacman" %in% rownames(installed.packages()) == FALSE)
-{install.packages("pacman")}
-# Actually load libraries
-pacman::p_load(dplyr, parallel, tidyr, data.table, ff, ijtiff, XML, dtplyr, compiler)
-
-# Compile functions before running
-setDTthreads(detectCores(logical = F))
-enableJIT(3)
 
 # Parameters----
 # Get directories
@@ -372,7 +380,7 @@ XMLtoTableFx <- function(FileX){
     return(save_path)
   }, error = function(e){print(paste("ERROR with XMLtoTableFx FileX =", FileX))})
 }
-ResultsPath <- mclapply(1:NROW(xml_list), XMLtoTableFx, mc.cores = detectCores(logical = F))
+ResultsPath <- mclapply(1:NROW(xml_list), XMLtoTableFx)#, mc.cores = detectCores(logical = F))
 
 # Make vector of paths
 ResultsPath <- as.vector(ResultsPath)
@@ -443,187 +451,191 @@ MatrixToTable <- function(x, df){
 }
 
 # Extract intensity
-ExtractFx <- function(FileX){
+# FileX = 1
+ExtractFx <- function(FileX) {
   tryCatch({
-    print(paste("ExtractFx FileX =", FileX))
+    message("=== ExtractFx started for FileX = ", FileX, " ===")
     
-    # Get file list
-    temp_file_list <-
-      file_list %>% 
-      filter(
-        image == image_list[FileX]
-      ) %>% 
+    # -------------------------------
+    # 1. Load file list entry
+    # -------------------------------
+    temp_file_list <- file_list %>%
+      filter(image == image_list[FileX]) %>%
       as.data.table()
-    # Get img metadata to exclude tracks that touch border
+    
+    if (nrow(temp_file_list) == 0) {
+      stop("No matching entries found in file_list for FileX = ", FileX)
+    }
+    message("Loaded file entry for image: ", temp_file_list$image)
+    
+    # -------------------------------
+    # 2. Load metadata
+    # -------------------------------
     img_meta <- read_tags(temp_file_list$image)
     
-    # Get constants
-    k2_r <- 1/k^2
-    r <- puncta_radius
-    d <- r*2
-    new_scale = k*d
-    lim_r <- (d*k)-1
-    lim_x_max = img_meta$frame1$width
-    lim_y_max = img_meta$frame1$length
+    if (length(img_meta) == 0) {
+      stop("No metadata found for image: ", temp_file_list$image)
+    }
     
-    # Get cell data
+    # grab the first frame's metadata
+    first_frame <- img_meta[[1]]
+    if (is.null(first_frame$ImageWidth) || is.null(first_frame$ImageLength)) {
+      stop("Metadata does not contain ImageWidth/ImageLength for: ", temp_file_list$image)
+    }
+    
+    lim_x_max <- first_frame$ImageWidth
+    lim_y_max <- first_frame$ImageLength
+    message("Image dimensions detected: width=", lim_x_max, ", height=", lim_y_max)
+    
+    # -------------------------------
+    # 3. Constants
+    # -------------------------------
+    k2_r <- 1 / k^2
+    r <- puncta_radius
+    d <- r * 2
+    new_scale <- k * d
+    lim_r <- (d * k) - 1
+    
+    # -------------------------------
+    # 4. Load cell data
+    # -------------------------------
     TempTable <- fread(temp_file_list$coordinates_output[1])
-    TempTable <-
-      TempTable %>%
-      filter(PROTEIN == temp_file_list$protein_name[1]) %>% 
-      group_by(
-        UNIVERSAL_SPOT_ID
-      ) %>% 
+    if (nrow(TempTable) == 0) {
+      stop("Coordinates table empty: ", temp_file_list$coordinates_output[1])
+    }
+    
+    message("Coordinates table loaded with ", nrow(TempTable), " rows")
+    
+    TempTable <- TempTable %>%
+      filter(PROTEIN == temp_file_list$protein_name[1]) %>%
+      group_by(UNIVERSAL_SPOT_ID) %>%
       mutate(
         x = POSITION_X + 1,
-        y = POSITION_Y + 1
-      ) %>% 
-      mutate(
+        y = POSITION_Y + 1,
         x_min = floor(x - r),
         x_max = ceiling(x + r),
         y_min = floor(y - r),
-        y_max = ceiling(y + r)
-      ) %>% 
-      mutate(
+        y_max = ceiling(y + r),
         test = (y_max < lim_y_max) & (x_max < lim_x_max) & (x_min > 0 & y_min > 0)
-      ) %>% 
-      group_by(
-        UNIVERSAL_TRACK_ID
-      ) %>% 
-      filter(
-        sum(!test) == 0
-      ) %>% 
-      arrange(
-        FRAME
-      ) %>% 
-      group_by(
-        FRAME
-      ) %>% 
-      mutate(
-        t = cur_group_id()
-      ) %>% 
+      )
+    
+    # sanity check on test
+    if (any(is.na(TempTable$test))) {
+      stop("Boundary test failed: NA values detected in 'test' column")
+    }
+    
+    TempTable <- TempTable %>%
+      group_by(UNIVERSAL_TRACK_ID) %>%
+      filter(sum(!test) == 0) %>%
+      arrange(FRAME) %>%
+      group_by(FRAME) %>%
+      mutate(t = cur_group_id()) %>%
       as.data.table()
     
-    # Read image
-    N_FRAMES = unique(TempTable$FRAME) + 1
+    if (nrow(TempTable) == 0) {
+      stop("No valid puncta survived filtering (all touching boundaries?)")
+    }
+    message("Filtered table has ", nrow(TempTable), " rows after border check")
+    
+    # -------------------------------
+    # 5. Read image
+    # -------------------------------
+    N_FRAMES <- unique(TempTable$FRAME) + 1
     img <- read_tif(temp_file_list$image, frames = N_FRAMES, msg = FALSE)
-    # Split image
     img_frames <- lapply(1:NROW(N_FRAMES), split_img, img)
     
-    # Make mask
-    circle_mask = (rep(1:new_scale, new_scale) - (r*k+.5))^2 + (rep(1:new_scale, each=new_scale) - (r*k+.5))^2 <= (r*k)^2
-    circle_mask = matrix(circle_mask, nrow = new_scale)
-    circle_mask_list <- list()
-    circle_mask_list[[1]] <- circle_mask
+    # -------------------------------
+    # 6. Circle mask
+    # -------------------------------
+    circle_mask <- (rep(1:new_scale, new_scale) - (r * k + .5))^2 +
+      (rep(1:new_scale, each = new_scale) - (r * k + .5))^2 <= (r * k)^2
+    circle_mask <- matrix(circle_mask, nrow = new_scale)
+    circle_mask_list <- list(circle_mask)
     
-    # Expand table
-    TempTable <-
-      TempTable %>% 
-      group_by(
-        UNIVERSAL_TRACK_ID
-      ) %>% 
+    # -------------------------------
+    # 7. Expand table
+    # -------------------------------
+    TempTable <- TempTable %>%
+      group_by(UNIVERSAL_TRACK_ID) %>%
       mutate(
-        expand_x_min = (x-r) - x_min + 1,
-        expand_y_min = (y-r) - y_min + 1
-      ) %>% 
-      mutate(
-        expand_x_min = round(expand_x_min*k),
-        expand_y_min = round(expand_y_min*k),
+        expand_x_min = round(((x - r) - x_min + 1) * k),
+        expand_y_min = round(((y - r) - y_min + 1) * k),
         expand_x_max = expand_x_min + lim_r,
-        expand_y_max = expand_y_min + lim_r
-      ) %>% 
-      mutate(
+        expand_y_max = expand_y_min + lim_r,
         rows = y_max - y_min + 1,
         cols = x_max - x_min + 1
-      ) %>% 
+      ) %>%
       as.data.table()
     
-    # Get only select variables (for faster loops)
-    SplitTempTable <-
-      TempTable %>% 
-      select(
-        t,
-        x_min, x_max, y_min, y_max,
-        expand_x_min, expand_x_max, expand_y_min, expand_y_max,
-        rows, cols
-      ) %>% 
-      arrange(
-        t
-      ) %>% 
-      mutate(
-        SpotID = 1:n()
-      ) %>% 
-      as_tibble() %>% 
-      group_split(
-        t
-      )
-    # Make it a table
+    # -------------------------------
+    # 8. Prepare split tables
+    # -------------------------------
+    SplitTempTable <- TempTable %>%
+      select(t, x_min, x_max, y_min, y_max,
+             expand_x_min, expand_x_max, expand_y_min, expand_y_max,
+             rows, cols) %>%
+      arrange(t) %>%
+      mutate(SpotID = 1:n()) %>%
+      as_tibble() %>%
+      group_split(t)
     SplitTempTable <- lapply(SplitTempTable, as.data.table)
     
-    # Pull intensities from circle
-    Intensities <- mapply(IntensityFx, SplitTempTable, img_frames, circle_mask_list, k, k2_r)#, mc.cores = detectCores(logical = F))
-    # Merge spots
+    # -------------------------------
+    # 9. Intensities
+    # -------------------------------
+    Intensities <- mapply(IntensityFx, SplitTempTable, img_frames,
+                          circle_mask_list, k, k2_r)
     Intensities <- lapply(1:NCOL(Intensities), MatrixToTable, Intensities)
     Intensities <- rbindlist(Intensities)
     
-    # Remove unnecessary columns
-    TempTable <-
-      TempTable %>% 
-      select(-c(
-        x, y, t,
-        x_min, x_max, y_min, y_max, test,
-        expand_x_min, expand_x_max, expand_y_min, expand_y_max,
-        rows, cols
-      )) %>% 
+    TempTable <- TempTable %>%
+      select(-c(x, y, t, x_min, x_max, y_min, y_max, test,
+                expand_x_min, expand_x_max, expand_y_min, expand_y_max,
+                rows, cols)) %>%
       as.data.frame()
-    # Add intensities
-    TempTable$TOTAL_INTENSITY = Intensities$Intensity
-    # Get puncta coordinates
-    TempTable <-
-      TempTable %>% 
-      group_by(
-        UNIVERSAL_SPOT_ID
-      ) %>% 
+    
+    TempTable$TOTAL_INTENSITY <- Intensities$Intensity
+    
+    TempTable <- TempTable %>%
+      group_by(UNIVERSAL_SPOT_ID) %>%
       mutate(
         POSITION_X = as.numeric(POSITION_X),
-        POSITION_Y = as.numeric(POSITION_Y)
-      ) %>% 
-      mutate(
-        ABSOLUTE_POSITION_X = CELL_POSITION_X + POSITION_X,
-        ABSOLUTE_POSITION_Y = CELL_POSITION_Y + POSITION_Y
-      ) %>% 
-      mutate(
-        ABSOLUTE_POSITION_X = ABSOLUTE_POSITION_X*CALIBRATION_UM,
-        ABSOLUTE_POSITION_Y = ABSOLUTE_POSITION_Y*CALIBRATION_UM
-      ) %>% 
+        POSITION_Y = as.numeric(POSITION_Y),
+        ABSOLUTE_POSITION_X = (CELL_POSITION_X + POSITION_X) * CALIBRATION_UM,
+        ABSOLUTE_POSITION_Y = (CELL_POSITION_Y + POSITION_Y) * CALIBRATION_UM
+      ) %>%
       as.data.frame()
     
-    # Save
+    # -------------------------------
+    # 10. Save results
+    # -------------------------------
     save_path <- paste0(temp_file_list$protein_path, "_intensity.csv.gz")
-    suppressWarnings({
-      file.remove(save_path, showWarnings = FALSE)
-    })
-    data.table::fwrite(TempTable, save_path, row.names = F, na = "")
+    suppressWarnings(file.remove(save_path))
+    data.table::fwrite(TempTable, save_path, row.names = FALSE, na = "")
+    message("Saved intensity table: ", save_path)
     
-    # Show progress
-    Progress = NROW(image_list)/10
-    Progress = round(Progress)
-    if(Progress==0){
-      Progress = 1
+    # -------------------------------
+    # 11. Progress
+    # -------------------------------
+    Progress <- max(1, round(NROW(image_list) / 10))
+    if (FileX %% Progress == 0) {
+      pct <- round(FileX / NROW(image_list) * 100)
+      message("Progress: ", pct, "% complete")
     }
     
-    if(FileX %% Progress == 0){
-      Progress = FileX/NROW(image_list)
-      Progress = Progress*100
-      Progress = round(Progress)
-      Progress = paste0("     ", Progress, "% complete")
-      print(Progress)
-    }
-    
+    message("=== ExtractFx finished for FileX = ", FileX, " ===")
     return(save_path)
-  }, error = function(e){print(paste("ERROR with ExtractFx FileX =", FileX))})
+    
+  }, error = function(e) {
+    message("!!! ERROR in ExtractFx FileX = ", FileX, " ::: ", conditionMessage(e))
+    message("Traceback:")
+    print(traceback())
+    return(NULL)
+  })
 }
-ResultsPath <- mclapply(1:NROW(image_list), ExtractFx, mc.cores = detectCores(logical = F))
+
+ResultsPath <- mclapply(1:NROW(image_list), ExtractFx, mc.cores = detectCores(logical = T))
+# ResultsPath <- lapply(1:NROW(image_list), ExtractFx)
 ResultsPath <- unlist(ResultsPath)
 
 # Get images path
@@ -669,4 +681,7 @@ if(NROW(list.files(ProcessingFolder)) == 0){
 
 print('extract_intensity.R is now complete')
 
-Sys.sleep(5)
+print("R session info:")
+sessionInfo()
+
+Sys.sleep(3)

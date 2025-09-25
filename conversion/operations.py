@@ -29,7 +29,7 @@ def nd2_to_tiff(image_x_path, image_x_cohort, image_x_channels, to_tiff_path, ti
         save_path = os.path.join(to_tiff_path, image_x_cohort, image_x_name)
 
         if not os.path.exists(save_path):
-            os.makedirs(save_path)
+            os.makedirs(save_path, exist_ok=True)
     except Exception as e:
         print('Image parameters error')
         print(f"Error: {e}")

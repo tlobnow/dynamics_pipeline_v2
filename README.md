@@ -7,7 +7,7 @@ Follow this guide, step by step
 ## Requirements
 
 - Linux cluster (Raven)
-- R 4.2
+- R 4.3
 
 ## **1. Connect to the Cluster**
 
@@ -73,14 +73,10 @@ Match canonical host raven*,viper*
 # It's possible to add more users here (not recommended for default users)
 # Match user <USER> host gate1,gate2,raven,viper
 #    IdentityFile ~/.ssh/id_<USER>
+
 ```
 
-
-⚠️
-
-After adding this on the cluster, it’s important to create the same file locally (new terminal window, not connected to the cluster) and paste the same info, otherwise the tunnel won’t work.
-
-</aside>
+⚠️ After adding this on the cluster, it’s important to create the same file locally (new terminal window, not connected to the cluster) and paste the same info, otherwise the tunnel won’t work.
 
 ### Use the tunnel
 
@@ -94,7 +90,7 @@ After adding this information to your `~/.ssh/config` files, you can now log in 
 
 ### **File Transfer**
 
-You can transfer files to/from the cluster using `rsync` or `scp`. This only works from your local machine, not directly from the cluster! 
+You can transfer files to/from the cluster using `rsync` or `scp`. This only works from your local machine, not directly from the cluster!
 
 `rsync` checks timestamps and sizes to avoid re-transferring files. For instance, from your local machine, you can transfer a folder to and from a remote. The slash (/) at the end of the directory name instructs rsync to synchronize the entire directories:
 
@@ -118,27 +114,44 @@ On the cluster, you should see the files we uploaded when typing `ls`.
 
 ---
 
-## 4. Prepare Pipeline Environment (libtiff, R packages, Fiji)
+## 4. Prepare Pipeline Environment
 
 ### 4.1 Unpack resources
 
 ```bash
+# extract zip files
 unzip dynamics_pipeline_v2.zip
 unzip fiji-linux64.zip
+
+# extract tarballs
 tar -xvzf dark_frames.tar.gz
 tar -xvzf TEST_BATCH.tar.gz
 ```
 
-### 4.2 Install libtiff
+### 4.2 Install Conda
 
 ```bash
-source ~/dynamics_pipeline_v2/libtiff_setup.sh
+cd
+bash Miniconda3-latest-Linux-x86_64.sh
+# follow the instructions, type 'yes' when prompted
+export PATH=~/miniconda/bin:$PATH
+export PATH=~/miniconda3/bin:$PATH
+source ~/miniconda3/bin/activate
 ```
 
-### 4.3 Install R packages
+### 4.3 Create Conda environment
 
 ```bash
-bash ~/dynamics_pipeline_v2/r_pkg_setup.sh
+# install general and R packages that need R 4.3
+conda create -n r-xml-env -c conda-forge r-base=4.3 r-xml r-data.table r-dplyr pkg-config libtiff zlib libjpeg-turbo javabridge python=3.8
+
+conda activate r-xml-env
+
+R # should load R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+
+install.packages("pacman") # type [1] to select a mirror (any number should work)
+
+pacman::p_load(XML, dplyr, data.table, parallel, tidyr, ff, changepoint, compiler, stringr, dtplyr, RANN, R.utils, ijtiff) # will take a while
 ```
 
 ---
@@ -149,9 +162,10 @@ Install this python package manager (much faster and more reliable than pip):
 
 ```bash
 cd
-curl -LsSf https://astral.sh/uv/install.sh | sh
+curl -LsSf <https://astral.sh/uv/install.sh> | sh
 ## or alternatively
-# wget -qO- https://astral.sh/uv/install.sh | sh
+# wget -qO- <https://astral.sh/uv/install.sh> | sh
+
 ```
 
 Prepare the environment:
@@ -165,56 +179,9 @@ echo 'export PATH="/u/$USER/dynamics_pipeline_v2/dypi_env/.venv/bin/:$PATH"' >> 
 
 ---
 
-## 6. Install Conda
-
-```bash
-cd
-bash Miniconda3-latest-Linux-x86_64.sh
-# follow the instructions, type 'yes' when prompted
-export PATH=~/miniconda/bin:$PATH
-export PATH=~/miniconda3/bin:$PATH
-source ~/miniconda3/bin/activate
-```
-
-Create a conda environment to to avoid conflicts with system R/Python.
-
-```bash
-# Create conda environment
-conda create -n dynamics_pipeline python=3.8 anaconda
-
-# follow instructions and type [y]
-```
-
-Activate the environment
-
-```bash
-conda activate dynamics_pipeline
-```
-
-Install required packages:
-
-```bash
-conda install -c conda-forge javabridge
-conda install -c conda-forge libxml2=2.13.7
-```
-
-
-⚠️
-
-If you plan to use conda for more packages and other workflows (most likely), consider creating a separate environment to avoid conflicts with system R/Python!
-
-</aside>
-
----
-
 ## [Optional] Customization
 
-
-ℹ️
-
-You can skip this section entirely if you prefer the default terminal appearance.
-
-</aside>
+ℹ️ You can skip this section entirely if you prefer the default terminal appearance.
 
 ### iTerm2 App (local)
 
@@ -230,7 +197,7 @@ Download the latest release from [https://iterm2.com/downloads.html](https://ite
 You can stylize your terminal prompt with “Oh My Posh”. This is a prompt theme engine for any shell. Many different customizations are possible. To download the latest release:
 
 ```bash
-curl -s https://ohmyposh.dev/install.sh | bash -s
+curl -s <https://ohmyposh.dev/install.sh> | bash -s
 ```
 
 Add the following font (*Meslo*) to support additional symbols. After installing it, open your terminal settings and select **"MesloLGM Nerd Font"** to ensure proper display compatibility. Type the following line to install it:
@@ -266,6 +233,7 @@ First, set up the pipeline directory with subfolders for your imaging data:
 
 ```bash
 mkdir -p ~/pipeline/{raw,pending_processing,finished}
+
 ```
 
 Then, move the provided test data (TEST_BATCH) and dark frames into place:
@@ -274,6 +242,21 @@ Then, move the provided test data (TEST_BATCH) and dark frames into place:
 mv ~/TEST_BATCH ~/pipeline/pending_processing/
 mv ~/darkframes ~/pipeline/
 ```
+
+## Adjust submit_node.sh to match path to parameters_table
+
+```bash
+cd ~/dynamics_pipeline_v2
+nano submit_node.sh
+```
+
+Change this path to match your `<USER>` name
+
+`path=$'/raven/u/<USER>/pipeline/pending_processing/TEST_BATCH/Input/parameter_tables’`
+
+## Start the Pipeline
+
+In the command line, type `sbatch submit_node.sh` to start your job on the cluster.
 
 ## Input: The parameter_tables
 
@@ -305,9 +288,11 @@ The table contains the image names of the dark frame average and their exposures
 
 | image | exposure |
 | --- | --- |
-| 20201026 Darkfield 200ms binned.tif | 200 ms |
-| 20201026 Darkfield 50ms binned.tif | 50 ms |
-| 20201026 Darkfield 100ms binned.tif | 100 ms |
+| 20220530 Darkfield 60 ms binned 001.tif | 60 ms |
+| 20220530 Darkfield 100 ms binned 002.tif | 100 ms |
+| 20220530 Darkfield 200 ms binned 005.tif | 200 ms |
+| 20220530 Darkfield 300 ms binned 003.tif | 300 ms |
+| 20220530 Darkfield 400 ms binned 004.tif | 300 ms |
 
 ### constants.csv
 
@@ -339,7 +324,7 @@ WideField
 
 ---
 
-### example images.csv (old, does not reflect TEST_BATCH)
+### example images.csv
 
 | image | cohort | segment_with | ligand | ligand_density | trackmate_max_link_distance | trackmate_threshold | trackmate_frame_gap | T Cy5 protein_name | T GFP protein_name | T RFP protein_name | WideField protein_name |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -349,13 +334,16 @@ WideField
 
 ## Start the pipeline using SLURM
 
-You need to be connected to the cluster computer (Raven etc.)
-Modify the parameters of `submit_node.sh` accordingly
-Paste `sbatch submit_node.sh` to submit to SLURM
+You need to be connected to the cluster computer (Raven etc.).
+Modify the parameters of `submit_node.sh` accordingly.
+Paste `sbatch submit_node.sh` to submit your job on the cluster.
 
 ## Output Documentation
 
-The pipeline generates two main compressed CSV files: `essentials.csv.gz` and `parameters.csv.gz`. Below is the documentation of their content.
+The pipeline processes your images by converting the nd2 files to a more readable TIFF format, extracts the image metadata, subtracts background, segments the cells, creates tracking and intensity images, tracks puncta, and normalizes your data.  Information from this part is stored in XML files for each cell.
+The R scripts are used to extract the XMLs and to colocalize the different channels you imaged. In the end, this generates two main compressed CSV files: `essentials.csv.gz` and `parameters.csv.gz`. Below is the documentation of their content.
+
+Load the `Essentials.csv.gz` in R for your downstream analysis.
 
 ### Essentials.csv.gz
 

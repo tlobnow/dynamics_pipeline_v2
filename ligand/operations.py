@@ -34,7 +34,7 @@ def make_tiff(image_x_path, img_processing_path, tiff_path, ligand_puncta_radius
         save_path = img_processing_path
         # Create if it doesn't exist
         if not os.path.exists(save_path):
-            os.makedirs(save_path)
+            os.makedirs(save_path, exist_ok=True)
     except:
         print('Cannot create image path')
 
