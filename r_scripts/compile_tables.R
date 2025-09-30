@@ -4,15 +4,6 @@ parameters_path = args[1]
 unlink(".RData")
 
 ##############
-# User Input #
-##############
-
-# parameters_path = "~/Desktop/20230623_batch/Input/parameter_tables/"
-# parameters_path = "/Users/u_lobnow/Desktop/20230623_batch_processed/Input/parameter_tables"
-# parameters_path = "/Users/u_lobnow/Desktop/TEST_BATCH_SUCCESS/Input/parameter_tables"
-# parameters_path = "/Users/u_lobnow/Desktop/TEST_BATCH/Input/parameter_tables"
-
-##############
 # Run Script #
 ##############
 
@@ -25,8 +16,7 @@ ncores <- parallel::detectCores(logical = FALSE)                                
 setDTthreads(ncores)
 enableJIT(3) # aggressive JIT                                                   # Enable Just-In-Time compilation. This means that the code will be compiled before execution, which can speed up the code. The number 3 is the level of optimization.
 
-#source("~/Documents/Github/coding_universe/scripts/TIRF_scripts/Compile_Tables_local_Fx.R")
-source("/u/flobnow/dynamics_pipeline_v2/r_scripts/compile_tables_fx.R")
+source("/u/<USERNAME>/dynamics_pipeline_v2/r_scripts/compile_tables_fx.R")
 
 # Get directories
 intensity_ending              = "_intensity.csv.gz"

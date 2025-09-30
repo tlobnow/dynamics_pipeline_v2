@@ -7,12 +7,6 @@ unlink(".RData")
 # User Input #
 ##############
 
-# parameters_path = "/raven/u/deliz/new_pipeline/20220425/Input/parameter_tables"
-# parameters_path = "/Users/u_lobnow/Desktop/TEST_BATCH_SUCCESS/Input/parameter_tables"
-# parameters_path = "/Users/u_lobnow/Desktop/TEST_BATCH/Input/parameter_tables"
-# parameters_path = "/Users/u_lobnow/Desktop/20250522_batch/Input/parameter_tables"
-# parameters_path = "/raven/u/flobnow/pipeline/pending_processing/TEST_BATCH/Input/parameter_tables"
-
 new_image_ending = "_intensity_ref.tif"
 results_table_name = "_intensity.csv.gz"
 

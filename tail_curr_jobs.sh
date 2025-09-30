@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Continuously monitor the latest SLURM job output and error files for the current user.
+# Adjust the `path`, `runtime`, `interval`, and `n_lines` variables as needed.
+
 path="/u/$USER/dynamics_pipeline_v2/slurm_reports"
 runtime="600 minute"  # 10 hours
 interval=3             # seconds between updates
