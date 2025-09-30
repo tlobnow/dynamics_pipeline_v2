@@ -22,7 +22,7 @@ Packaged for use on **Raven**.
 ---
 
 ## 1. Cluster Login & SSH Tunnel
-### 🔑 Log in to the Cluster
+### 1.1 🔑 Log in to the Cluster
 
 From your local machine:
 
@@ -31,7 +31,7 @@ ssh <USERNAME>@raven.mpcdf.mpg.de
 ```
 > ⚠️  Set up this [SSH config](#-ssh-setup) so you can just type `ssh raven` to upload/download files from/to the cluster and stay logged in a long time.
 
-### 📥 Transfer Pipeline & Test Data
+### 1.2 📥 Transfer Pipeline & Test Data
 
 Open a new terminal window on your **LOCAL machine** (NOT the cluster) and have access to the **DATA-TAY** as per IT instructions.
 
@@ -43,13 +43,18 @@ On the cluster, confirm that the files arrived:
 
 ```bash
 ls
-# should now list dynamics_pipeline_v2.zip, fiji-linux64.zip, dark_frames.tar.gz, BATCH.tar.gz, and Miniconda3-latest-Linux-x86_64.sh
+# should now list:
+#   dynamics_pipeline_v2.zip
+#   fiji-linux64.zip
+#   dark_frames.tar.gz
+#   BATCH.tar.gz
+#   Miniconda3-latest-Linux-x86_64.sh
 ```
 
 ---
 
 ## 2. Environment Setup
-### Unpack resources
+### 2.1 Unpack resources
 
 ```bash
 cd
@@ -60,12 +65,16 @@ tar -xvzf dark_frames.tar.gz
 tar -xvzf TEST_BATCH.tar.gz
 ```
 
-### Conda & R setup
+### 2.2 Conda & R setup
 
 Install Miniconda (if not already installed):
 
 ```bash
-bash Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh # follow the instructions, type 'yes' when prompted
+
+# add conda to your PATH
+export PATH=~/miniconda/bin:$PATH
+export PATH=~/miniconda3/bin:$PATH
 source ~/miniconda3/bin/activate
 ```
 
@@ -102,7 +111,7 @@ pacman::p_load(XML, dplyr, data.table, parallel, tidyr, ff, changepoint, compile
 ```
 > ✅ You only do this once per user account.
 
-### Install UV (Python package manager)
+### 2.3 Install UV (Python package manager)
 
 ```bash
 cd ~/dynamics_pipeline_v2/dypi_env
@@ -121,7 +130,7 @@ source ~/.bashrc
 ---
 
 ## 3. Run the Test Batch
-### Create folder structure
+### 3.1 Create folder structure
 
 ```bash
 mkdir -p ~/pipeline/{raw,pending_processing,finished}
@@ -153,14 +162,14 @@ cd ~/dynamics_pipeline_v2
 grep -rl '<USERNAME>' . | xargs sed -i 's/<USERNAME>/your_actual_username/g'
 ```
 
-## Start the pipeline
+### 3.2 Start the pipeline
 
 ```bash
 cd ~/dynamics_pipeline_v2
 sbatch submit_node.sh # adjust submit_node.sh to match your batch names for future runs
 ```
 
-### Monitor job status
+### 3.3 Monitor job status
 
 ```bash
 # check your job status with
@@ -173,7 +182,7 @@ squeue -u $USER
 ./tail_current_jobs.sh
 ```
 
-### Check output
+### 3.4 Check output
 After the job completes, check the output files in:
 
 ```bash
@@ -185,7 +194,8 @@ ls ~/dynamics_pipeline_v2/slurm_reports/
 
 ```
 
-You can now download these files to your local machine for further analysis or install and configure Studio Visual Code to connect to the cluster and work directly there.
+### 3.5 Download output files
+Download to your local machine for further analysis or install and configure [Visual Studio Code](https://code.visualstudio.com/) to connect to the cluster and work directly there.
 Use `rsync` or `scp` to download the output files to your local machine:
 
 > ⚠️  Run this command from your **LOCAL machine**, NOT the cluster!
@@ -193,10 +203,22 @@ Use `rsync` or `scp` to download the output files to your local machine:
 ```bash
 rsync -a raven:/u/<USERNAME>/pipeline/pending_processing/BATCH/Output/ ~/local_folder/
 ```
+---
+
+## 4. Analyze Your Own Data
+
+1. Prepare your raw images in `~/pipeline/raw/<your_analysis_folder>/`
+2. Create a new analysis folder under `pending_processing/<your_analysis_folder>/`
+3. Copy and adjust the `parameter_tables` (see Parameter Tables)
+4. Update `directories.csv` with correct paths (absolute paths required)
+5. Edit `submit_node.sh` to point to your new batch’s parameter table
+6. Submit the job: `sbatch submit_node.sh`
+7. Monitor job status and check output as before
 
 ---
 
-# SSH Setup
+## Additional Information
+### SSH Setup
 
 For frequent use, configure `~/.ssh/config` on both local machine and cluster:
 
@@ -261,11 +283,9 @@ Match canonical host raven*,viper*
 
 ---
 
-# Parameter Tables
+### Parameter Tables
 These CSV files configure each run.
 Templates are provided in the test batch.
-
-
 
 File | Purpose
 ---- | -------
@@ -277,7 +297,7 @@ images.csv | Metadata for each image
 
 ---
 
-# 📤 Output Files
+### Output Files
 
 Main outputs in Output/:
 - `essentials.csv.gz`: Key results for each detected cluster
@@ -285,368 +305,20 @@ Main outputs in Output/:
 
 ---
 
-# Optional Customization
+### Optional Customization
 You can improve terminal readability with:
 
 - [iTerm2](https://iterm2.com/) on macOS
 - [Oh My Posh](https://ohmyposh.dev/) for prompt theming
 
-
-
-
-
-
-
-
-
-
-
-# Installation
-
-Follow this guide, step by step
-
-## Requirements
-
-- Linux cluster (Raven)
-- R 4.3
-
-## **1. Connect to the Cluster**
-
-Paste the following in the terminal (**change `<USERNAME>` to your user name**):
-
-```bash
-ssh <USERNAME>@raven.mpcdf.mpg.de
-```
-
-On the cluster computer, your `<USERNAME>` will be available as `$USER`
-
----
-
-## **2. Set Up SSH Tunnel and File Transfer**
-
-### Configure SSH
-
-Create `~/.ssh/config`  by typing `nano ~/.ssh/config` . Paste the following snippet into your `~/.ssh/config` file. This creates the infrastructure necessary for extended logins and file transfers. Change the `<USERNAME>` to match your user name on the cluster.
-
-```bash
-Host *
-    ControlMaster auto
-    ControlPath ~/.ssh/control-%h-%p-%r
-    ControlPersist yes
-    LogLevel ERROR
-    Port 22
-    StrictHostKeyChecking ask
-    UserKnownHostsFile ~/.ssh/known_hosts
-
-Host gate1 gate2 raven viper
-    User <USERNAME>
-    HostName %h.mpcdf.mpg.de
-    GSSAPIAuthentication yes
-    GSSAPIDelegateCredentials yes
-
-Host raven viper
-    ProxyJump gate1
-
-Host github.com
-        HostName github.com
-        User git
-        IdentityFile ~/.ssh/id_ed25519
-        IdentitiesOnly yes
-
-# Correctly resolve short names of gateway machines and HPC nodes
-Match originalhost gate*,raven,viper
-    CanonicalDomains mpcdf.mpg.de
-    CanonicalizeFallbackLocal no
-    CanonicalizeHostname yes
-
-# Keep a tunnel open for the day when accessing the gate machines
-Match canonical host gate*
-    User <USERNAME>
-    Compression yes
-    ServerAliveInterval 120
-
-# Keep a tunnel open for the day when accessing the HPC nodes
-Match canonical host raven*,viper*
-    User <USERNAME>
-    Compression yes
-    ProxyJump gate1
-
-# It's possible to add more users here (not recommended for default users)
-# Match user <USER> host gate1,gate2,raven,viper
-#    IdentityFile ~/.ssh/id_<USER>
-
-```
-
-⚠️ After adding this on the cluster, it’s important to create the same file locally (new terminal window, not connected to the cluster) and paste the same info, otherwise the tunnel won’t work.
-
-### Use the tunnel
-
-Try to connect to the cluster again, this time with:
-
-```bash
-ssh raven
-```
-
-After adding this information to your `~/.ssh/config` files, you can now log in to raven using only `ssh raven`, type in your password and OTP once and stay logged in for 8 hours.
-
-### **File Transfer**
-
-You can transfer files to/from the cluster using `rsync` or `scp`. This only works from your local machine, not directly from the cluster!
-
-`rsync` checks timestamps and sizes to avoid re-transferring files. For instance, from your local machine, you can transfer a folder to and from a remote. The slash (/) at the end of the directory name instructs rsync to synchronize the entire directories:
-
-```bash
-## rsync principle (actual use case in the next code chunk below)
-rsync −a /path/to/dir/ <REMOTE>:dir/
-rsync −a <REMOTE>:dir/ /path/to/dir/
-```
-
----
-
-## **3. Clone the Repository**
-
-We want to use `rsync` to transfer three important zipped (tarball ~ zip file) files onto the cluster. They are stored on `data-tay` (your first email from IT contains all the info on how to connect).
-
-```bash
-rsync -a /Volumes/TAYLOR-LAB/Finn_v2/PIPELINE_RESOURCES/ raven:/u/<USER>/
-```
-
-On the cluster, you should see the files we uploaded when typing `ls`.
-
----
-
-## 4. Prepare Pipeline Environment
-
-### 4.1 Unpack resources
-
-```bash
-# extract zip files
-unzip dynamics_pipeline_v2.zip
-unzip fiji-linux64.zip
-
-# extract tarballs
-tar -xvzf dark_frames.tar.gz
-tar -xvzf TEST_BATCH.tar.gz
-```
-
-### 4.2 Install Conda
-
-```bash
-cd
-bash Miniconda3-latest-Linux-x86_64.sh
-# follow the instructions, type 'yes' when prompted
-export PATH=~/miniconda/bin:$PATH
-export PATH=~/miniconda3/bin:$PATH
-source ~/miniconda3/bin/activate
-```
-
-### 4.3 Create Conda environment
-
-```bash
-# install general and R packages that need R 4.3
-conda create -n rdpipe -c conda-forge r-base=4.3 r-xml r-data.table r-dplyr pkg-config libtiff zlib libjpeg-turbo javabridge python=3.8
-
-conda activate rdpipe
-
-R # should load R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
-
-install.packages("pacman") # type [1] to select a mirror (any number should work)
-
-pacman::p_load(XML, dplyr, data.table, parallel, tidyr, ff, changepoint, compiler, stringr, dtplyr, RANN, R.utils, ijtiff) # will take a while
-```
-
----
-
-## 5. Install UV
-
-Install this python package manager (much faster and more reliable than pip):
-
-```bash
-cd
-curl -LsSf <https://astral.sh/uv/install.sh> | sh
-## or alternatively
-# wget -qO- <https://astral.sh/uv/install.sh> | sh
-
-```
-
-Prepare the environment:
-
-```bash
-cd ~/dynamics_pipeline_v2/dypi_env
-uv sync
-# and add the environment bin to your path and to your bashrc
-echo 'export PATH="/u/$USER/dynamics_pipeline_v2/dypi_env/.venv/bin/:$PATH"' >> ~/.bashrc
-```
-
----
-
-## [Optional] Customization
-
-ℹ️ You can skip this section entirely if you prefer the default terminal appearance.
-
-### iTerm2 App (local)
-
-These steps are purely cosmetic and help make the terminal more readable and pleasant. They are **not required** for the pipeline. This remark is from the developers:
-
-> iTerm2 brings the terminal into the modern age with features you never knew you always wanted... If you spend a lot of time in a terminal, then you’ll appreciate all the little things that add up to a lot.
-> 
-
-Download the latest release from [https://iterm2.com/downloads.html](https://iterm2.com/downloads.html).
-
-### Oh My Posh (cross-platform)
-
-You can stylize your terminal prompt with “Oh My Posh”. This is a prompt theme engine for any shell. Many different customizations are possible. To download the latest release:
-
-```bash
-curl -s <https://ohmyposh.dev/install.sh> | bash -s
-```
-
-Add the following font (*Meslo*) to support additional symbols. After installing it, open your terminal settings and select **"MesloLGM Nerd Font"** to ensure proper display compatibility. Type the following line to install it:
-
-```bash
-oh−my−posh font install meslo
-```
-
-Available themes: [https://ohmyposh.dev/docs/themes](https://ohmyposh.dev/docs/themes)
-
-Built-in themes are located in: `/raven/u/$USER/.cache/oh-my-posh/themes`
-
-To load a theme automatically on login, add this to your `~/.bashrc`:
-
-```bash
-# OH-MY-POSH
-#THEME=agnoster
-#THEME=bubbles
-#THEME=probua.minimal
-#THEME=dracula
-THEME=powerlevel10k_classic
-#THEME=emodipt
-eval "$(oh-my-posh init bash --config /u/$USER/.cache/oh-my-posh/themes/${THEME}.omp.json)"
-```
-
----
-
-# 7. Input Preparation and Execution Guide
-
-## Create Folder Structure
-
-First, set up the pipeline directory with subfolders for your imaging data:
-
-```bash
-mkdir -p ~/pipeline/{raw,pending_processing,finished}
-
-```
-
-Then, move the provided test data (TEST_BATCH) and dark frames into place:
-
-```bash
-mv ~/TEST_BATCH ~/pipeline/pending_processing/
-mv ~/darkframes ~/pipeline/
-```
-
-## Adjust submit_node.sh to match path to parameters_table
-
-```bash
-cd ~/dynamics_pipeline_v2
-nano submit_node.sh
-```
-
-Change this path to match your `<USER>` name
-
-`path=$'/raven/u/<USER>/pipeline/pending_processing/TEST_BATCH/Input/parameter_tables’`
-
-## Start the Pipeline
-
-In the command line, type `sbatch submit_node.sh` to start your job on the cluster.
-
-## Input: The parameter_tables
-
-Place your input files in the parameter_tables folder inside your Input directory. For the test batch, these are already prepared, but you need to adjust fields like your username. The folder should contain the following files:
-
-- constants.csv – fixed analysis parameters
-- dark_frames.csv – camera noise reference images
-- directories.csv – paths for input, output, and processing
-- exclusion_channels.csv – channels to ignore
-- images.csv – metadata for each image
-
-### directories.csv (leave as is for TEST_BATCH, but check and adjust for your own analysis!)
-
-Adjust the paths to match the analysis batch names and replace <USER> with your own user name. Relative paths don't work here (like ~).
-
-| contains | path |
-| --- | --- |
-| input | /u/<USER>/pipeline/pending_processing/TEST_BATCH/Input |
-| processing | /u/<USER>/pipeline/pending_processing/TEST_BATCH/Processing |
-| output | /u/<USER>/pipeline/pending_processing/TEST_BATCH/Output |
-| dark_frames | /u/<USER>/pipeline/dark_frames |
-| ImageJ | /u/<USER>/Fiji.app/ImageJ-linux64 |
-
-### dark_frames.csv (leave as is for TEST_BATCH, but check for your own analysis!)
-
-The dark frame is the camera noise ([https://en.wikipedia.org/wiki/Dark-frame_subtraction](https://en.wikipedia.org/wiki/Dark-frame_subtraction)). This typically is 1000 frames averaged, though 50 frames could do, so long as the standard deviation does not change with more images added. It should be at the same exposure as the images using >
-
-The table contains the image names of the dark frame average and their exposures **with units**. You might need other darkframes, depending on your imaging settings. You can easily create your own or obtain darkframe images from other users.
-
-| image | exposure |
-| --- | --- |
-| 20220530 Darkfield 60 ms binned 001.tif | 60 ms |
-| 20220530 Darkfield 100 ms binned 002.tif | 100 ms |
-| 20220530 Darkfield 200 ms binned 005.tif | 200 ms |
-| 20220530 Darkfield 300 ms binned 003.tif | 300 ms |
-| 20220530 Darkfield 400 ms binned 004.tif | 300 ms |
-
-### constants.csv
-
-Numbers which will be constant throughout the analysis
-
-| parameter | value | comments |
-| --- | --- | --- |
-| tiff_compression_level | 5 | out of 10 |
-| cell_diameter | 25 | px, odd number |
-| puncta_diameter | 5 | px, odd number |
-
-### exclusion_channels.csv (leave as is)
-
-Channels to exclude from the pipeline analysis.
-
-value
-
----
-
-IL-1
-
----
-
-Brightfield
-
----
-
-WideField
-
----
-
-### example images.csv
-
-| image | cohort | segment_with | ligand | ligand_density | trackmate_max_link_distance | trackmate_threshold | trackmate_frame_gap | T Cy5 protein_name | T GFP protein_name | T RFP protein_name | WideField protein_name |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 20211218 0p8nM 069-1R_TRAF6_MyD88   Grid_1um_11mol 001.nd2 | MyD88 TRAF6 1um_grid | MyD88 | 0.8 nM IL-1 | 11 | 5 | 1.5 | 5 | IL-1 | MyD88 | TRAF6 | Brightfield |
-| 20211218 GFP calibration_10pct_60ms   005.nd2 | Calibrations | GFP |  |  | 2.5 | 1.5 | 5 | IL-1 | GFP | mScarlet | Brightfield |
-| 20211218 mScarlet calibration_10pct_60ms   001.nd2 | Calibrations | mScarlet |  |  | 2.5 | 1.5 | 5 | IL-1 | GFP | mScarlet | Brightfield |
-
-## Start the pipeline using SLURM
-
-You need to be connected to the cluster computer (Raven etc.).
-Modify the parameters of `submit_node.sh` accordingly.
-Paste `sbatch submit_node.sh` to submit your job on the cluster.
-
-## Output Documentation
+### Output Documentation
 
 The pipeline processes your images by converting the nd2 files to a more readable TIFF format, extracts the image metadata, subtracts background, segments the cells, creates tracking and intensity images, tracks puncta, and normalizes your data.  Information from this part is stored in XML files for each cell.
 The R scripts are used to extract the XMLs and to colocalize the different channels you imaged. In the end, this generates two main compressed CSV files: `essentials.csv.gz` and `parameters.csv.gz`. Below is the documentation of their content.
 
 Load the `Essentials.csv.gz` in R for your downstream analysis.
 
-### Essentials.csv.gz
+#### Essentials.csv.gz
 
 **Identification**
 
@@ -681,7 +353,7 @@ Load the `Essentials.csv.gz` in R for your downstream analysis.
 - `START_TO_MAX_INTENSITY`: Growth between start and max.
 - `COMPLEMENTARY_*`: Corresponding fields for additional channels.
 
-### Parameters.csv.gz
+#### Parameters.csv.gz
 
 **Other information**
 
