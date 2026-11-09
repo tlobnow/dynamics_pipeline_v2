@@ -19,6 +19,7 @@ def nearest_number(array, value):
 
 def nearest_date(array, value):
     try:
+        #value = pd.Timestamp(value)
         return min(array, key=lambda x: abs(x - value))
     except Exception as e:
         print('nearest_date error') ; print(f"Error: {e}") ; traceback.print_exc()

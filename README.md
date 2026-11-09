@@ -79,11 +79,13 @@ export PATH=~/miniconda3/bin:$PATH
 source ~/miniconda3/bin/activate
 ```
 
-To avoid conda issues with the defaults channel [see announcement from Aug 2024](https://www.theregister.com/2024/08/08/anaconda_puts_the_squeeze_on/), we need to adjust the `~/.condarc` file by replacing its contents. Open/Create the file with nano or your favorite text editor:
+To avoid accidental use of the conda _defaults_ channel, which can lead to licensing and access issues (see [announcement from Aug 2024](https://www.theregister.com/2024/08/08/anaconda_puts_the_squeeze_on/)), we will configure conda to prioritize certain channels. To do this, we need to adjust the `~/.condarc` file by replacing its contents. Open/Create the file with nano or your favorite text editor:
 
 ```bash
 nano ~/.condarc
 ```
+
+And paste/replace with the following:
 
 ```yaml
 channel_priority: strict
@@ -94,18 +96,24 @@ channels:
   - anaconda
 ```
 
+This ensures that conda no longer falls back to the restricted _defaults_ channel.
+
 Create and activate the conda environment:
+Think ab
 
 ```bash
 # create R environment with required packages
-conda create -n r-xml-env -c conda-forge r-base=4.3 r-xml r-data.table r-dplyr pkg-config libtiff zlib libjpeg-turbo javabridge python=3.8
-conda activate r-xml-env
-R --version # should show R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+conda create -n rdpipe -c conda-forge r-base=4.3 r-xml r-data.table r-dplyr pkg-config libtiff zlib libjpeg-turbo javabridge python=3.8
+conda activate rdpipe
+
+# start R to install additional packages
+R
 ```
 
 Install R packages inside the R console:
 
 ```R
+R --version # should show R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
 install.packages("pacman") # type [1] to select a mirror (any number should work)
 pacman::p_load(XML, dplyr, data.table, parallel, tidyr, ff, changepoint, compiler, stringr, dtplyr, RANN, R.utils, ijtiff) # will take a while
 # quit R by typing q() and pressing ENTER, then type 'n' when prompted to save workspace

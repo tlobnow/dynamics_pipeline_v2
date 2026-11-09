@@ -1,553 +1,519 @@
-print('Python start')
+#!/usr/bin/env python
+"""Dynamics pipeline orchestrator.
 
-import ray
-import settings.parallel
-import settings.global_variables as variables
+Runs one or more stages over the images listed in images.csv, records what
+completed in a per-image manifest, and never redoes work you did not ask it to
+redo.
+
+Layout
+------
+Point it at a parameter tables folder and everything else is derived:
+
+    <root>/2_parameter_tables/parameter_tables_IRAK2   ->  run name "IRAK2"
+    <root>/1_input                                     ->  the .nd2 files
+    <root>/3_processing/IRAK2                          ->  working data
+    <root>/4_output/IRAK2                              ->  results
+
+Typical use
+-----------
+  python mission_control.py .../parameter_tables_IRAK2 12            # outstanding work
+  python mission_control.py .../parameter_tables_IRAK2 --status      # state table
+  python mission_control.py .../parameter_tables_IRAK2 12 --stages track --force
+  python mission_control.py .../parameter_tables_IRAK2 12 --from segment
+  python mission_control.py .../parameter_tables_IRAK2 12 --images "20260807 img_03"
+
+Behaviour worth knowing
+-----------------------
+* A stage already recorded as done is skipped, and is never rerun automatically
+  -- not even when its parameters changed. Those are reported as STALE and left
+  for you to rerun explicitly with --force.
+* An image that fails a stage is quarantined: dropped from the remaining stages
+  of that run, the other images carry on, and the job exits non-zero.
+"""
+
+import argparse
 import os
-import csv
-from sys import argv
 import platform
+import sys
 import time
-import traceback
 
-print('Import complete')
+from pipeline.context import (ContextError, describe, image_folder, is_critical,
+                              is_tolerated, load_context, sync_summary,
+                              tree_state)
+from pipeline.layout import (filter_summary, filter_summary_channels,
+                             isolate_incomplete, snapshot_to_output,
+                             validate_summary)
+from pipeline.state import (DONE, FAILED, TOLERATED, Manifest, status_table)
+from pipeline.stages import (STAGE_ORDER, STAGES, UNATTRIBUTED,
+                             stage_param_hash, subset)
+from pipeline.util import log, set_log_stream
 
-'''
-ligand is separate
-'''
-
-# Path to all tables that dictate the parameters
-if not platform.system() == 'Darwin':
-    script_path, parameter_tables, use_x_cpus = argv
-    use_x_cpus = int(use_x_cpus)
-else:
-    parameter_tables = '/Users/u_lobnow/Desktop/20250522_batch/Input/parameter_tables'
-    use_x_cpus = 8
-
-print('Arguments accepted')
-
-# Import directory paths
-try:
-    # Get directories list
-    # Table needs two columns: 'contains' and 'path'
-    # 'contains' has row values: 'input', 'processing', 'output', 'dark_frames', 'ImageJ'
-    directories_table = os.path.join(parameter_tables, 'directories.csv')
-    if not os.path.exists(directories_table):
-        print('Need to create directories.csv. Sample will be inside ' + parameter_tables)
-        sample_directories_table = os.path.join(parameter_tables, 'sample directories.csv')
-        with open(sample_directories_table, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(['contains', 'path'])
-            writer.writerow(['input', 'path'])
-            writer.writerow(['processing', 'path'])
-            writer.writerow(['output', 'path'])
-            writer.writerow(['dark_frames', 'path'])
-            writer.writerow(['ImageJ', 'path'])
-    # Directories
-    input_path, ligand_path, to_tiff_path, background_remove_path, segmentation_path, tracking_path, output_path, dark_frames_path, imagej = variables.processing_paths(directories_table)
-
-    print('Successfully imported directories list')
-except Exception as e:
-    print('Could not obtain directories list') ; print(f"Error: {e}") ; traceback.print_exc()
-    #pass
-
-# Get parameters
-try:
-    # Get dark frames parameters
-    # Contains 'image' (yyyymmdd img_name) and 'exposure' (ms) of dark frames
-    dark_frames_table = os.path.join(parameter_tables, 'dark_frames.csv')
-    if not os.path.exists(dark_frames_table):
-        print('Need to create dark_frames.csv. Sample will be inside ' + parameter_tables)
-        sample_dark_frames_table = os.path.join(parameter_tables, 'sample dark_frames.csv')
-        with open(sample_dark_frames_table, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(['image', 'exposure'])
-            writer.writerow(['yyyymmdd img_name', 'ms'])
-    # Get dark frame info and add date
-    dark_frames_list = variables.dark_frame_parameters(dark_frames_table, dark_frames_path)
-
-    # Get image parameters
-    # Contains 'image' (yyyymmdd img_name), 'cohort', 'segment_with' (protein_name), 'ligand' (x_nM search_terms),
-    # 'trackmate_max_link_distance' (px),
-    # 'channel protein_name', 'channel trackmate_threshold', 'channel trackmate frame gap' (frames)
-    # Add columns as necessary
-    images_table = os.path.join(parameter_tables, 'images.csv')
-    if not os.path.exists(images_table):
-        print('Need to create images.csv. Sample will be inside ' + parameter_tables)
-        sample_images_table = os.path.join(parameter_tables, 'sample images.csv')
-        with open(sample_images_table, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(['image', 'cohort', 'segment_with', 'ligand', 'trackmate_max_link_distance',
-                             'channel protein_name', 'channel trackmate_threshold', 'channel trackmate frame gap'])
-            writer.writerow(
-                ['yyyymmdd img_name', 'cell_line drug parameters', 'protein_name', 'x nM search_terms', 'px',
-                 'protein_name', 'signal_noise_theshold', 's'])
-    # Get images info and add date
-    images_list, n_images = variables.image_parameters(images_table)
-    # Get constants
-    constants_table = os.path.join(parameter_tables, 'constants.csv')
-    if not os.path.exists(constants_table):
-        print('Need to create constants.csv. Sample will be inside ' + parameter_tables)
-        sample_constants_table = os.path.join(parameter_tables, 'sample constants.csv')
-        with open(sample_constants_table, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(['parameter', 'value', 'comments'])
-            writer.writerow(['tiff_compression_level', '0', 'out of 10'])
-            writer.writerow(['cell_diameter', '25', 'px'])
-            writer.writerow(['puncta_diameter', '5', 'px'])
-    # Get constant parameters
-    tiff_compression_level, cell_diameter, puncta_diameter = variables.constants(constants_table)
-    # Get channels to exclude
-    exclusion_table = os.path.join(parameter_tables, 'exclusion_channels.csv')
-    if not os.path.exists(exclusion_table):
-        # Get file path
-        sample_path = os.path.dirname(exclusion_table)
-        sample_table = 'sample ' + os.path.basename(exclusion_table)
-        sample_exclusion_table = os.path.join(sample_path, sample_table)
-        print('Input not accepted. Sample will be at ' + sample_exclusion_table)
-        # Create table
-        with open(sample_exclusion_table, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(['value'])
-            writer.writerow(['MyD88'])
-    if os.path.exists(exclusion_table):
-        exclusion_channels = variables.exclude_chanels(exclusion_table)
-    print('Successfully pulled parameters')
-except Exception as e:
-    print('Could not get parameters')
-    print(f"Error: {e}")
-    traceback.print_exc()
-    #pass
+MAC_DEFAULT_TABLES = '/Users/u_lobnow/Desktop/20250522_batch/Input/parameter_tables'
 
 
-# Convert nd2 to tiff
-import conversion.parameters
-import conversion.operations
-print(f"Starting Conversion of nd2 to tiff")
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(
+        description='Run selected stages of the dynamics pipeline.',
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('parameter_tables', nargs='?',
+                        help='e.g. <root>/2_parameter_tables/parameter_tables_IRAK2')
+    parser.add_argument('cpus', nargs='?', type=int, default=8,
+                        help='CPUs handed to ray (default: 8)')
+    parser.add_argument('--stages', default=None,
+                        help='Comma-separated stages to run. Default: all.')
+    parser.add_argument('--from', dest='from_stage', default=None,
+                        help='Start at this stage (inclusive).')
+    parser.add_argument('--to', dest='to_stage', default=None,
+                        help='Stop after this stage (inclusive).')
+    parser.add_argument('--images', default=None,
+                        help='Comma-separated image names to restrict this run to.')
+    parser.add_argument('--images-file', default=None,
+                        help='File with one image name per line.')
+    parser.add_argument('--cohort', default=None,
+                        help='Restrict this run to one cohort.')
+    parser.add_argument('--force', action='store_true',
+                        help='Rerun selected stages even if recorded as done.')
+    parser.add_argument('--status', action='store_true',
+                        help='Print the image x stage state table and exit.')
+    parser.add_argument('--dry-run', action='store_true',
+                        help='Show what would run, then exit.')
+    parser.add_argument('--list-stages', action='store_true',
+                        help='Print stage names in order and exit.')
+    parser.add_argument('--print-r-path', action='store_true',
+                        help='Set up the run folders and print the parameter '
+                             'tables path to hand to the R scripts, then exit.')
+    parser.add_argument('--median-parallel', action='store_true',
+                        help='Try running the median stage through ray. Off by '
+                             'default: the workers die on this cluster and the '
+                             'serial path is known to work.')
+    parser.add_argument('--median-cpus', type=int, default=None,
+                        help='Workers for --median-parallel (default: min(cpus, 4)).')
+    parser.add_argument('--strict', action='store_true',
+                        help='Ignore tolerate_failures.csv, and treat any failed '
+                             'image as fatal to the batch.')
+    parser.add_argument('--keep-incomplete', action='store_true',
+                        help='Leave partial image folders in the work tree '
+                             'instead of moving them to _incomplete/.')
+    parser.add_argument('--no-tree-check', action='store_true',
+                        help='Do not fail a stage that reports success without '
+                             'creating or modifying any file. Use if a stage '
+                             'legitimately writes nothing.')
+    parser.add_argument('--inspect', action='store_true',
+                        help='List what each selected image actually has in the '
+                             'work folder, then exit.')
+    parser.add_argument('--keep-going', action='store_true',
+                        help='Do not quarantine failed images from later stages '
+                             '(not recommended: later stages run on missing inputs).')
+    args = parser.parse_args(argv)
 
-try:
-    # Get channels to protein names table
-    channels_table = conversion.parameters.get_channels_table(images_list) ; print(f"channels_table: {channels_table}")
-    # Run in parallel
-    ray.shutdown()
-    ray.init(num_cpus=use_x_cpus)
-    result_ids = []
-    for image_x in n_images:
-        try:
-            # Input image
-            image_x_path = os.path.join(input_path, images_list['image'][image_x] + '.nd2')
-            if os.path.exists(image_x_path):
-                # Get image parameters
-                image_x_cohort = images_list['cohort'][image_x]
-                image_x_channels = channels_table.loc[image_x]
-                # Run if nd2
-                if os.path.splitext(os.path.basename(image_x_path))[1] == '.nd2':
+    if args.parameter_tables is None:
+        if platform.system() == 'Darwin':
+            args.parameter_tables = MAC_DEFAULT_TABLES
+        else:
+            parser.error('parameter_tables is required')
+    return args
 
-                    result_id = conversion.operations.nd2_to_tiff.remote(image_x_path, image_x_cohort, image_x_channels, to_tiff_path, tiff_compression_level)
-                    result_ids.append(result_id)
-                    print('File was converted: ' + image_x_path)
-                else:
-                    print('File is not ND2: ' + image_x_path)
+
+def resolve_stages(args):
+    if args.stages:
+        requested = [s.strip() for s in args.stages.split(',') if s.strip()]
+        unknown = [s for s in requested if s not in STAGES]
+        if unknown:
+            raise SystemExit('Unknown stage(s): {}. Valid stages: {}'
+                             .format(', '.join(unknown), ', '.join(STAGE_ORDER)))
+        return [s for s in STAGE_ORDER if s in requested]
+
+    start, end = 0, len(STAGE_ORDER) - 1
+    if args.from_stage:
+        if args.from_stage not in STAGE_ORDER:
+            raise SystemExit('Unknown stage: ' + args.from_stage)
+        start = STAGE_ORDER.index(args.from_stage)
+    if args.to_stage:
+        if args.to_stage not in STAGE_ORDER:
+            raise SystemExit('Unknown stage: ' + args.to_stage)
+        end = STAGE_ORDER.index(args.to_stage)
+    if end < start:
+        raise SystemExit('--to comes before --from')
+    return STAGE_ORDER[start:end + 1]
+
+
+def resolve_images(ctx, args):
+    names = list(ctx.image_names)
+
+    if args.cohort:
+        wanted = set(ctx.images_list.loc[
+            ctx.images_list['cohort'] == args.cohort]['image'].tolist())
+        names = [n for n in names if n in wanted]
+        if not names:
+            raise SystemExit('No images in images.csv for cohort ' + args.cohort)
+
+    requested = []
+    if args.images:
+        requested += [s.strip() for s in args.images.split(',') if s.strip()]
+    if args.images_file:
+        with open(args.images_file) as handle:
+            requested += [line.strip() for line in handle
+                          if line.strip() and not line.startswith('#')]
+    if requested:
+        missing = [r for r in requested if r not in names]
+        if missing:
+            raise SystemExit('Not in images.csv (or filtered out by --cohort): '
+                             + ', '.join(missing))
+        names = [n for n in names if n in set(requested)]
+    return names
+
+
+def warn_if_moved_downstream(ctx, manifest, images, stages):
+    """The R scripts move image folders out of the work directory.
+
+    extract_intensity.R moves <work>/<cohort>/<image> into 05_IntensityExtraction,
+    colocalization.R into 06_Colocalization, compile_tables.R into the output
+    folder. So a completed image is no longer in the work directory, and forcing
+    a rerun of a middle stage would find nothing.
+    """
+    if stages == ['convert']:
+        return
+    moved = []
+    for image in images:
+        if manifest.status(image, 'convert') != 'done':
+            continue
+        cohorts = ctx.images_list.loc[ctx.images_list['image'] == image]['cohort']
+        if not len(cohorts):
+            continue
+        folder = os.path.join(ctx.work_path, str(cohorts.iloc[0]), image)
+        if not os.path.isdir(folder):
+            moved.append(image)
+    if moved:
+        log('')
+        log('NOTE: {} image(s) are recorded as processed but are no longer in the'
+            .format(len(moved)))
+        log('work folder. The R scripts move finished images onward into')
+        log('05_IntensityExtraction / 06_Colocalization / the output folder.')
+        log('Rerunning a Python stage for these needs --stages convert --force')
+        log('to rebuild from the ND2, or the folder moved back by hand:')
+        for image in moved[:10]:
+            log('  ' + image)
+        if len(moved) > 10:
+            log('  ... and {} more'.format(len(moved) - 10))
+
+
+def inspect(ctx, images):
+    """Show what each image actually has on disk.
+
+    When a stage says it found nothing to do, this is the question worth
+    answering first: which artefacts exist and which are missing.
+    """
+    summary_path = os.path.join(ctx.processing_path or '', 'summary.csv')
+    log('summary.csv: ' + (summary_path if os.path.exists(summary_path)
+                           else 'MISSING (the R scripts need this)'))
+    import glob as _glob
+    stray = _glob.glob(os.path.join(ctx.input_path or '', 'summary*.csv'))
+    if stray:
+        log('unarchived summary files still in the input folder: '
+            + ', '.join(os.path.basename(p) for p in stray))
+
+    for image in images:
+        folder = image_folder(ctx, image)
+        log('')
+        log(image)
+        log('  ' + str(folder))
+        if not folder or not os.path.isdir(folder):
+            log('  (folder does not exist)')
+            continue
+
+        by_suffix = {}
+        subfolders = []
+        for entry in sorted(os.listdir(folder)):
+            path = os.path.join(folder, entry)
+            if os.path.isdir(path):
+                subfolders.append(entry)
+                continue
+            for marker in ('_intensity_ref', '_puncta_median_removed',
+                           '_tracking_ref', '_darkframe_removed'):
+                if marker in entry:
+                    by_suffix.setdefault(marker, []).append(entry)
+                    break
             else:
-                print('ND2 does not exist: ' + image_x_path)
-        except Exception as e:
-            print('nd2_to_tiff: image_x ' + image_x + ' failed')
-            print(f"Error: {e}")
-            traceback.print_exc()
-            #pass
-    results = settings.parallel.ids_to_vals(result_ids)
-    print(results)
-    time.sleep(3)
-    ray.shutdown()
-    time.sleep(3)
-except Exception as e:
-    print('Could not convert ND2 to TIFF')
-    print(f"Error: {e}")
-    traceback.print_exc()
-    #pass
+                by_suffix.setdefault(os.path.splitext(entry)[1] or 'other',
+                                     []).append(entry)
 
-# Subtract dark frame
-import background.parameters
-import background.operations
+        for marker in sorted(by_suffix):
+            names = by_suffix[marker]
+            log('  {:<24} {} file(s): {}'.format(
+                marker, len(names), ', '.join(names[:3])
+                + (' ...' if len(names) > 3 else '')))
+        if subfolders:
+            log('  {:<24} {}: {}'.format(
+                'subfolders', len(subfolders), ', '.join(subfolders[:6])
+                + (' ...' if len(subfolders) > 6 else '')))
+        else:
+            log('  {:<24} none  <- per-cell folders live here'.format('subfolders'))
 
-try:
-    # Get list of images to have background subtracted
-    n_protein_images, background_remove_image_list = background.parameters.background_remove_list(images_list, dark_frames_list, to_tiff_path)
-    # Run in parallel
-    ray.shutdown()
-    ray.init(num_cpus=use_x_cpus)
-    result_ids = []
-    for protein_image_x in n_protein_images:
+
+def main(argv=None):
+    args = parse_args(argv)
+
+    if args.list_stages:
+        log('\n'.join(STAGE_ORDER))
+        return 0
+
+    if args.print_r_path:
+        # stdout must carry the path and nothing else: it is captured by
+        # `r_path=$(python mission_control.py ... --print-r-path)`.
+        set_log_stream(sys.stderr)
+
+    run_id = '{}-{}'.format(time.strftime('%Y%m%d_%H%M%S'),
+                            os.environ.get('SLURM_JOB_ID', 'local'))
+
+    try:
+        ctx = load_context(args.parameter_tables)
+    except ContextError as e:
+        log('FATAL: ' + str(e))
+        return 2
+
+    if args.print_r_path:
+        # Folders and the resolved tables now exist; tell the caller where.
+        print(ctx.resolved_tables)
+        return 0
+
+    manifest = Manifest(ctx.work_path)
+    stages = resolve_stages(args)
+    images = resolve_images(ctx, args)
+
+    hashes = {(i, s): stage_param_hash(ctx, i, s)
+              for i in images for s in STAGE_ORDER}
+
+    log('=' * 78)
+    log('run_id: ' + run_id)
+    log(describe(ctx))
+    log('=' * 78)
+
+    if args.inspect:
+        inspect(ctx, images)
+        return 0
+
+    if args.status:
+        log(status_table(manifest, images, STAGE_ORDER, hashes))
+        warn_if_moved_downstream(ctx, manifest, images, STAGE_ORDER)
+        return 0
+
+    # ---- plan -------------------------------------------------------------
+    plan = {}
+    stale_notices = []
+    for stage in stages:
+        todo = []
+        for image in images:
+            state = manifest.status(image, stage, hashes[(image, stage)])
+            if state == 'tolerated' and not args.force:
+                continue
+            if state == 'done' and not args.force:
+                continue
+            if state == 'stale' and not args.force:
+                stale_notices.append((image, stage))
+                continue
+            todo.append(image)
+        plan[stage] = todo
+
+    log('Planned work ({} stage(s), {} image(s) selected):'.format(
+        len(stages), len(images)))
+    for stage in stages:
+        log('  {:<13} {} image(s)'.format(stage, len(plan[stage])))
+
+    if stale_notices:
+        log('')
+        log('STALE - complete, but the parameters they depend on have changed since.')
+        log('Nothing was rerun. To redo them, use e.g. --stages <stage> --force.')
+        for image, stage in stale_notices:
+            log('  {:<13} {}'.format(stage, image))
+
+    warn_if_moved_downstream(ctx, manifest, images, stages)
+
+    if args.dry_run:
+        log('\n--dry-run: stopping here.')
+        return 0
+
+    # ---- run --------------------------------------------------------------
+    quarantined = {}
+    unattributed_failures = []
+
+    for stage in stages:
+        todo = [i for i in plan[stage] if i not in quarantined]
+        if not todo:
+            log('\n--- {} : nothing to do'.format(stage))
+            continue
+
+        log('\n' + '-' * 78)
+        log('--- {} : {} image(s)'.format(stage, len(todo)))
+        log('-' * 78)
+
+        started = time.time()
+        images_list = subset(ctx.images_list, todo)
+        before = {image: tree_state(image_folder(ctx, image)) for image in todo}
+        kwargs = {}
+        if stage == 'median':
+            kwargs['median_parallel'] = args.median_parallel
+            kwargs['median_cpus'] = args.median_cpus
         try:
-            image_path = background_remove_image_list['image_path'][protein_image_x]
-            dark_frame_path = background_remove_image_list['dark_frame'][protein_image_x]
-            result_id = background.operations.remove_frame.remote(image_path, dark_frame_path, tiff_compression_level)
-            result_ids.append(result_id)
+            results = STAGES[stage](ctx, images_list, todo, args.cpus, **kwargs)
         except Exception as e:
-            print('remove_frame: protein_image_x ' + protein_image_x + ' failed')
-            print(f"Error: {e}")
-            traceback.print_exc()
-            pass
-    results = settings.parallel.ids_to_vals(result_ids)
-    print(results)
-    time.sleep(3)
-    ray.shutdown()
-    time.sleep(3)
-    print('Successfully removed dark-frames')
-except Exception as e:
-    print('Could not remove dark-frames')
-    print(f"Error: {e}")
-    traceback.print_exc()
-    pass
+            import traceback
+            traceback.print_exc(file=sys.stdout)
+            log('STAGE FAILED OUTRIGHT: {} ({})'.format(stage, e))
+            log('Nothing was recorded for this stage. Fix the cause and rerun it.')
+            sync_summary(ctx)
+            return 1
 
-# Subtract median
-try:
-    # Get list of images to have background subtracted
-    n_protein_images, background_remove_image_list = background.parameters.background_remove_list(images_list, dark_frames_list, to_tiff_path)  ; print(f"n_protein_images: {n_protein_images}\nbackground_remove_image_list: {background_remove_image_list}")
-    median_remove_image_list = background.parameters.median_remove_list(background_remove_image_list, exclusion_channels)                       ; print(f"median_remove_image_list: {median_remove_image_list}")
-    # Get number of protein images
-    n_protein_images = len(median_remove_image_list)
-    n_protein_images = range(0, n_protein_images)
-    # Run
-    result_ids = []
-    for protein_image_x in n_protein_images:
-        try:
-            # Get image path
-            image_path = median_remove_image_list[protein_image_x]
-            old_term = '_darkframe_removed'
-            # Remove cell background
-            new_term = '_intensity_ref'
-            median_size = cell_diameter
-            result_id = background.operations.remove_median_blur(image_path, old_term, new_term, median_size, tiff_compression_level)
-            result_ids.append(result_id)
+        elapsed = time.time() - started
+        sync_summary(ctx)
 
-            # Remove puncta background
-            new_term = '_puncta_median_removed'
-            median_size = puncta_diameter * 2 + 1
-            result_id = background.operations.remove_median_blur(image_path, old_term, new_term, median_size, tiff_compression_level)
-            result_ids.append(result_id)
+        if UNATTRIBUTED in results:
+            ok, error = results.pop(UNATTRIBUTED)
+            if not ok:
+                unattributed_failures.append((stage, error))
+                log('  ! failure in {} that could not be traced to a single '
+                    'image: {}'.format(stage, error))
 
-        except Exception as e:
-            print('remove_median_blur: protein_image_x ' + protein_image_x + ' failed')
-            print(f"Error: {e}")
-            traceback.print_exc()
-            #pass
+        tolerated = {}
+        for image in todo:
+            ok, error = results.get(
+                image, (False, 'stage produced no work for this image - check '
+                               'that its inputs from the previous stage exist'))
 
-    print(result_ids)
-    print('Successfully calculated _puncta_median_removed images')
-except Exception as e:
-    print('Could not calculate _puncta_median_removed image')
-    print(f"Error: {e}")
-    traceback.print_exc()
-    #pass
+            # Last line of defence. The helper operations catch their own
+            # exceptions and return normally, so a stage can report success
+            # having written nothing at all. If not one file under the image
+            # folder was created or changed, the stage did not run.
+            if ok and not args.no_tree_check:
+                after = tree_state(image_folder(ctx, image))
+                if not (after - before.get(image, set())):
+                    ok = False
+                    error = ('reported success but no file under {} was created '
+                             'or modified'.format(image_folder(ctx, image)))
 
-try:
-    # Run in parallel
-    ray.shutdown()
-    ray.init(num_cpus=use_x_cpus)
-    result_ids = []
-    for protein_image_x in n_protein_images:
-        try:
-            # Get image path
-            image_path = median_remove_image_list[protein_image_x]
-            old_term = '_darkframe_removed'
-            new_term = '_puncta_median_removed'
-            median_image_path = image_path.replace(old_term, new_term)
+            if ok:
+                manifest.record(image, stage, DONE,
+                                param_hash=hashes[(image, stage)],
+                                duration=elapsed, run_id=run_id)
+            elif not args.strict and is_tolerated(ctx, image, stage):
+                manifest.record(image, stage, TOLERATED,
+                                param_hash=hashes[(image, stage)],
+                                error=error, duration=elapsed, run_id=run_id)
+                tolerated[image] = error
+                log('  tolerated failure {} : {}'.format(image, error))
+            else:
+                manifest.record(image, stage, FAILED,
+                                param_hash=hashes[(image, stage)],
+                                error=error, duration=elapsed, run_id=run_id)
+                if not args.keep_going:
+                    quarantined[image] = (stage, error)
+                log('  FAILED {} : {}'.format(image, error))
 
-            # Blur and average frames
-            old_term = '_puncta_median_removed'
-            new_term = '_tracking_ref'
-            median_size = 3  # Must be odd
-            result_id = background.operations.tracking_image.remote(median_image_path, old_term, new_term, median_size,
-                                                                    tiff_compression_level)
-            result_ids.append(result_id)
-        except Exception as e:
-            print('tracking_image: protein_image_x ' + protein_image_x + ' failed')
-            print(f"Error: {e}")
-            traceback.print_exc()
-            #pass
+        done_count = sum(1 for i in todo
+                         if i not in quarantined and i not in tolerated)
+        log('--- {} finished: {}/{} ok in {:.0f}s'.format(
+            stage, done_count, len(todo), elapsed))
 
-    results = settings.parallel.ids_to_vals(result_ids)
-    print(results)
-    time.sleep(3)
-    ray.shutdown()
-    time.sleep(3)
+    # ---- summary ----------------------------------------------------------
+    log('\n' + '=' * 78)
+    log('SUMMARY (run {})'.format(run_id))
+    log('=' * 78)
+    log(status_table(manifest, images, STAGE_ORDER, hashes))
 
-    print('Successfully calculated _tracking_ref images')
-except Exception as e:
-    print('Could not calculate _tracking_ref image')
-    print(f"Error: {e}")
-    traceback.print_exc()
-    #pass
+    # ---- who finished, who did not ---------------------------------------
+    completed = [i for i in images if i not in quarantined]
+    critical_failures = [i for i in quarantined if is_critical(ctx, i)]
+    sample_failures = [i for i in quarantined if i not in critical_failures]
 
-try:
-    table_ending = '_darkframe_removed.tif'
-    merge_ending = '_tracking_ref.tif'
-    '''
-    # Only experimental images
-    select_images_list = images_list.loc[images_list['cohort'] != 'Calibrations']
-    select_images_list = select_images_list.reset_index()
-    select_images_list = select_images_list.drop(columns=['index'])
-    '''
-    # Get list of images to have background subtracted
-    n_protein_images, background_remove_image_list = background.parameters.background_remove_list(images_list, dark_frames_list, to_tiff_path)
-    median_remove_image_list = background.parameters.median_remove_list(background_remove_image_list, exclusion_channels)
-    to_combine = background.parameters.combine_images_list(median_remove_image_list, table_ending, merge_ending)
+    if not args.keep_incomplete and quarantined:
+        isolate_incomplete(
+            ctx.work_path, ctx.processing_path,
+            [image_folder(ctx, i) for i in quarantined])
 
-    unique_images = to_combine.output.unique()
-    unique_images = unique_images.tolist()
+    summary_path = sync_summary(ctx)
+    if summary_path and os.path.exists(summary_path):
+        # Excluded channels first: they are excluded for every image, whereas
+        # the completed-image filter only applies to a partial batch.
+        summary_path = filter_summary_channels(
+            summary_path, ctx.images_list, ctx.exclusion_channels)
+        summary_path = filter_summary(summary_path, completed,
+                                      list(quarantined))
 
-    n_images = len(unique_images)
-    n_images = range(0, n_images)
+        ok, message = validate_summary(summary_path, completed)
+        if message:
+            log('')
+            log(message)
+        if not ok:
+            log('')
+            log('Refusing to hand this to the R scripts. They would filter every '
+                'row out on file.exists() and fail with an empty table.')
+            log('summary.csv is written during conversion into the shared input '
+                'folder, so a run with nothing to redo can inherit a previous '
+                "batch's file. To rebuild it:")
+            log('  rm "{}"'.format(summary_path))
+            log('  python mission_control.py "{}" {} --from convert --force'
+                .format(ctx.parameter_tables, args.cpus))
+            return 1
+        log('\nsummary.csv ready for the R scripts: ' + summary_path)
+    else:
+        log('\nWARNING: no summary.csv in ' + str(ctx.processing_path))
+        log('The R scripts read image metadata from it and will stop without it.')
+        log('The pipeline writes it as "summary <timestamp>.csv"; if none exists '
+            'anywhere, the stage that produces it has not succeeded yet.')
 
-    # Run in parallel
-    ray.shutdown()
-    ray.init(num_cpus=use_x_cpus)
-    result_ids = []    # Get images to combine
-    for image_x in n_images:
-        try:
-            # Get parameters
-            input_folder = unique_images[image_x]
-            input_folder = os.path.dirname(input_folder)
-            input_images = to_combine.loc[to_combine['folder'] == input_folder]
-            input_images = input_images.reset_index()
-            input_images = input_images.drop(columns=['index'])
-            output_image = input_images.output[0]
-            input_images = input_images.input
-            input_images = input_images.tolist()
+    snapshot_to_output(
+        ctx.layout, run_id,
+        note='stages={} images={} failed={}'.format(
+            ','.join(stages), len(images), len(quarantined)))
 
-            # Run operation
-            result_id = background.operations.combine_images.remote(input_images, output_image, tiff_compression_level)
-            result_ids.append(result_id)
-        except Exception as e:
-            print('combine_images: image_x ' + image_x + ' failed')
-            print(f"Error: {e}")
-            traceback.print_exc()
-            #pass
+    tolerated_any = [(i, s) for i in images for s in stages
+                     if manifest.status(i, s) == 'tolerated']
+    if tolerated_any:
+        log('\nTolerated failures (expected; see tolerate_failures.csv):')
+        for image, stage in tolerated_any:
+            log('  {:<13} {}'.format(stage, image))
 
-    results = settings.parallel.ids_to_vals(result_ids)
-    print(results)
-    time.sleep(3)
-    ray.shutdown()
-    time.sleep(3)
-    print('Successfully calculated Combined_tracking_ref images')
+    if quarantined:
+        log('\nFailed images (dropped from later stages in this run):')
+        for image, (stage, error) in quarantined.items():
+            marker = ' [CRITICAL]' if is_critical(ctx, image) else ''
+            log('  {}{} - failed at {}: {}'.format(image, marker, stage, error))
 
-except Exception as e:
-    print('Could not calculate Combined_tracking_ref images')
+    # ---- exit code -------------------------------------------------------
+    # 0  everything finished
+    # 3  some sample images failed, but the batch is still analysable, so the
+    #    R scripts should run on what did finish
+    # 1  the batch is not analysable: a critical image failed, nothing
+    #    finished, or a failure could not be traced to an image
+    if unattributed_failures:
+        log('\nExiting 1: a failure could not be attributed to a single image, '
+            'so the extent of the damage is unknown.')
+        return 1
 
-# Move directories of files with removed background
-import shutil
+    if critical_failures:
+        log('\nExiting 1: {} calibration/critical image(s) failed. The batch '
+            'cannot be quantified without them, so the R scripts are not worth '
+            'running:'.format(len(critical_failures)))
+        for image in critical_failures:
+            log('  ' + image)
+        return 1
 
-try:
+    if not completed:
+        log('\nExiting 1: no image completed.')
+        return 1
 
-    source_folder=to_tiff_path
-    destination_folder=background_remove_path
+    if sample_failures:
+        log('\nExiting 3: {} sample image(s) failed, {} completed. The '
+            'calibrations are intact, so the R scripts can run on the {} '
+            'finished image(s).'.format(len(sample_failures), len(completed),
+                                        len(completed)))
+        log('Failed images are in {} and are excluded from summary.csv.'
+            .format(os.path.join(ctx.processing_path, '_incomplete')))
+        log('To retry one:  --images "<name>" --from convert --force')
+        return 3
 
-    # Copy everything while preserving the folder structure
-    for root, dirs, files in os.walk(source_folder):
-        for file in files:
-            # Recreate the relative path in the destination
-            relative_path = os.path.relpath(root, source_folder)
-            target_dir = os.path.join(destination_folder, relative_path)
-
-            # Ensure target directory exists
-            os.makedirs(target_dir, exist_ok=True)
-
-            # Copy file
-            shutil.copy2(os.path.join(root, file), os.path.join(target_dir, file))
-
-    print(f"Copied from source_folder {source_folder}\n to destination_folder {destination_folder}")
-
-except Exception as e:
-    print(f"Error: {e}")
-    traceback.print_exc()   
-
-# Segment images
-import segmentation.parameters
-import segmentation.operations
-
-try:
-    # Get parameters
-    file_ending = '_intensity_ref.tif'
-    segmentation_image_list = segmentation.parameters.segmentation_list(images_list, file_ending, background_remove_path)
-    # Run in parallel
-    ray.shutdown()
-    ray.init(num_cpus=use_x_cpus)
-    result_ids = []
-    n_segmentation_images = len(segmentation_image_list)
-    n_segmentation_images = range(0, n_segmentation_images)
-    for image_x in n_segmentation_images:
-        try:
-            segment_image = segmentation_image_list[image_x]
-            # Run segmentation
-            result_id = segmentation.operations.segment.remote(segment_image, cell_diameter, tiff_compression_level)
-            result_ids.append(result_id)
-        except Exception as e:
-            print('segment: image_x ' + image_x + ' failed')
-            #pass
-
-    results = settings.parallel.ids_to_vals(result_ids)
-    print(results)
-    time.sleep(3)
-    ray.shutdown()
-    time.sleep(3)
-
-    # Make substacks
-    file_ending = ['_intensity_ref.tif', '_puncta_median_removed', '_tracking_ref.tif']
-    substack_segmentation_images, substack_image_list = segmentation.parameters.substack_list(images_list, exclusion_channels, background_remove_path, file_ending)
-
-    # Run in parallel
-    ray.shutdown()
-    ray.init(num_cpus=use_x_cpus)
-    result_ids = []
-    n_segmentation_images = len(substack_image_list)
-    n_segmentation_images = range(0, n_segmentation_images)
-    for image_x in n_segmentation_images:
-        try:
-            # Get image and segmentation file
-            substack_segmentation_image = substack_segmentation_images[image_x]
-            substack_image = substack_image_list[image_x]
-            # Segment
-            result_id = segmentation.operations.make_substacks.remote(substack_segmentation_image, substack_image,
-                                                                      puncta_diameter, tiff_compression_level)
-            segmentation.operations.make_area_list.remote(substack_segmentation_image, puncta_diameter)
-            result_ids.append(result_id)
-        except Exception as e:
-            print('make_substacks: image_x ' + image_x + ' failed')
-            print(f"Error: {e}")
-            traceback.print_exc()
-            #pass
-
-    results = settings.parallel.ids_to_vals(result_ids)
-    print(results)
-    time.sleep(3)
-    ray.shutdown()
-    time.sleep(3)
-
-    print('Successfully segmented images')
-except Exception as e:
-    print('Could not segment images')
-    print(f"Error: {e}")
-    traceback.print_exc()
-    
-# Move / copy stuff
-import shutil
-
-try:
-    source_folder=background_remove_path
-    destination_folder=segmentation_path
-
-    # Copy everything while preserving the folder structure
-    for root, dirs, files in os.walk(source_folder):
-        for file in files:
-            # Recreate the relative path in the destination
-            relative_path = os.path.relpath(root, source_folder)
-            target_dir = os.path.join(destination_folder, relative_path)
-
-            # Ensure target directory exists
-            os.makedirs(target_dir, exist_ok=True)
-
-            # Copy file
-            shutil.copy2(os.path.join(root, file), os.path.join(target_dir, file))
-
-    print(f"Copied from source_folder {source_folder}\n to destination_folder {destination_folder}")
-
-except Exception as e:
-    print(f"Error: {e}")
-    traceback.print_exc()   
-
-# Run tracking
-import track.parameters
-import track.operations
-
-try:
-    # Get images list
-    print(f"images_list:\n {images_list}")
-    print(f"exclusion_channels:\n {exclusion_channels}")
-    print(f"segmentation_path:\n {segmentation_path}")
-    print(f"input_path:\n {input_path}")
-    print(f"cell_diameter:\n {cell_diameter}")
-    print(f"puncta_diameter:\n {puncta_diameter}")
-    all_channels_metadata = track.parameters.tracking_list(images_list, exclusion_channels, segmentation_path, input_path, cell_diameter, puncta_diameter)
-
-    print(f"all_channels_metadata:\n {all_channels_metadata}")
-    print(f"segmentation_path: {segmentation_path}")
-    file_ending = '_tracking_ref.tif' ; print(f"file_ending: {file_ending}")
-    n_trackings, protein_paths, image_paths, trackmate_thresholds, trackmate_frame_gaps, trackmate_max_link_distances, trackmate_gap_link_distances = track.parameters.tracking_parameters(all_channels_metadata, file_ending, segmentation_path)
-    # print(f"n_trackings: {n_trackings}")
-    # print(f"protein_paths: {protein_paths}")
-    # print(f"image_paths: {image_paths}")
-    # print(f"trackmate_thresholds: {trackmate_thresholds}")
-    # print(f"trackmate_frame_gaps: {trackmate_frame_gaps}")
-    # print(f"trackmate_max_link_distances: {trackmate_max_link_distances}")
-    # print(f"trackmate_gap_link_distances: {trackmate_gap_link_distances}")
-
-    # Send to terminal
-    for image_x in n_trackings:
-        protein_path = protein_paths[image_x]
-        image_path = image_paths[image_x]
-        trackmate_threshold = trackmate_thresholds[image_x]
-        trackmate_frame_gap = trackmate_frame_gaps[image_x]
-        trackmate_max_link_distance = trackmate_max_link_distances[image_x]
-        trackmate_gap_link_distance = trackmate_gap_link_distances[image_x]
-        track.operations.trackmate(imagej, protein_path, image_path, trackmate_threshold, trackmate_frame_gap, trackmate_max_link_distance, trackmate_gap_link_distance, puncta_diameter)
-
-    print('Successfully tracked puncta')
-except Exception as e:
-    print('Could not track puncta') ; print(f"Error: {e}") ; traceback.print_exc()
+    log('\nAll selected work completed.')
+    return 0
 
 
-# Move / copy stuff
-import shutil
-
-try:
-    source_folder=segmentation_path
-    destination_folder=tracking_path
-
-    # Copy everything while preserving the folder structure
-    for root, dirs, files in os.walk(source_folder):
-        for file in files:
-            # Recreate the relative path in the destination
-            relative_path = os.path.relpath(root, source_folder)
-            target_dir = os.path.join(destination_folder, relative_path)
-
-            # Ensure target directory exists
-            os.makedirs(target_dir, exist_ok=True)
-
-            # Copy file
-            shutil.copy2(os.path.join(root, file), os.path.join(target_dir, file))
-
-    print(f"Copied from source_folder {source_folder}\n to destination_folder {destination_folder}")
-
-except Exception as e:
-    print(f"Error: {e}")
-    traceback.print_exc()   
-
-# # Move directories of files with removed background
-# import shutil
-
-# for path in image_paths:
-#     xml_path = path + '.xml'
-#     try:
-#         if os.path.exists(xml_path):
-#             image_path = os.path.dirname(xml_path)
-#             image_path = os.path.dirname(image_path)
-#             old_cohort_path = os.path.dirname(image_path)
-#             image_name = os.path.basename(image_path)
-#             cohort_name = os.path.basename(old_cohort_path)
-#             # Make it the new path
-#             if not os.path.exists(tracking_path):
-#                 os.mkdir(tracking_path)
-#             new_cohort_path = os.path.join(tracking_path, cohort_name)
-#             if not os.path.exists(new_cohort_path):
-#                 os.mkdir(new_cohort_path)
-#             shutil.copy(image_path, new_cohort_path)
-#             if len(list(os.walk(old_cohort_path))[1:]) == 0:
-#                 shutil.rmtree(old_cohort_path)
-#     except Exception as e:
-#         print('Image already transferred')
-#         print(f"Error: {e}")
-#         traceback.print_exc()
-#         #pass
-
-# time.sleep(3)
+if __name__ == '__main__':
+    sys.exit(main())

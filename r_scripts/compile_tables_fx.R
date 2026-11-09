@@ -29,8 +29,10 @@ GetCalibrationImages_new <- function(ImageX){
         mutate(direction_test  = abs(direction - temp_image_list$direction)) %>% # Get the nearest direction and filter for it
         filter(direction_test == min(direction_test)) %>%                        
         mutate(angle_test      = abs(angle - temp_image_list$angle)) %>%         # Get the nearest angle and filter for it
-        filter(direction_test == min(direction_test)) %>% 
-        mutate(date_test       = as.numeric(difftime(date, temp_image_list$date, units = "secs"))) %>% # Get the nearest date and filter for it
+        filter(angle_test     == min(angle_test)) %>% 
+        # PATCHED on 20261026: abs(). A signed difftime with min() picks the EARLIEST
+        # calibration, not the nearest one in time.
+        mutate(date_test       = abs(as.numeric(difftime(date, temp_image_list$date, units = "secs")))) %>% 
         filter(date_test      == min(date_test)) %>% 
         filter(SEM            == min(SEM)) %>%                                   # Filter for the lowest SEM
         as.data.table()
@@ -57,7 +59,7 @@ GetCalibrationImages_new <- function(ImageX){
     
     save_path = file.path(colocalization_path, dirname(dirname(temp_image_list$protein_relative_path)), paste0(CalibrationProtein, "_calibration.csv.gz"))
 
-    suppressWarnings({file.remove(save_path, showWarnings = FALSE)})
+    suppressWarnings({file.remove(save_path})
     data.table::fwrite(temp_calibration_list, save_path, row.names = F, na = "")
     
     return(ExportTable)
@@ -276,7 +278,7 @@ CombineCellTables_new  <- function(CellX){
     
     # Write file
     DestinationPath <- file.path(CellPath, "Parameters.csv.gz")
-    file.remove(DestinationPath, showWarnings = F)
+    file.remove(DestinationPath)
     fwrite(CellData, DestinationPath, row.names = F, na = "")
     remove(CellData)
     
@@ -314,7 +316,7 @@ CombineCellTables_new  <- function(CellX){
     
     # Write file
     DestinationPath <- file.path(CellPath, "Analysis.csv.gz")
-    file.remove(DestinationPath, showWarnings = F)
+    suppressWarnings({file.remove(DestinationPath)})
     fwrite(Parameterless, DestinationPath, row.names = F, na = "")
     remove(Parameterless)
     
@@ -357,7 +359,7 @@ CombineCellTables_new  <- function(CellX){
     
     # Write file
     DestinationPath <- file.path(CellPath, "Essential.csv.gz")
-    file.remove(DestinationPath, showWarnings = F)
+    suppressWarnings({file.remove(DestinationPath)})
     fwrite(Essential, DestinationPath, row.names = F, na = "")
     
     Progress = NROW(Cells)/10
@@ -394,7 +396,7 @@ CombineImageTables_new <- function(ImageX){
       Table <- rbindlist(Table, fill = TRUE, use.names = TRUE)
       # Save
       DestinationPath <- file.path(Images[ImageX], OutputX)
-      file.remove(DestinationPath, showWarnings = F)
+      suppressWarnings({file.remove(DestinationPath)})
       fwrite(Table, DestinationPath, row.names = F, na = "")
       if(OutputX =="Essential.csv.gz"){
         return(DestinationPath)
@@ -478,9 +480,7 @@ QuantifyCalibration <- function(FileX){
   save_path = paste0(temp_calibration_list$protein_name, "_calibration.csv.gz")
   save_path = file.path(colocalization_path, dirname(dirname(temp_calibration_list$protein_relative_path)), save_path)
   # Remove old if it exists
-  suppressWarnings({
-    file.remove(save_path, showWarnings = FALSE)
-  })
+  suppressWarnings({file.remove(save_path)})
   data.table::fwrite(temp_calibration_list, save_path, row.names = F, na = "")
   
   return(temp_calibration_list)
@@ -528,10 +528,10 @@ GetCalibrationImages <- function(ImageX){
         ) %>% 
         # Get the nearest angle
         mutate(
-          angle_test = abs(angle - temp_image_list$angle)
+          angle_test = abs(angle - temp_image_list$angle) # PATCHED on 20261026
         ) %>% 
         filter(
-          direction_test == min(direction_test)
+          angle_test == min(angle_test)
         ) %>% 
         # Get the nearest date
         mutate(
@@ -568,7 +568,7 @@ GetCalibrationImages <- function(ImageX){
     save_path = file.path(colocalization_path, dirname(dirname(temp_image_list$protein_relative_path)), save_path)
     # Remove old if it exists
     suppressWarnings({
-      file.remove(save_path, showWarnings = FALSE)
+      file.remove(save_path)
     })
     data.table::fwrite(temp_calibration_list, save_path, row.names = F, na = "")
     
@@ -736,7 +736,11 @@ CombineCellTables <- function(CellX){
     LANDING_TIME = min(IntensityTables$TIME)
     # Calculate basic parameters and save
     IntensityTables <- as.data.table(IntensityTables)
-    IntensityTables[, MIN_X := min(POSITION_X/CALIBRATION_UM), by = UNIVERSAL_TRACK_ID]
+    # IntensityTables[, MIN_X := min(POSITION_X/CALIBRATION_UM), by = UNIVERSAL_TRACK_ID]
+    # PATCHED on 20261026: ABSOLUTE_POSITION_*. POSITION_* is pixels inside the cell crop,
+    # so dividing it by um/px inflated it ~6.9x and the test passed for
+    # everything -- only the right and bottom borders were ever filtered.
+    IntensityTables[, MIN_X := min(ABSOLUTE_POSITION_X/CALIBRATION_UM), by = UNIVERSAL_TRACK_ID]
     IntensityTables[, MIN_X := MIN_X > PUNCTA_DIAMETER*2]
     IntensityTables <- IntensityTables[IntensityTables$MIN_X]
     IntensityTables$MIN_X <- NULL
@@ -746,7 +750,9 @@ CombineCellTables <- function(CellX){
     IntensityTables <- IntensityTables[IntensityTables$MAX_X]
     IntensityTables$MAX_X <- NULL
     
-    IntensityTables[, MIN_Y := min(POSITION_Y/CALIBRATION_UM), by = UNIVERSAL_TRACK_ID]
+    # IntensityTables[, MIN_Y := min(POSITION_Y/CALIBRATION_UM), by = UNIVERSAL_TRACK_ID]
+    # PATCHED on 20261026
+    IntensityTables[, MIN_Y := min(ABSOLUTE_POSITION_Y/CALIBRATION_UM), by = UNIVERSAL_TRACK_ID]
     IntensityTables[, MIN_Y := MIN_Y > PUNCTA_DIAMETER*2]
     IntensityTables <- IntensityTables[IntensityTables$MIN_Y]
     IntensityTables$MIN_Y <- NULL
@@ -850,7 +856,7 @@ CombineCellTables <- function(CellX){
     
     # Write file
     DestinationPath <- file.path(CellPath, "Parameters.csv.gz")
-    file.remove(DestinationPath, showWarnings = F)
+    suppressWarnings({file.remove(DestinationPath)})
     fwrite(CellData, DestinationPath, row.names = F, na = "")
     remove(CellData)
     
@@ -902,7 +908,7 @@ CombineCellTables <- function(CellX){
     
     # Write file
     DestinationPath <- file.path(CellPath, "Analysis.csv.gz")
-    file.remove(DestinationPath, showWarnings = F)
+    suppressWarnings({file.remove(DestinationPath)})
     fwrite(Parameterless, DestinationPath, row.names = F, na = "")
     remove(Parameterless)
     
@@ -959,7 +965,7 @@ CombineCellTables <- function(CellX){
     
     # Write file
     DestinationPath <- file.path(CellPath, "Essential.csv.gz")
-    file.remove(DestinationPath, showWarnings = F)
+    suppressWarnings({file.remove(DestinationPath)})
     fwrite(Essential, DestinationPath, row.names = F, na = "")
     
     Progress = NROW(Cells)/10
@@ -996,7 +1002,7 @@ CombineImageTables <- function(ImageX){
       Table <- rbindlist(Table, fill = TRUE, use.names = TRUE)
       # Save
       DestinationPath <- file.path(Images[ImageX], OutputX)
-      file.remove(DestinationPath, showWarnings = F)
+      suppressWarnings({file.remove(DestinationPath)})
       fwrite(Table, DestinationPath, row.names = F, na = "")
       if(OutputX =="Essential.csv.gz"){
         return(DestinationPath)

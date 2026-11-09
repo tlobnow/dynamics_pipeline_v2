@@ -1,0 +1,41 @@
+2026-11-09 11:10:45,556	INFO worker.py:1927 -- Started a local Ray instance.
+[36m(nd2_to_tiff pid=108966)[0m /raven/u/flobnow/dynamics_pipeline_v2/dypi_env/.venv/lib/python3.12/site-packages/pims_nd2/ND2SDK.py:30: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).
+[36m(nd2_to_tiff pid=108966)[0m   return datetime.utcfromtimestamp((jdn - 2440587.5) * 86400.)
+[36m(nd2_to_tiff pid=108966)[0m /raven/u/flobnow/dynamics_pipeline_v2/dypi_env/.venv/lib/python3.12/site-packages/pims_nd2/ND2SDK.py:30: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).
+[36m(nd2_to_tiff pid=108966)[0m   return datetime.utcfromtimestamp((jdn - 2440587.5) * 86400.)
+[36m(nd2_to_tiff pid=108966)[0m /raven/u/flobnow/dynamics_pipeline_v2/conversion/operations.py:167: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+[36m(nd2_to_tiff pid=108966)[0m   protein_name = image_x_channels[temp_image_x_channels.index(closest_match)]
+[36m(nd2_to_tiff pid=108966)[0m /u/flobnow/miniconda3/lib/python3.12/typing.py:2132: ResourceWarning: unclosed file <_io.FileIO name='/ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/_nd2/20231102 GFP calibration_10pct_60ms 001.nd2' mode='rb' closefd=True>
+[36m(nd2_to_tiff pid=108966)[0m   def cast(typ, val):
+[36m(nd2_to_tiff pid=108966)[0m ResourceWarning: Enable tracemalloc to get the object allocation traceback
+[36m(nd2_to_tiff pid=108976)[0m /raven/u/flobnow/dynamics_pipeline_v2/dypi_env/.venv/lib/python3.12/site-packages/tifffile/tifffile.py:4098: ResourceWarning: unclosed file <_io.FileIO name='/ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/_nd2/20231114 mScarlet calibration_2pct_300ms 001.nd2' mode='rb' closefd=True>
+[36m(nd2_to_tiff pid=108976)[0m   return struct.pack(fmt, *val)
+[36m(nd2_to_tiff pid=108969)[0m   if struct.calcsize(dataformat) * count <= self.tiff.offsetsize:
+[36m(nd2_to_tiff pid=108977)[0m /raven/u/flobnow/dynamics_pipeline_v2/dypi_env/.venv/lib/python3.12/site-packages/tifffile/tifffile.py:4098: ResourceWarning: unclosed file <_io.FileIO name='/ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/_nd2/20240307 mscarlet calibration_2pct_300ms_001.nd2' mode='rb' closefd=True>
+[36m(nd2_to_tiff pid=108968)[0m /u/flobnow/miniconda3/lib/python3.12/threading.py:287: ResourceWarning: unclosed file <_io.BufferedReader name='/ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/_nd2/20231114 2nM_cl069_TRAF6_MyD88 001.nd2'>
+[36m(nd2_to_tiff pid=108968)[0m   if hasattr(lock, '_release_save'):
+[36m(nd2_to_tiff pid=108971)[0m /raven/u/flobnow/dynamics_pipeline_v2/dypi_env/.venv/lib/python3.12/site-packages/pims_nd2/ND2SDK.py:30: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).[32m [repeated 22x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)[0m
+[36m(nd2_to_tiff pid=108971)[0m   return datetime.utcfromtimestamp((jdn - 2440587.5) * 86400.)[32m [repeated 22x across cluster][0m
+[36m(nd2_to_tiff pid=108971)[0m /raven/u/flobnow/dynamics_pipeline_v2/conversion/operations.py:167: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`[32m [repeated 9x across cluster][0m
+[36m(nd2_to_tiff pid=108971)[0m   protein_name = image_x_channels[temp_image_x_channels.index(closest_match)][32m [repeated 9x across cluster][0m
+[36m(nd2_to_tiff pid=108972)[0m /raven/u/flobnow/dynamics_pipeline_v2/dypi_env/.venv/lib/python3.12/site-packages/tifffile/tifffile.py:4098: ResourceWarning: unclosed file <_io.FileIO name='/ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/_nd2/20240307 GFP calibration_3pct_200ms_001.nd2' mode='rb' closefd=True>[32m [repeated 3x across cluster][0m
+[36m(nd2_to_tiff pid=108970)[0m   def cast(typ, val):
+[36m(nd2_to_tiff pid=108968)[0m ResourceWarning: Enable tracemalloc to get the object allocation traceback[32m [repeated 8x across cluster][0m
+[36m(nd2_to_tiff pid=108973)[0m /raven/u/flobnow/dynamics_pipeline_v2/dypi_env/.venv/lib/python3.12/site-packages/tifffile/tifffile.py:4098: ResourceWarning: unclosed file <_io.FileIO name='/ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/_nd2/20231102 mScarlet calibration_2pct_300ms 001.nd2' mode='rb' closefd=True>[32m [repeated 2x across cluster][0m
+[36m(nd2_to_tiff pid=108973)[0m   return struct.pack(fmt, *val)[32m [repeated 4x across cluster][0m
+[36m(nd2_to_tiff pid=108971)[0m /u/flobnow/miniconda3/lib/python3.12/threading.py:287: ResourceWarning: unclosed file <_io.BufferedReader name='/ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/_nd2/20231102 2nM_cl069_TRAF6_MyD88 001.nd2'>[32m [repeated 3x across cluster][0m
+[36m(nd2_to_tiff pid=108971)[0m   if hasattr(lock, '_release_save'):[32m [repeated 3x across cluster][0m
+[36m(nd2_to_tiff pid=108971)[0m ResourceWarning: Enable tracemalloc to get the object allocation traceback[32m [repeated 3x across cluster][0m
+2026-11-09 11:11:41,612	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:12:04,176	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:13:18,116	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:14:28,739	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:15:42,809	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:16:54,176	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:18:23,593	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:19:42,762	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:21:12,545	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:22:30,674	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:23:45,009	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:24:55,949	INFO worker.py:1927 -- Started a local Ray instance.
+2026-11-09 11:26:09,330	INFO worker.py:1927 -- Started a local Ray instance.

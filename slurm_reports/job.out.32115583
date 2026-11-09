@@ -1,0 +1,121 @@
+uv environment sourced
+modules loaded
+rdpipe env activated
+RUN         : Myddosomes_FC
+parameters  : /ptmp/flobnow/new_pipe/2_parameter_tables/parameter_tables_Myddosomes_FC
+tables for R: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/parameter_tables
+extra args  : 
+run_main_pipe = TRUE
+tolerate_failures.csv: Calibrations -> segment/substacks
+==============================================================================
+run_id: 20261109_111030-32115583
+layout mode      : standard
+root             : /ptmp/flobnow/new_pipe
+run name         : Myddosomes_FC
+input            : /ptmp/flobnow/new_pipe/1_input
+dark_frames      : /raven/u/flobnow/dynamics_pipeline_v2/pipeline/dark_frames
+processing       : /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC
+output           : /ptmp/flobnow/new_pipe/4_output/Myddosomes_FC
+ImageJ           : /raven/u/flobnow/Fiji.app/ImageJ-linux64
+tables for R     : /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/parameter_tables
+work (python)    : /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track
+images selected  : 12
+excluded channels: ['Brightfield', 'IL-1']
+constants        : tiff_compression=5 cell_diameter=25 puncta_diameter=5
+==============================================================================
+Planned work (8 stage(s), 12 image(s) selected):
+  convert       12 image(s)
+  darkframe     12 image(s)
+  median        12 image(s)
+  tracking_ref  12 image(s)
+  combine       12 image(s)
+  segment       12 image(s)
+  substacks     12 image(s)
+  track         12 image(s)
+
+------------------------------------------------------------------------------
+--- convert : 12 image(s)
+------------------------------------------------------------------------------
+--- convert finished: 12/12 ok in 64s
+
+------------------------------------------------------------------------------
+--- darkframe : 12 image(s)
+------------------------------------------------------------------------------
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 GFP calibration_10pct_60ms 003/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 GFP calibration_10pct_60ms 003/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 mScarlet calibration_2pct_300ms 003/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 mScarlet calibration_2pct_300ms 003/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20230413 2.5nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 4 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20230413 2.5nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231102 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 4 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231102 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231114 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 3 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231114 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 GFP calibration_3pct_200ms_001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 GFP calibration_3pct_200ms_001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 mscarlet calibration_2pct_300ms_001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 mscarlet calibration_2pct_300ms_001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20240307 3nM_cl069_MyD88_TRAF6 001/channels_metadata.csv
+Loaded 4 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20240307 3nM_cl069_MyD88_TRAF6 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 GFP calibration_10pct_60ms 003/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 GFP calibration_10pct_60ms 003/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 mScarlet calibration_2pct_300ms 003/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 mScarlet calibration_2pct_300ms 003/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20230413 2.5nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 4 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20230413 2.5nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231102 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 4 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231102 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231114 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 3 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231114 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 GFP calibration_3pct_200ms_001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 GFP calibration_3pct_200ms_001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 mscarlet calibration_2pct_300ms_001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 mscarlet calibration_2pct_300ms_001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20240307 3nM_cl069_MyD88_TRAF6 001/channels_metadata.csv
+Loaded 4 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20240307 3nM_cl069_MyD88_TRAF6 001/channels_metadata.csv
+--- darkframe finished: 12/12 ok in 27s
+
+------------------------------------------------------------------------------
+--- median : 12 image(s)
+------------------------------------------------------------------------------
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 GFP calibration_10pct_60ms 003/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 GFP calibration_10pct_60ms 003/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 mScarlet calibration_2pct_300ms 003/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20230413 mScarlet calibration_2pct_300ms 003/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20230413 2.5nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 4 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20230413 2.5nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231102 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231102 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 4 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231102 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 GFP calibration_10pct_60ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20231114 mScarlet calibration_2pct_300ms 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231114 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Loaded 3 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20231114 2nM_cl069_TRAF6_MyD88 001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 GFP calibration_3pct_200ms_001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 GFP calibration_3pct_200ms_001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 mscarlet calibration_2pct_300ms_001/channels_metadata.csv
+Loaded 1 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/Calibrations/20240307 mscarlet calibration_2pct_300ms_001/channels_metadata.csv
+Checking: /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20240307 3nM_cl069_MyD88_TRAF6 001/channels_metadata.csv
+Loaded 4 rows from /ptmp/flobnow/new_pipe/3_processing/Myddosomes_FC/04_Track/MyD88 TRAF6/20240307 3nM_cl069_MyD88_TRAF6 001/channels_metadata.csv
+  median: running serially (the default; --median-parallel to try ray)

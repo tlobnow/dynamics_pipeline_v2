@@ -45,7 +45,9 @@ def segment(segment_image, cell_diameter, tiff_compression_level):
         subtracted_img = cv.subtract(median_img, blur_img)
 
         # Dilate maxima
-        kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (cell_diameter * 3, cell_diameter * 3))
+        kernel = cv.getStructuringElement(
+            cv.MORPH_ELLIPSE, (cell_diameter * 3, cell_diameter * 3)
+        )
         dilated_img = cv.dilate(subtracted_img, kernel, iterations=1)
 
         # Gamma correct image again to make dim objects brighter
@@ -55,7 +57,9 @@ def segment(segment_image, cell_diameter, tiff_compression_level):
         gamma_img = np.power(dilated_img, gamma).clip(0, 255).astype(np.uint8)
 
         # Make binary applying a threshold
-        ret, mask_img = cv.threshold(gamma_img, 1, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+        ret, mask_img = cv.threshold(
+            gamma_img, 1, 255, cv.THRESH_BINARY + cv.THRESH_OTSU
+        )
         mask_img_color = cv.cvtColor(mask_img, cv.COLOR_GRAY2BGR)
 
         # Create marker
@@ -87,12 +91,18 @@ def segment(segment_image, cell_diameter, tiff_compression_level):
         # Eliminate background
         final_segmentation = marker_img * (mask_img / 255)
         final_segmentation = final_segmentation.clip(0, 254)
-        final_segmentation = final_segmentation.astype('uint8')
+        final_segmentation = final_segmentation.astype("uint8")
         # Save
         # Create folders
         image_path = os.path.dirname(segment_image)
-        segmentation_output_path = os.path.join(image_path, 'Segmentation.tif')
-        tifffile.imwrite(segmentation_output_path, final_segmentation, bigtiff=True, compression=tiff_compression_level, dtype=final_segmentation[0].dtype)
+        segmentation_output_path = os.path.join(image_path, "Segmentation.tif")
+        tifffile.imwrite(
+            segmentation_output_path,
+            final_segmentation,
+            bigtiff=True,
+            compression=tiff_compression_level,
+            dtype=final_segmentation[0].dtype,
+        )
 
         # Plot over image
         # Find edges
@@ -116,17 +126,22 @@ def segment(segment_image, cell_diameter, tiff_compression_level):
         # Add boundaries
         final_segmentation_img[eroded_img == 255] = [255]
 
-        plt.imshow(final_segmentation_img, cmap='inferno')
-        overlay_file = os.path.join(image_path, 'Segmentation.png')
+        plt.imshow(final_segmentation_img, cmap="inferno")
+        overlay_file = os.path.join(image_path, "Segmentation.png")
         plt.savefig(overlay_file)
 
         return segmentation_output_path
     except Exception as e:
-        print('segment error') ; print(f"Error: {e}") ; traceback.print_exc()
+        print("segment error")
+        print(f"Error: {e}")
+        traceback.print_exc()
         pass
 
+
 @ray.remote
-def make_substacks(substack_segmentation_image, substack_image, puncta_diameter, tiff_compression_level):
+def make_substacks(
+    substack_segmentation_image, substack_image, puncta_diameter, tiff_compression_level
+):
     try:
         # Import images
         input_image = tifffile.imread(substack_image)
@@ -144,7 +159,7 @@ def make_substacks(substack_segmentation_image, substack_image, puncta_diameter,
             area_results = []
             for cell_x in n_cells:
                 result = sum(sum(segmentation_image == cell_x))
-                result = result > puncta_diameter ** 2
+                result = result > puncta_diameter**2
                 area_results.append(result)
             area_results = np.where(area_results)[0] + 1
 
@@ -155,7 +170,11 @@ def make_substacks(substack_segmentation_image, substack_image, puncta_diameter,
 
                     # Crop cell
                     i, j = np.where(cell_x_mask)
-                    indexes = np.meshgrid(np.arange(min(i), max(i) + 1), np.arange(min(j), max(j) + 1), indexing='ij')
+                    indexes = np.meshgrid(
+                        np.arange(min(i), max(i) + 1),
+                        np.arange(min(j), max(j) + 1),
+                        indexing="ij",
+                    )
 
                     # Run in parallel
                     cropped_img = []
@@ -167,7 +186,7 @@ def make_substacks(substack_segmentation_image, substack_image, puncta_diameter,
                     # Save image
                     save_path = os.path.dirname(substack_image)
                     cell_path = np.where(area_results == cell_x)[0][0] + 1
-                    cell_path = 'Cell_' + cell_path.__str__()
+                    cell_path = "Cell_" + cell_path.__str__()
                     cell_path = os.path.join(save_path, cell_path)
                     # Create cell path if it doesn't exist
                     if not os.path.exists(cell_path):
@@ -176,15 +195,26 @@ def make_substacks(substack_segmentation_image, substack_image, puncta_diameter,
                     save_name = os.path.basename(substack_image)
                     save_path = os.path.join(cell_path, save_name)
                     # Save image
-                    tifffile.imwrite(save_path, cropped_img, bigtiff=False, compression=tiff_compression_level, dtype=cropped_img[0].dtype)
+                    tifffile.imwrite(
+                        save_path,
+                        cropped_img,
+                        bigtiff=False,
+                        compression=tiff_compression_level,
+                        dtype=cropped_img[0].dtype,
+                    )
                     time.sleep(3)
                 except Exception as e:
-                    print('Error making substack: ' + substack_image + 'Cell_' + cell_x) ; print(f"Error: {e}") ; traceback.print_exc()
+                    # print(f"Error making substack: {substack_image}Cell_{cell_x}")
+                    # print(f"Error: {e}")
+                    traceback.print_exc()
+                    print("Error making substack: " + substack_image + "Cell_" + cell_x)
+                    print(f"Error: {e}")
+                    traceback.print_exc()
                     pass
         else:
             # Save image
             save_path = os.path.dirname(substack_image)
-            cell_path = os.path.join(save_path, 'Cell_1')
+            cell_path = os.path.join(save_path, "Cell_1")
             # Create cell path if it doesn't exist
             if not os.path.exists(cell_path):
                 os.mkdir(cell_path)
@@ -192,18 +222,27 @@ def make_substacks(substack_segmentation_image, substack_image, puncta_diameter,
             save_name = os.path.basename(substack_image)
             save_path = os.path.join(cell_path, save_name)
             # Save image
-            tifffile.imwrite(save_path, input_image, bigtiff=False, compression=tiff_compression_level, dtype=input_image[0].dtype)
+            tifffile.imwrite(
+                save_path,
+                input_image,
+                bigtiff=False,
+                compression=tiff_compression_level,
+                dtype=input_image[0].dtype,
+            )
             time.sleep(3)
     except Exception as e:
-        print('make_substacks error') ; print(f"Error: {e}") ; traceback.print_exc()
+        print("make_substacks error")
+        print(f"Error: {e}")
+        traceback.print_exc()
         pass
+
 
 @ray.remote
 def make_area_list(substack_segmentation_image, puncta_diameter):
     try:
         # Save table
         image_path = os.path.dirname(substack_segmentation_image)
-        save_path = os.path.join(image_path, 'cell_area.csv')
+        save_path = os.path.join(image_path, "cell_area.csv")
 
         if os.path.exists(substack_segmentation_image):
             segmentation_image = tifffile.imread(substack_segmentation_image)
@@ -220,7 +259,7 @@ def make_area_list(substack_segmentation_image, puncta_diameter):
             for cell_x in n_cells:
                 # Get area
                 area = sum(sum(segmentation_image == cell_x))
-                if area > puncta_diameter ** 2:
+                if area > puncta_diameter**2:
                     area_results.append(area)
                     # Get x,y coordintes of cell
                     min_x = []
@@ -242,34 +281,46 @@ def make_area_list(substack_segmentation_image, puncta_diameter):
             cell_names = list(cell_names)
             new_cell_names = []
             for cell_name in cell_names:
-                cell_name = 'Cell_' + str(cell_name)
+                cell_name = "Cell_" + str(cell_name)
                 new_cell_names.append(cell_name)
             # Get new cell count
             n_cells = range(0, len(new_cell_names))
-            with open(save_path, 'w') as f:
-                f.write('cell,area,position_x,position_y\n')
+            with open(save_path, "w") as f:
+                f.write("cell,area,position_x,position_y\n")
                 for cell in n_cells:
-                    f.write(new_cell_names[cell] + ',' + str(area_results[cell]) + ',' + str(
-                        min_x_results[cell]) + ',' + str(min_y_results[cell]) + '\n')
+                    f.write(
+                        new_cell_names[cell]
+                        + ","
+                        + str(area_results[cell])
+                        + ","
+                        + str(min_x_results[cell])
+                        + ","
+                        + str(min_y_results[cell])
+                        + "\n"
+                    )
         else:
-            metadata = os.path.join(image_path, 'metadata.csv')
+            metadata = os.path.join(image_path, "metadata.csv")
             metadata = pd.read_csv(metadata)
             # Get height
-            height = metadata['parameter'] == 'height'
-            height = metadata[height]['value']
+            height = metadata["parameter"] == "height"
+            height = metadata[height]["value"]
             # height = int(height)
-            height = int(height.iloc[0]) if isinstance(height, pd.Series) else int(height)
+            height = (
+                int(height.iloc[0]) if isinstance(height, pd.Series) else int(height)
+            )
             # Get width
-            width = metadata['parameter'] == 'width'
-            width = metadata[width]['value']
+            width = metadata["parameter"] == "width"
+            width = metadata[width]["value"]
             # width = int(width)
             width = int(width.iloc[0]) if isinstance(width, pd.Series) else int(width)
             # Get area
             area = str(height * width)
             # Save table
-            with open(save_path, 'w') as f:
-                f.write('cell,area,position_x,position_y\n')
-                f.write('Cell_1,' + area + ',1,1')
+            with open(save_path, "w") as f:
+                f.write("cell,area,position_x,position_y\n")
+                f.write("Cell_1," + area + ",1,1")
     except Exception as e:
-        print('make_substacks error') ; print(f"Error: {e}") ; traceback.print_exc()
+        print("make_substacks error")
+        print(f"Error: {e}")
+        traceback.print_exc()
         pass

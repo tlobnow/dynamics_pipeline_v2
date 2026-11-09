@@ -1,4 +1,14 @@
 #!/usr/bin/env Rscript
+# =============================================================================
+# colocalization.R
+#
+# Per cell, join the spot table to itself on UNIVERSAL_COLOCALIZATION_FRAME
+# (image ... cell ... TrackMate track id ... frame) so that every spot carries
+# the other channel's measurement of the same punctum.
+#
+# Markers: #!! NUMBERS / FIX / SPEED / KEPT / NOTE   (grep '#!!')
+# =============================================================================
+
 args = commandArgs(trailingOnly=TRUE)
 parameters_path = args[1]
 unlink(".RData")
@@ -6,9 +16,6 @@ unlink(".RData")
 ##############
 # User Input #
 ##############
-
-# parameters_path = "/Users/u_lobnow/Desktop/TEST_BATCH_SUCCESS/Input/parameter_tables"
-# parameters_path = "/Users/u_lobnow/Desktop/TEST_BATCH/Input/parameter_tables"
 
 results_table_name = "_intensity.csv.gz"
 
@@ -22,19 +29,23 @@ pacman::p_load(dplyr, parallel, tidyr, data.table, ff, changepoint, compiler)
 print('All libraries loaded')
 
 # Parallel + JIT setup
-ncores <- parallel::detectCores(logical = FALSE)                                # Set the number of threads to use
+ncores <- parallel::detectCores(logical = FALSE)
 setDTthreads(ncores)
-enableJIT(3) # aggressive JIT                                                   # Enable Just-In-Time compilation. This means that the code will be compiled before execution, which can speed up the code. The number 3 is the level of optimization.
+enableJIT(3)
+
+slurm_cpus <- suppressWarnings(as.integer(Sys.getenv("SLURM_CPUS_PER_TASK")))
+n_workers  <- if (!is.na(slurm_cpus) && slurm_cpus > 0) slurm_cpus else ncores
 
 # Parameters----
-# Get directories
 directories_list = file.path(parameters_path, "directories.csv")
 directories_list = fread(directories_list)
 processing_path  = directories_list$path[directories_list$contains == "processing"]
 extraction_path  = file.path(processing_path, "05_IntensityExtraction")
 colocalized_path = file.path(processing_path, "06_Colocalization")
 input_path       = directories_list$path[directories_list$contains == "input"]
-summary_path     = file.path(input_path, "summary.csv")
+#!! KEPT: summary.csv is per-run, in the processing folder.
+#!! Published version: file.path(input_path, "summary.csv").
+summary_path     = file.path(dirname(parameters_path), "summary.csv")
 
 # Get image list
 file_list = fread(summary_path)
@@ -47,52 +58,70 @@ image_list$table = file.path(extraction_path, image_list$table)
 # Get list of files that need colocalization
 colocalization_list <- as_tibble(image_list)
 
-# Get colocalization list
-colocalization_list <- colocalization_list %>% 
-  mutate(cell   = dirname(table), 
-         image  = dirname(cell), 
-         cohort = dirname(image)) %>% #, protein = basename(table)
-  mutate(cohort = basename(cohort)) %>% #, protein = gsub(results_table_name, "", protein)) %>%
-  mutate(cohort = file.path(colocalized_path, cohort)) %>% 
-  filter(file.exists(table)) %>% 
-  group_by(cell) %>% 
-  mutate(n = n()) %>% 
+colocalization_list <- colocalization_list %>%
+  mutate(cell   = dirname(table),
+         image  = dirname(cell),
+         cohort = dirname(image)) %>%
+  mutate(cohort = basename(cohort)) %>%
+  mutate(cohort = file.path(colocalized_path, cohort)) %>%
+  filter(file.exists(table)) %>%
+  group_by(cell) %>%
+  mutate(n = n()) %>%
   as.data.table()
 
 # Create colocalized path if it doesn't exist
 if(!file.exists(colocalized_path)) {dir.create(colocalized_path)}
 
 # Get list of files that need colocalization
-ColocalizationNeeded <- colocalization_list %>% 
-  filter(n > 1) %>% 
+ColocalizationNeeded <- colocalization_list %>%
+  filter(n > 1) %>%
   as.data.table()
-  
+
+#!! FIX: a cell whose second channel failed earlier silently drops to n == 1 and
+#!! is carried through with no complement at all -- its tracks then look like
+#!! they never colocalised, which is indistinguishable from a real negative.
+#!! Say how many cells that is, so it can be checked rather than believed.
+n_expected <- colocalization_list %>%
+  mutate(cell_dir = cell) %>%
+  distinct(cell_dir, n)
+n_single <- sum(n_expected$n == 1)
+if (n_single > 0) {
+  message("colocalization.R: ", n_single, " cell(s) have only one channel's ",
+          "intensity table and get no complement. If that is not expected, ",
+          "check extract_intensity.R's ERROR lines for those cells:")
+  for (p in head(n_expected$cell_dir[n_expected$n == 1], 10)) message("  ", p)
+}
+
 # Extract complementary info
+#!! NOTE: PROTEIN_ID is assigned with cur_group_id() *inside each reference
+#!! protein's query table*, so COMPLEMENTARY_*_1 means "the alphabetically first
+#!! OTHER protein", which is a different protein depending on which one you look
+#!! from. Unambiguous for two channels; ambiguous for three. Unchanged.
 ProteinFx <- function(Protein, TempTable){
-  
+
   RefProteinTable <- TempTable %>%
-    filter(PROTEIN == Protein) %>% 
-    select(UNIVERSAL_SPOT_ID, UNIVERSAL_COLOCALIZATION_FRAME) %>% 
+    filter(PROTEIN == Protein) %>%
+    select(UNIVERSAL_SPOT_ID, UNIVERSAL_COLOCALIZATION_FRAME) %>%
     as.data.table()
-  
-  QryProteinTable <-TempTable %>% 
-    filter(PROTEIN != Protein) %>% 
-    arrange(PROTEIN) %>% 
-    group_by(PROTEIN) %>% 
-    mutate(PROTEIN_ID = as.character(cur_group_id())) %>% 
-    select(UNIVERSAL_COLOCALIZATION_FRAME, 
-           UNIVERSAL_SPOT_ID, 
-           PROTEIN, 
-           PROTEIN_ID, 
-           TOTAL_INTENSITY) %>% 
+
+  QryProteinTable <- TempTable %>%
+    filter(PROTEIN != Protein) %>%
+    arrange(PROTEIN) %>%
+    group_by(PROTEIN) %>%
+    mutate(PROTEIN_ID = as.character(cur_group_id())) %>%
+    select(UNIVERSAL_COLOCALIZATION_FRAME,
+           UNIVERSAL_SPOT_ID,
+           PROTEIN,
+           PROTEIN_ID,
+           TOTAL_INTENSITY) %>%
     as.data.table()
-  
+
   names(QryProteinTable) <- c("UNIVERSAL_COLOCALIZATION_FRAME",
                               "COMPLEMENTARY_UNIVERSAL_SPOT_ID",
                               "COMPLEMENTARY_PROTEIN",
                               "PROTEIN_ID",
                               "COMPLEMENTARY_TOTAL_INTENSITY")
-  
+
   ProteinTable <- merge(RefProteinTable, QryProteinTable, by = "UNIVERSAL_COLOCALIZATION_FRAME")
   return(ProteinTable)
 }
@@ -100,31 +129,30 @@ ProteinFx <- function(Protein, TempTable){
 # Run for cell
 Cells <- unique(ColocalizationNeeded$cell)
 ColocalizeImage <- function(CellX){
-  print(paste("ColocalizeImage - CellX =", CellX))
-  
+
   TableList <- ColocalizationNeeded %>% filter(cell == Cells[CellX]) %>% as.data.table()
-  
+
   TempTable <- lapply(TableList$table, fread)
   TempTable <- rbindlist(TempTable)
-  
+
   Proteins  <- unique(TempTable$PROTEIN)
-  
+
   ProteinsTable <- lapply(Proteins, ProteinFx, TempTable)
   ProteinsTable <- rbindlist(ProteinsTable)
-  
+
   # Save
   save_path = "colocalization.csv.gz"
   save_path = file.path(TableList$cell[1], save_path)
-  
-  # Remove old if it exists
-  suppressWarnings({file.remove(save_path, showWarnings = FALSE)})
+
+  #!! KEPT: file.remove() has no showWarnings argument - it was treating
+  #!! "FALSE" as a second file name to delete.
+  suppressWarnings({file.remove(save_path)})
   data.table::fwrite(ProteinsTable, save_path, row.names = F, na = "")
-  
+
   Progress = NROW(Cells)/10
   Progress = round(Progress)
-  
   if(Progress==0){Progress = 1}
-  
+
   if(CellX %% Progress == 0){
     Progress = CellX/NROW(Cells)
     Progress = Progress*100
@@ -132,10 +160,18 @@ ColocalizeImage <- function(CellX){
     Progress = paste0("     ", Progress, "% complete")
     print(Progress)
   }
-  
+
   return(save_path)
 }
-ResultsPath <- mclapply(1:NROW(Cells), ColocalizeImage, mc.cores = detectCores(logical = F))
+
+#!! KEPT: seq_len - when no cell needs colocalization, 1:NROW(Cells) is c(1, 0)
+#!! and ColocalizeImage was called with CellX = 0 and CellX = 1 on an empty table.
+#!! SPEED: setDTthreads(1) around the fork, dynamic scheduling.
+setDTthreads(1)
+ResultsPath <- mclapply(seq_len(NROW(Cells)), ColocalizeImage,
+                        mc.cores = max(1, min(n_workers, NROW(Cells))),
+                        mc.preschedule = FALSE)
+setDTthreads(ncores)
 ResultsPath <- unlist(ResultsPath)
 
 # Get list of files that need colocalization
@@ -171,12 +207,12 @@ OldCohorts = unique(dirname(ImagePath))
 for(Cohort in OldCohorts){if(NROW(list.files(Cohort)) == 0){unlink(Cohort, recursive = TRUE)}}
 
 # Delete processing folder if empty
-ProcessingFolder = dirname(OldCohorts[1])
-if(NROW(list.files(ProcessingFolder)) == 0){unlink(ProcessingFolder, recursive = TRUE)}
+#!! KEPT: guard against an empty OldCohorts (nothing to move).
+if(NROW(OldCohorts) > 0){
+  ProcessingFolder = dirname(OldCohorts[1])
+  if(NROW(list.files(ProcessingFolder)) == 0){unlink(ProcessingFolder, recursive = TRUE)}
+}
 
 print('colocalization.R is now complete')
-
 print("R session info:")
 sessionInfo()
-
-Sys.sleep(3)
